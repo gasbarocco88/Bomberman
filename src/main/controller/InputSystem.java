@@ -7,11 +7,7 @@ public class InputSystem implements KeyListener{
 	
 	
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -47,6 +43,13 @@ public class InputSystem implements KeyListener{
 			rightPressed = false;
 		}
 		
+		
+	}
+	
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 	

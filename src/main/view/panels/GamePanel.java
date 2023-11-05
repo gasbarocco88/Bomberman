@@ -1,39 +1,27 @@
-package main.view;
+package main.view.panels;
 
 import java.awt.Color;
-import java.awt.Dimension;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.Currency;
-
 import javax.swing.JPanel;
-
-import main.controller.InputSystem;
 import main.model.Model;
 
 public class GamePanel extends JPanel{
 	
-	final int screenWidth = 768;
-	final int screenHeight = 576;
-	Thread gameThread;
 	private final Model model;
 	
 	//da fare singleton
 	public GamePanel(Model model) {
 		this.model = model;
-//		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-//		this.setBackground(Color.black);
-//		this.setDoubleBuffered(true);
-//		this.addKeyListener(inputSystem);
-//		this.setFocusable(true);
 		panelSetup();
+		//this.addKeyListener(model.inputSystem);
 	}
 	
 	private void panelSetup(){
-		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		this.setBackground(Color.black);
+		this.setOpaque(true);
 		this.setDoubleBuffered(true);
-		this.addKeyListener(model.inputSystem);
 		this.setFocusable(true); //serve a mettere il famePanel focused per ricevere gli input
 	}
 
