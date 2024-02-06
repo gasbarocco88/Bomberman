@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 public class InputSystem implements KeyListener{
 	
 	
-	public boolean upPressed, downPressed, leftPressed, rightPressed;
+	private boolean upPressed, downPressed, leftPressed, rightPressed;
 
 
 	@Override
@@ -14,15 +14,19 @@ public class InputSystem implements KeyListener{
 		int code = e.getKeyCode();
 		if(code==KeyEvent.VK_W) {
 			upPressed = true;
+			System.out.println("cuaaaa");
 		}
 		if(code==KeyEvent.VK_S) {
 			downPressed = true;
+			System.out.println("cuaaaa");
 		}
 		if(code==KeyEvent.VK_A) {
 			leftPressed = true;
+			System.out.println("cuaaaa");
 		}
 		if(code==KeyEvent.VK_D) {
 			rightPressed = true;
+			System.out.println("cuaaaa");
 		}
 		
 	}
@@ -51,6 +55,38 @@ public class InputSystem implements KeyListener{
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public boolean isUpPressed() {
+		return upPressed;
+	}
+
+	public void setUpPressed(boolean upPressed) {
+		this.upPressed = upPressed;
+	}
+
+	public boolean isDownPressed() {
+		return downPressed;
+	}
+
+	public void setDownPressed(boolean downPressed) {
+		this.downPressed = downPressed;
+	}
+
+	public boolean isLeftPressed() {
+		return leftPressed;
+	}
+
+	public void setLeftPressed(boolean leftPressed) {
+		this.leftPressed = leftPressed;
+	}
+
+	public boolean isRightPressed() {
+		return rightPressed;
+	}
+
+	public void setRightPressed(boolean rightPressed) {
+		this.rightPressed = rightPressed;
 	}
 	
 

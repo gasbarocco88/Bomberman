@@ -15,22 +15,23 @@ public class GamePanel extends JPanel{
 	public GamePanel(Model model) {
 		this.model = model;
 		panelSetup();
-		//this.addKeyListener(model.inputSystem);
 	}
 	
-	private void panelSetup(){
-		this.setBackground(Color.black);
-		this.setOpaque(true);
-		this.setDoubleBuffered(true);
-		this.setFocusable(true); //serve a mettere il famePanel focused per ricevere gli input
+	public void panelSetup(){
+		setBackground(Color.black);
+		setOpaque(true);
+		setFocusable(true); //serve a mettere il famePanel focused per ricevere gli input
+		setDoubleBuffered(true);
+		requestFocus();
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//casting
 		Graphics2D g2 = (Graphics2D)g;
+		
 		g2.setColor(Color.cyan);
-		g2.fillOval(model.posX,model.posY,48, 48);
+		g2.fillOval(model.getHero().getPosX(),model.getHero().getPosY(),48, 48);
 		g2.dispose();
 	}
 	

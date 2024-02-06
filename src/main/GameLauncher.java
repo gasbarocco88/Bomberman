@@ -8,8 +8,6 @@ import main.view.View;
 public class GameLauncher {
 
 	public static void main(String[] args) {
-		//Model model = new Model();
-		//View view = new View(model);
 		Controller controller = new Controller();
 		controller.startGame();
 

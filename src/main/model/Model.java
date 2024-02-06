@@ -1,35 +1,33 @@
 package main.model;
 
+import java.util.ArrayList;
+
 import main.controller.InputSystem;
+import main.model.actors.Actor;
+import main.model.actors.Hero;
 
 public class Model {
 	public InputSystem inputSystem;
-
 	public int posX = 100;
 	public int posY = 100;
 	public int speed = 4;
+	private ArrayList<Actor> actors = new ArrayList<>();
+	private Hero hero;
 
 	public Model(InputSystem inputSystem) {
 		this.inputSystem = inputSystem;
+		
+		hero = new Hero(this.inputSystem);
+		actors.add(hero);
 	}
 
 	public void update() {
-		if (inputSystem.upPressed == true) {
-			posY -= speed ;
-			System.out.println(posY);
-			//System.out.println("su");
-		} else if (inputSystem.downPressed == true) {
-			posY += speed ;
-			System.out.println(posY);
-			//System.out.println("giu");
-		} else if (inputSystem.leftPressed == true) {
-			posX -= speed ;
-			System.out.println(posX);
-			//System.out.println("sinistra");
-		} else if (inputSystem.rightPressed == true) {
-			posX += speed ;
-			System.out.println(posX);
-			//System.out.println("destra");
-		}
+		for(Actor actor : actors) {
+			actor.update();
+		};		
+	}
+	
+	public Hero getHero() {
+		return hero;
 	}
 }
