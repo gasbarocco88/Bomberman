@@ -1,5 +1,7 @@
 package main.model.actors;
 
+import java.util.Objects;
+
 public abstract class Actor {
 	private int posY, posX;
 
@@ -26,4 +28,25 @@ public abstract class Actor {
 	}
 
 	public abstract void update();
+
+	public abstract Actor update2();
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(posX, posY);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Actor other = (Actor) obj;
+		return posX == other.posX && posY == other.posY;
+	}
+	
+	
 }

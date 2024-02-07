@@ -14,19 +14,15 @@ public class InputSystem implements KeyListener{
 		int code = e.getKeyCode();
 		if(code==KeyEvent.VK_W) {
 			upPressed = true;
-			System.out.println("cuaaaa");
 		}
 		if(code==KeyEvent.VK_S) {
 			downPressed = true;
-			System.out.println("cuaaaa");
 		}
 		if(code==KeyEvent.VK_A) {
 			leftPressed = true;
-			System.out.println("cuaaaa");
 		}
 		if(code==KeyEvent.VK_D) {
 			rightPressed = true;
-			System.out.println("cuaaaa");
 		}
 		
 	}

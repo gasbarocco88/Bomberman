@@ -1,17 +1,24 @@
 package main.view;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import main.controller.InputSystem;
+import main.controller.WorldFactory;
 import main.model.Model;
+import main.model.actors.Actor;
 import main.view.panels.GamePanel;
 import main.view.panels.MenuPanel;
 
-public class View {
-	private final Model model;
+public class View implements Observer{
+	static private View instance;
 	private InputSystem inputSystem;
 	private JFrame frame;
 	private JPanel panel;
@@ -21,29 +28,49 @@ public class View {
 	final int screenWidth = 768;
 	final int screenHeight = 576;
 
-//	public View(InputSystem inputSystem, Model model) {
-//		this.inputSystem = inputSystem;
+	static public View getInstance() {
+		if (instance == null) instance = new View();
+		return instance;
+	}
+//	public View(Model model) {
 //		this.model = model;
-//		frame = new JFrame();		
+//		frame = new JFrame();
+//		frame.setPreferredSize(new Dimension(screenWidth, screenHeight));
+//		
 //		gamePanel = new GamePanel(model);
 //		menuPanel = new MenuPanel();
-//		setPanel(gamePanel);
-//		frameSetUp();
 //
+//		addActionListeners();
+//		setPanel(menuPanel);
+//		frameSetUp();
 //	};
 	
-	public View(Model model) {
-		this.model = model;
+	private View() {
 		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		
-		gamePanel = new GamePanel(model);
+		gamePanel = new GamePanel();
 		menuPanel = new MenuPanel();
 
 		addActionListeners();
 		setPanel(menuPanel);
 		frameSetUp();
 	};
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		frame.repaint();
+		
+		if (o instanceof Model) {
+			Model x = (Model) o;
+			//System.out.println(x.num);
+			//System.out.println("holaaaaaaaaaaaaaaaa");
+			//gamePanel.setH(x.getHero());
+			//gamePanel.paintComponent(null, x.getHero());
+		}
+			
+		
+	}
 	private void frameSetUp() {
 		frame.setTitle("Bomberman");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,7 +82,7 @@ public class View {
 		frame.requestFocus();
 	}
 
-	
+
 
     private void addActionListeners()
     {
@@ -66,8 +93,9 @@ public class View {
 
     private void setUpActionButton()
     {
-    	System.out.println("ciaooooooooo");
-    	  setPanel(gamePanel);
+    	ArrayList<Actor> actors = WorldFactory.loadWorld("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/world1.txt", inputSystem);
+    	Model.getInstance().setActors(actors);
+    	setPanel(gamePanel);
     }
 
  
@@ -111,9 +139,9 @@ public class View {
 		return panel;
 	}
 
-	public Model getModel() {
-		return model;
-	}
+//	public Model getModel() {
+//		return model;
+//	}
 
 	public int getScreenWidth() {
 		return screenWidth;
@@ -122,6 +150,7 @@ public class View {
 	public int getScreenHeight() {
 		return screenHeight;
 	}
+
 	
 	
 }
