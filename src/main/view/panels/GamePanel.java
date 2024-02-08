@@ -14,8 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import main.model.Model;
 import main.model.actors.Actor;
-import main.model.actors.Actor.Direction;
 import main.model.actors.Bomb;
+import main.model.actors.DynamicActor.Direction;
 import main.model.actors.Hero;
 
 public class GamePanel extends JPanel {
@@ -42,12 +42,13 @@ public class GamePanel extends JPanel {
 			Graphics2D g2 = (Graphics2D) g;
 			
 			if (a instanceof Hero) {
-				if(a.getDirection()==Direction.UP)
+				Hero x = (Hero) a;
+				if(x.getDirection()==Direction.UP)
 					
 				{
 					if(a.getFrameCounter() < 12){try {
 						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_1.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+						g2.drawImage(img, a.getPosX(), a.getPosY(), Actor.getWidth(), Actor.getHeight(), null);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -55,43 +56,43 @@ public class GamePanel extends JPanel {
 					}}
 					else {try {
 						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_2.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}}
 				}
 				
-				else if (a.getDirection()==Direction.DOWN)
+				else if (x.getDirection()==Direction.DOWN)
 				{
 					if(a.getFrameCounter() < 12) {try {
 						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_1.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}}
 					else {try {
 						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_2.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}}
 				}
 				
-				else if (a.getDirection()==Direction.RIGHT)
+				else if (x.getDirection()==Direction.RIGHT)
 				{
 					if(a.getFrameCounter() < 12) {try {
 						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_1.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}}
 					else {try {
 						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_2.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -102,14 +103,14 @@ public class GamePanel extends JPanel {
 				{
 					if(a.getFrameCounter() < 12) {try {
 						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_1.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}}
 					else {try {
 						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_2.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -124,7 +125,7 @@ public class GamePanel extends JPanel {
 			{
 				try {
 					img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/blueheart.png"));
-					g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+					g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
 					} 
 				catch (IOException e) {e.printStackTrace();}		
 			}
@@ -135,7 +136,7 @@ public class GamePanel extends JPanel {
 				try {
 					img = ImageIO.read(new File(
 							"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/orc_down_1.png"));
-					g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+					g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

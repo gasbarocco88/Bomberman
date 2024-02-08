@@ -51,6 +51,7 @@ public class Model extends Observable {
 
 		// prendo blasts dei blast e li appendo in actors e rimuovo dalla lista interna
 		// prendo blasts dei bomb e li appendo in actors e rimuovo dalla lista interna
+		
 		// prendo bomb di hero e le appendo in actors e rimuovo dalla lista interna.
 		Hero h = (Hero) actors.stream().filter(actor -> actor.getName().equals("Hero")).findFirst().orElse(null);
 		if (h != null) {

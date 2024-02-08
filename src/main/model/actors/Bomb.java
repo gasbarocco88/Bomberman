@@ -1,7 +1,6 @@
 package main.model.actors;
 
 import main.model.Model;
-import main.model.actors.Actor.Direction;
 
 public class Bomb extends Actor {
 
@@ -16,10 +15,8 @@ public class Bomb extends Actor {
 		lastTime = System.currentTimeMillis();
         waitTime = 2000f;
         countdown = waitTime;
-		setDirection(Direction.DOWN);
 		setName("Bomb");
 		setPriority(9);
-		setSpeed(0);
 		setFrameCounter(0);
 		setActive(true);
 	}

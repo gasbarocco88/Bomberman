@@ -25,15 +25,18 @@ public class WorldFactory {
 			int y = 0;
 			while ((ch = r.read()) != -1) {
 				char c = (char) ch;
-				if (c != '\n') {
-					System.out.println(inputSystem);
+				if (c == '-') {
+					x += Actor.getWidth()+1;
+				}
+				else if (c != '\n')
+				{
 					Actor actor = createActor(c, x, y, inputSystem);
 					System.out.println(actor.getPosX());
 					actors.add(actor);
-					x += 64;
-				} else {
+					x += Actor.getWidth()+1;
+				}else {
 					x = 0;
-					y += 64;
+					y += Actor.getHeight()+1;
 				}
 
 			}

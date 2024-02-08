@@ -1,15 +1,12 @@
 package main.model.actors;
 
-import main.model.actors.Actor.Direction;
 
 public class Wall extends Actor{
 
-	public Wall(int posY, int posX) {
-		super(posY, posX);
-		setDirection(Direction.DOWN);
+	public Wall(int posX, int posY) {
+		super(posX, posY);
 		setName("Wall");
 		setPriority(0);
-		setSpeed(0);
 		setFrameCounter(0);
 		setActive(true);
 	}
