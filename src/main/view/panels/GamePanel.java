@@ -8,22 +8,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import main.model.Model;
 import main.model.actors.Actor;
+import main.model.actors.Actor.Direction;
+import main.model.actors.Bomb;
 import main.model.actors.Hero;
 
 public class GamePanel extends JPanel {
 
-	private Hero h;
-
-	// da fare singleton
-//	public GamePanel(Model model) {
-//		this.model = model;
-//		panelSetup();
-//	}
 	public GamePanel() {
 		panelSetup();
 	}
@@ -31,7 +27,7 @@ public class GamePanel extends JPanel {
 	public void panelSetup() {
 		setBackground(Color.black);
 		setOpaque(true);
-		setFocusable(true); // serve a mettere il famePanel focused per ricevere gli input
+		setFocusable(true);
 		setDoubleBuffered(true);
 		requestFocus();
 	}
@@ -40,64 +36,164 @@ public class GamePanel extends JPanel {
 		super.paintComponent(g);
 
 		ArrayList<Actor> actors = Model.getInstance().getActors();
-		//System.out.println(actors);
+		Collections.sort(actors);
 		for (Actor a : actors) {
+			BufferedImage img;
+			Graphics2D g2 = (Graphics2D) g;
+			
 			if (a instanceof Hero) {
-				Hero x = (Hero)a;
-				Graphics2D g2 = (Graphics2D)g;
-				g2.setColor(Color.cyan);
-				g2.setColor(Color.cyan);
-				g2.fillOval(x.getPosX(),x.getPosY(),48, 48);
-				g2.dispose();
-//				BufferedImage img;
-//				try {
-//					img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/hero.png"));
-//					Graphics2D g2g = img.createGraphics();
-//					g2g.drawRect(x.getPosX(), x.getPosY(), 60, 60);
-//					g2g.dispose();
-//					super.paintComponent(g2g);
-//					g2g.drawImage(img, x.getPosX(), x.getPosY(), this);
-//					//System.out.println(x.getInputSystem());
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				if(a.getDirection()==Direction.UP)
+					
+				{
+					if(a.getFrameCounter() < 12){try {
+						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_1.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						
+					}}
+					else {try {
+						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_2.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}}
+				}
+				
+				else if (a.getDirection()==Direction.DOWN)
+				{
+					if(a.getFrameCounter() < 12) {try {
+						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_1.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}}
+					else {try {
+						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_2.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}}
+				}
+				
+				else if (a.getDirection()==Direction.RIGHT)
+				{
+					if(a.getFrameCounter() < 12) {try {
+						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_1.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}}
+					else {try {
+						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_2.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}}
+				}
+				
+				else
+				{
+					if(a.getFrameCounter() < 12) {try {
+						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_1.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}}
+					else {try {
+						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_2.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}}
+				}
+				
+				
+				
 			}
-			else {
-				Graphics2D g2 = (Graphics2D)g;
-				g2.setColor(Color.red);
-				g2.fillOval(a.getPosX(),a.getPosY(),48, 48);
-				g2.dispose();
-//				BufferedImage img;
-//				try {
-//					img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/wall.png"));
-//					Graphics2D g2g = img.createGraphics();
-//					g2g.drawRect(a.getPosX(), a.getPosY(), 60, 60);
-//					g2g.setColor(Color.cyan);
-//					g2g.fillOval(a.getPosX(),a.getPosY(),48, 48);
-//					g2g.dispose();
+							
+			else if (a instanceof Bomb)
+			{
+				try {
+					img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/blueheart.png"));
+					g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+					} 
+				catch (IOException e) {e.printStackTrace();}		
+			}
+			
+			
+			else 
+			{
+				try {
+					img = ImageIO.read(new File(
+							"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/orc_down_1.png"));
+					g2.drawImage(img, a.getPosX(), a.getPosY(), 48, 48, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}}	}
+			
+			
+		
+
+
+//try {
+//int frameCounter = a.getFrameCounter();
+//Direction direction = a.getDirection();
 //
-//					super.paintComponent(g2g);
-//					g2g.drawImage(img, a.getPosX(), a.getPosY(), this);
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-			}
-
-		}
-//		
-//		g2.setColor(Color.cyan);
-//		g2.fillOval(h.getPosX(),h.getPosY(),48, 48);
-//		
-	}
-
-	public Hero getH() {
-		return h;
-	}
-
-	public void setH(Hero h) {
-		this.h = h;
-	}
-
-}
+//switch (direction) {
+//case UP:
+//	if (frameCounter < 12) {
+//		img = ImageIO.read(new File(
+//				"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_1.png"));
+//		break;
+//	} else {
+//		img = ImageIO.read(new File(
+//				"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_2.png"));
+//		break;
+//	}
+//case DOWN:
+//	if (frameCounter < 12) {
+//		img = ImageIO.read(new File(
+//				"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_1.png"));
+//		break;
+//	} else {
+//		img = ImageIO.read(new File(
+//				"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_2.png"));
+//		break;
+//	}
+//case LEFT:
+//	if (frameCounter < 12) {
+//		img = ImageIO.read(new File(
+//				"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_1.png"));
+//		break;
+//	} else {
+//		img = ImageIO.read(new File(
+//				"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_2.png"));
+//		break;
+//	}
+//
+//case RIGHT:
+//	if (frameCounter < 12) {
+//		img = ImageIO.read(new File(
+//				"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_1.png"));
+//		break;
+//	} else {
+//		img = ImageIO.read(new File(
+//				"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_2.png"));
+//		break;
+//	}
+//default:
+//	img = ImageIO.read(new File(
+//			"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/orc_down_1.png"));
+//
+//}

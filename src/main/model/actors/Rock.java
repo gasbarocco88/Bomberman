@@ -2,9 +2,9 @@ package main.model.actors;
 
 import main.model.actors.Actor.Direction;
 
-public class Wall extends Actor{
+public class Rock extends Actor {
 
-	public Wall(int posY, int posX) {
+	public Rock(int posY, int posX) {
 		super(posY, posX);
 		setDirection(Direction.DOWN);
 		setName("Wall");
@@ -17,7 +17,7 @@ public class Wall extends Actor{
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
