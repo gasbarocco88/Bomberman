@@ -9,14 +9,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import main.model.Model;
 import main.model.actors.Actor;
+import main.model.actors.Blast;
 import main.model.actors.Bomb;
-import main.model.actors.DynamicActor.Direction;
+import main.model.actors.Direction;
 import main.model.actors.Hero;
+import main.model.actors.Item;
+import main.model.actors.Wall;
 
 public class GamePanel extends JPanel {
 
@@ -25,7 +29,7 @@ public class GamePanel extends JPanel {
 	}
 
 	public void panelSetup() {
-		setBackground(Color.black);
+		setBackground(Color.gray);
 		setOpaque(true);
 		setFocusable(true);
 		setDoubleBuffered(true);
@@ -35,117 +39,202 @@ public class GamePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		ArrayList<Actor> actors = Model.getInstance().getActors();
+		CopyOnWriteArrayList<Actor> actors = Model.getInstance().getActors();
 		Collections.sort(actors);
+
 		for (Actor a : actors) {
 			BufferedImage img;
 			Graphics2D g2 = (Graphics2D) g;
-			
+
 			if (a instanceof Hero) {
 				Hero x = (Hero) a;
-				if(x.getDirection()==Direction.UP)
-					
+				if (x.getDirection() == Direction.UP)
+
 				{
-					if(a.getFrameCounter() < 12){try {
-						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_1.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), Actor.getWidth(), Actor.getHeight(), null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						
-					}}
-					else {try {
-						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_2.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}}
+					if (a.getFrameCounter() < 12) {
+						try {
+							img = ImageIO.read(new File(
+									"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_1.png"));
+							g2.drawImage(img, a.getPosX(), a.getPosY(), Actor.getWidth(), Actor.getHeight(), null);
+							g2.fillRect((int) a.getRect().getX(), (int) a.getRect().getY(), a.getRectDimension(),
+									a.getRectDimension());
+							g2.setColor(Color.pink);
+
+							// g2.drawImage(img,(int) a.getRect().getX(), (int)a.getRect().getY(),
+							// Actor.getWidth(), Actor.getHeight(), null);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+
+						}
+					} else {
+						try {
+							img = ImageIO.read(new File(
+									"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_2.png"));
+							g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+							g2.fillRect((int) a.getRect().getX(), (int) a.getRect().getY(), a.getRectDimension(),
+									a.getRectDimension());
+							g2.setColor(Color.pink);
+
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				}
-				
-				else if (x.getDirection()==Direction.DOWN)
-				{
-					if(a.getFrameCounter() < 12) {try {
-						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_1.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}}
-					else {try {
-						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_2.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}}
+
+				else if (x.getDirection() == Direction.DOWN) {
+					if (a.getFrameCounter() < 12) {
+						try {
+							img = ImageIO.read(new File(
+									"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_1.png"));
+							g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						try {
+							img = ImageIO.read(new File(
+									"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_2.png"));
+							g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				}
-				
-				else if (x.getDirection()==Direction.RIGHT)
-				{
-					if(a.getFrameCounter() < 12) {try {
-						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_1.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}}
-					else {try {
-						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_2.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}}
+
+				else if (x.getDirection() == Direction.RIGHT) {
+					if (a.getFrameCounter() < 12) {
+						try {
+							img = ImageIO.read(new File(
+									"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_1.png"));
+							g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						try {
+							img = ImageIO.read(new File(
+									"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_2.png"));
+							g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				}
-				
-				else
-				{
-					if(a.getFrameCounter() < 12) {try {
-						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_1.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}}
-					else {try {
-						img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_2.png"));
-						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}}
+
+				else {
+					if (a.getFrameCounter() < 12) {
+						try {
+							img = ImageIO.read(new File(
+									"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_1.png"));
+							g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						try {
+							img = ImageIO.read(new File(
+									"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_2.png"));
+							g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				}
-				
-				
-				
+
 			}
-							
-			else if (a instanceof Bomb)
-			{
-				try {
-					img = ImageIO.read(new File("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/blueheart.png"));
-					g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-					} 
-				catch (IOException e) {e.printStackTrace();}		
-			}
-			
-			
-			else 
-			{
+
+			else if (a instanceof Bomb) {
 				try {
 					img = ImageIO.read(new File(
-							"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/orc_down_1.png"));
+							"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/blueheart.png"));
 					g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-		}}	}
-			
-			
-		
+			} else if (a instanceof Blast) {
+				try {
+					img = ImageIO.read(new File(
+							"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/redslime_down_2.png"));
+					g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else if (a instanceof Item) {
 
+				Item item = (Item) a;
+
+				if (item.getItemType() == Item.ItemType.SPEED) {
+					try {
+						img = ImageIO.read(new File(
+								"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/pickaxe.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				} else if (item.getItemType() == Item.ItemType.BOMBNUM) {
+					try {
+						img = ImageIO.read(new File(
+								"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/potion_red.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				} else if (item.getItemType() == Item.ItemType.BOMBSTRENGHT) {
+					try {
+						img = ImageIO.read(new File(
+								"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/lantern.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} else {
+					try {
+						img = ImageIO.read(new File(
+								"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/key.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+
+			}
+
+			else if (a instanceof Wall) {
+				Wall x = (Wall) a;
+				if (!x.isDestructible()) {
+
+					try {
+						img = ImageIO.read(new File(
+								"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/shield_blue.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				} else {
+
+					try {
+						img = ImageIO.read(new File(
+								"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/shield_wood.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+}
 
 //try {
 //int frameCounter = a.getFrameCounter();

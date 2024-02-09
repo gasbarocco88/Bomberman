@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import main.model.actors.Actor;
 import main.model.actors.Hero;
@@ -14,9 +15,9 @@ import main.model.actors.Wall;
 
 public class WorldFactory {
 
-	static ArrayList<Actor> actors = new ArrayList<Actor>();
+	static CopyOnWriteArrayList<Actor> actors = new CopyOnWriteArrayList<Actor>();
 
-	public static ArrayList<Actor> loadWorld(String path, InputSystem inputSystem) {
+	public static CopyOnWriteArrayList<Actor> loadWorld(String path, InputSystem inputSystem) {
 		BufferedReader r;
 		try {
 			r = new BufferedReader(new FileReader(path));
@@ -41,7 +42,6 @@ public class WorldFactory {
 
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println(actors);
@@ -57,8 +57,11 @@ public class WorldFactory {
 			System.out.println(h.getInputSystem());
 			return h;
 		case 'W':
-			Wall w = new Wall(x,y);
+			Wall w = new Wall(x,y,false);
 			return w;
+		case 'M':
+			Wall r = new Wall(x,y,true);
+			return r;	
 		default: throw new Exception("Exception message");
 		}
 		

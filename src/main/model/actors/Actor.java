@@ -13,7 +13,7 @@ public abstract class Actor implements Comparable<Actor>{
 	private int frameCounter;
 	private boolean active;
 	private Rectangle rect = new Rectangle();
-	private final int rectDimension = 26;
+	private final int rectDimension = 28;
 	
 
 
@@ -27,7 +27,7 @@ public abstract class Actor implements Comparable<Actor>{
 	public abstract void update();
 
 	public void setRectangle() {
-		rect.setRect(posX + 3, posY + 3, rectDimension,rectDimension);
+		rect.setRect(posX + 2, posY + 2, rectDimension,rectDimension);
 	}
 	public int compareTo(Actor st){  
 		if(priority==st.priority)  

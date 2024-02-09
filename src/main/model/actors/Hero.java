@@ -11,12 +11,12 @@ public class Hero extends DynamicActor {
 	private InputSystem inputSystem;
 	private int maxBombs = 3;
 	private int bombsCreated = 0;
-	private int bombStrenght = 1;
+	private int bombStrenght = 3;
 	// AttackTimer
 	private long lastTime;
 	private long countdown; // countdown
 	private final long attackCooldown = 400; // wait time
-	private ArrayList<Bomb> bombs;
+//	private ArrayList<Bomb> bombs;
 
 	public Hero(int posX, int posY) {
 		super(posX, posY);
@@ -24,7 +24,7 @@ public class Hero extends DynamicActor {
 		setPriority(10);
 		setFrameCounter(0);
 		setActive(true);
-		bombs = new ArrayList<Bomb>();
+	//	bombs = new ArrayList<Bomb>();
 	}
 
 	public Hero(InputSystem inputSystem) {
@@ -36,44 +36,54 @@ public class Hero extends DynamicActor {
 
 		// check collisione con blast o nemici e se si muori
 
+		// check collisione con item che danno effetto e ti 
+		
 		// check collisione con muri e se si non ti muovi
 		
 		ArrayList <Actor> wallsAndRocks= Model.getInstance().getActors().stream().
-				filter(actor -> actor.getName()=="Wall" ||actor.getName()=="Rock")
+				filter(actor -> actor.getName()=="Wall" ||actor.getName()=="Rock"||actor.getName()=="Bomb")
 				.collect(Collectors .toCollection(ArrayList::new));
+		if (inputSystem.isSpacePressed() == true) {
 
+			createBomb();}
 		if (inputSystem.isUpPressed() == true) {
 			setDirection(Direction.UP);
-//			for(Actor a: Model.getInstance().getActors()) {
-//				if(!a.equals(this) && checkCollisionUP(a)) return;
-//			}
-//			
-			if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionUP(actor))) return;
+		
+			if (wallsAndRocks.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.UP))) return;
+
+			//if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionUP(actor))) return;
 			setPosY(getPosY() - getSpeed());
 			setRectangle();
 			System.out.println("suuu");
 		} else if (inputSystem.isDownPressed() == true) {
 			setDirection(Direction.DOWN);
-			if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionDowm(actor))) return;
+			if (wallsAndRocks.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.DOWN))) return;
+
+//			if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionDowm(actor))) return;
 			setPosY(getPosY() + getSpeed());
 			setRectangle();
 			System.out.println("giùùùù");
 		} else if (inputSystem.isLeftPressed() == true) {
 			setDirection(Direction.LEFT);
-			if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionLeft(actor))) return;
+			if (wallsAndRocks.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.LEFT))) return;
+
+//			if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionLeft(actor))) return;
 			setPosX(getPosX() - getSpeed());
 			setRectangle();
 			System.out.println("leeeeft");
 		} else if (inputSystem.isRightPressed() == true) {
 			setDirection(Direction.RIGHT);
-			if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionRight(actor))) return;
+			if (wallsAndRocks.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.RIGHT))) return;
+
+//			if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionRight(actor))) return;
 			setPosX(getPosX() + getSpeed());
 			setRectangle();
 			System.out.println("riiighttt");
-		} else if (inputSystem.isSpacePressed() == true) {
-
-			createBomb();
-		}
+	} 
+			//else if (inputSystem.isSpacePressed() == true) {
+//
+//			createBomb();
+//		}
 		setFrameCounter(getFrameCounter() + 1);
 		if (getFrameCounter() > 24)
 			setFrameCounter(0);
@@ -88,8 +98,10 @@ public class Hero extends DynamicActor {
 		if (countdown < 0) {
 			if (bombsCreated < maxBombs) {
 				System.out.println("boooooooooooooooooooooom");
-				bombs.add(new Bomb(getPosX(), getPosY(), bombStrenght));
-				bombsCreated++;
+				placeBomb(bombStrenght);
+//				bombs.add(new Bomb(getPosX()-16, getPosY(), bombStrenght));
+//				setPosX(getPosX()+16);
+//				bombsCreated++;
 			}
 			countdown = attackCooldown;
 		} else {
@@ -97,38 +109,73 @@ public class Hero extends DynamicActor {
 		}
 	}
 	
-	private boolean checkCollisionUP(Actor a) {
-		//check angolo a sinistra in alto e check angolo a destra in alto
-		if (a.getRect().contains(getRect().getX(),getRect().getY()) ||
-				a.getRect().contains(getRect().getX()+getRectDimension(),getRect().getY())
-				)
-			return true;
-		return false;
+	private void placeBomb(int bombStrenght) {
+		if (getDirection() == Direction.RIGHT) {
+			//bombs.add(new Bomb(getPosX()+1+getRectDimension()/2, getPosY(), bombStrenght));
+			Model.getInstance().getActors().add(new Bomb(getPosX()+1+getRectDimension()/2, getPosY(), bombStrenght));
+			System.out.println(bombStrenght);
+			System.out.println("ddddddddddddddddddd");
+			setPosX(getPosX()-getRectDimension()/2);
+			setRectangle();
+			bombsCreated++;
+		};
+		if (getDirection() == Direction.LEFT) {
+			//bombs.add(new Bomb(getPosX()-1-getRectDimension()/2, getPosY(), bombStrenght));
+			Model.getInstance().getActors().add(new Bomb(getPosX()-1-getRectDimension()/2, getPosY(), bombStrenght));
+			setPosX(getPosX()+getRectDimension()/2);
+			setRectangle();
+			bombsCreated++;
+		};
+		if (getDirection() == Direction.UP) {
+			//bombs.add(new Bomb(getPosX(), getPosY()-1-getRectDimension()/2, bombStrenght));
+			Model.getInstance().getActors().add(new Bomb(getPosX(), getPosY()-1-getRectDimension()/2, bombStrenght));
+			setPosY(getPosY()+getRectDimension()/2);
+			setRectangle();
+			bombsCreated++;
+		};
+		if (getDirection() == Direction.DOWN) {
+			//bombs.add(new Bomb(getPosX(), getPosY()+1+getRectDimension()/2, bombStrenght));
+			Model.getInstance().getActors().add(new Bomb(getPosX(), getPosY()+1+getRectDimension()/2, bombStrenght));
+			setPosY(getPosY()-getRectDimension()/2);
+			setRectangle();
+			bombsCreated++;
+		};
 	}
-	private boolean checkCollisionDowm(Actor a) {
-		// check angolo a sinistra in basso e check angolo a destra in basso
-		if (a.getRect().contains(getRect().getX(),getRect().getY()+getRectDimension()) ||
-				a.getRect().contains(getRect().getX()+getRectDimension(),getRect().getY()+getRectDimension())
-				)
-			return true;
-		return false;
-	}
-	private boolean checkCollisionRight(Actor a) {
-		// check angolo a destra in alto e check angolo a destra in basso
-		if (a.getRect().contains(getRect().getX()+getRectDimension(),getRect().getY()) ||
-				a.getRect().contains(getRect().getX()+getRectDimension(),getRect().getY()+getRectDimension())
-				)
-			return true;
-		return false;
-	}
-	private boolean checkCollisionLeft(Actor a) {
-		//check angolo a sinistra in alto e check angolo a sinistra in basso
-		if (a.getRect().contains(getRect().getX(),getRect().getY()) ||
-				a.getRect().contains(getRect().getX(),getRect().getY()+getRectDimension())
-				)
-			return true;
-		return false;
-	}
+	
+	
+//	
+//	private boolean checkCollisionUP(Actor a) {
+//		//check angolo a sinistra in alto e check angolo a destra in alto
+//		if (a.getRect().contains(getRect().getX(),getRect().getY()) ||
+//				a.getRect().contains(getRect().getX()+getRectDimension(),getRect().getY())
+//				)
+//			return true;
+//		return false;
+//	}
+//	private boolean checkCollisionDowm(Actor a) {
+//		// check angolo a sinistra in basso e check angolo a destra in basso
+//		if (a.getRect().contains(getRect().getX(),getRect().getY()+getRectDimension()) ||
+//				a.getRect().contains(getRect().getX()+getRectDimension(),getRect().getY()+getRectDimension())
+//				)
+//			return true;
+//		return false;
+//	}
+//	private boolean checkCollisionRight(Actor a) {
+//		// check angolo a destra in alto e check angolo a destra in basso
+//		if (a.getRect().contains(getRect().getX()+getRectDimension(),getRect().getY()) ||
+//				a.getRect().contains(getRect().getX()+getRectDimension(),getRect().getY()+getRectDimension())
+//				)
+//			return true;
+//		return false;
+//	}
+//	private boolean checkCollisionLeft(Actor a) {
+//		//check angolo a sinistra in alto e check angolo a sinistra in basso
+//		if (a.getRect().contains(getRect().getX(),getRect().getY()) ||
+//				a.getRect().contains(getRect().getX(),getRect().getY()+getRectDimension())
+//				)
+//			return true;
+//		return false;
+//	}
 	
 	
 	
@@ -138,12 +185,28 @@ public class Hero extends DynamicActor {
 		return bombsCreated;
 	}
 
-	public ArrayList<Bomb> getBombs() {
-		return bombs;
+//	public ArrayList<Bomb> getBombs() {
+//		return bombs;
+//	}
+//
+//	public void setBombs(ArrayList<Bomb> bombs) {
+//		this.bombs = bombs;
+//	}
+
+	public int getMaxBombs() {
+		return maxBombs;
 	}
 
-	public void setBombs(ArrayList<Bomb> bombs) {
-		this.bombs = bombs;
+	public void setMaxBombs(int maxBombs) {
+		this.maxBombs = maxBombs;
+	}
+
+	public int getBombStrenght() {
+		return bombStrenght;
+	}
+
+	public void setBombStrenght(int bombStrenght) {
+		this.bombStrenght = bombStrenght;
 	}
 
 	public void setBombsCreated(int bombsCreated) {

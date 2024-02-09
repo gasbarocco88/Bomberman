@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -93,7 +94,7 @@ public class View implements Observer{
 
     private void setUpActionButton()
     {
-    	ArrayList<Actor> actors = WorldFactory.loadWorld("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/world1.txt", inputSystem);
+    	CopyOnWriteArrayList<Actor> actors = WorldFactory.loadWorld("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/world1.txt", inputSystem);
     	Model.getInstance().setActors(actors);
     	setPanel(gamePanel);
     }

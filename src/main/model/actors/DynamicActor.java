@@ -13,12 +13,6 @@ public abstract class DynamicActor  extends Actor {
 		this.direction = Direction.DOWN;		
 	}
 
-	
-	
-	public enum Direction {
-		UP, DOWN, LEFT, RIGHT
-	}
-	
 
 	public Direction getDirection() {
 		return direction;

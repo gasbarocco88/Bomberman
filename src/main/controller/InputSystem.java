@@ -12,6 +12,10 @@ public class InputSystem implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
+		
+		if(code==KeyEvent.VK_SPACE) {
+			spacePressed = true;
+		}
 		if(code==KeyEvent.VK_W) {
 			upPressed = true;
 		}
@@ -24,15 +28,17 @@ public class InputSystem implements KeyListener{
 		if(code==KeyEvent.VK_D) {
 			rightPressed = true;
 		}
-		if(code==KeyEvent.VK_SPACE) {
-			spacePressed = true;
-		}
+		
 		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int code = e.getKeyCode();
+		if(code==KeyEvent.VK_SPACE) {
+			spacePressed = false;
+		}
+		
 		if(code==KeyEvent.VK_W) {
 			upPressed = false;
 		}
@@ -44,8 +50,6 @@ public class InputSystem implements KeyListener{
 		}
 		if(code==KeyEvent.VK_D) {
 			rightPressed = false;
-		}if(code==KeyEvent.VK_SPACE) {
-			spacePressed = false;
 		}
 		
 		
