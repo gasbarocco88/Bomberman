@@ -10,6 +10,8 @@ import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import main.model.actors.Actor;
+import main.model.actors.Enemy;
+import main.model.actors.Enemy.EnemyType;
 import main.model.actors.Hero;
 import main.model.actors.Wall;
 
@@ -24,20 +26,20 @@ public class WorldFactory {
 			int ch;
 			int x = 0;
 			int y = 0;
-			while ((ch = r.read()) != -1) {
+			while ((ch = r.read()) !=-1) {
 				char c = (char) ch;
 				if (c == '-') {
-					x += Actor.getWidth()+1;
+					x += Actor.getWidth();
 				}
 				else if (c != '\n')
 				{
 					Actor actor = createActor(c, x, y, inputSystem);
 					System.out.println(actor.getPosX());
 					actors.add(actor);
-					x += Actor.getWidth()+1;
+					x += Actor.getWidth();
 				}else {
 					x = 0;
-					y += Actor.getHeight()+1;
+					y += Actor.getHeight();
 				}
 
 			}
@@ -61,8 +63,14 @@ public class WorldFactory {
 			return w;
 		case 'M':
 			Wall r = new Wall(x,y,true);
-			return r;	
-		default: throw new Exception("Exception message");
+			return r;
+		case 'A':
+			Enemy ea = new Enemy(x, y, EnemyType.TIPO1);
+			return ea;
+		case 'B':
+			Enemy eb = new Enemy(x, y, EnemyType.TIPO3);
+			return eb;
+		default: throw new Exception("opoooooooooooooooooooooooooooo");
 		}
 		
 	}

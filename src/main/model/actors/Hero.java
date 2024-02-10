@@ -21,65 +21,66 @@ public class Hero extends DynamicActor {
 	public Hero(int posX, int posY) {
 		super(posX, posY);
 		setName("Hero");
-		setPriority(10);
+		setPriority(100);
 		setFrameCounter(0);
 		setActive(true);
 	//	bombs = new ArrayList<Bomb>();
 	}
 
-	public Hero(InputSystem inputSystem) {
-		super(100, 100);
-		this.inputSystem = inputSystem;
-	}
 
 	public void update() {
 
 		// check collisione con blast o nemici e se si muori
-
-		// check collisione con item che danno effetto e ti 
 		
+
+			
 		// check collisione con muri e se si non ti muovi
 		
-		ArrayList <Actor> wallsAndRocks= Model.getInstance().getActors().stream().
-				filter(actor -> actor.getName()=="Wall" ||actor.getName()=="Rock"||actor.getName()=="Bomb")
-				.collect(Collectors .toCollection(ArrayList::new));
+		
 		if (inputSystem.isSpacePressed() == true) {
 
 			createBomb();}
+		
+		ArrayList <Actor> wallsBombs= Model.getInstance().getActors().stream().
+				filter(actor -> actor.getName()=="Wall" ||actor.getName()=="Rock"||actor.getName()=="Bomb")
+				.collect(Collectors .toCollection(ArrayList::new));
+		
+		
+		
 		if (inputSystem.isUpPressed() == true) {
 			setDirection(Direction.UP);
 		
-			if (wallsAndRocks.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.UP))) return;
-
-			//if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionUP(actor))) return;
-			setPosY(getPosY() - getSpeed());
-			setRectangle();
+			if (wallsBombs.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.UP))) return;
+			move();
+			//setPosY(getPosY() - getSpeed());
+			//setRectangle();
 			System.out.println("suuu");
 		} else if (inputSystem.isDownPressed() == true) {
 			setDirection(Direction.DOWN);
-			if (wallsAndRocks.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.DOWN))) return;
-
+			if (wallsBombs.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.DOWN))) return;
+			move();
 //			if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionDowm(actor))) return;
-			setPosY(getPosY() + getSpeed());
-			setRectangle();
+			//setPosY(getPosY() + getSpeed());
+			//setRectangle();
 			System.out.println("giùùùù");
 		} else if (inputSystem.isLeftPressed() == true) {
 			setDirection(Direction.LEFT);
-			if (wallsAndRocks.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.LEFT))) return;
-
+			if (wallsBombs.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.LEFT))) return;
+			move();
 //			if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionLeft(actor))) return;
-			setPosX(getPosX() - getSpeed());
-			setRectangle();
+			//setPosX(getPosX() - getSpeed());
+			//setRectangle();
 			System.out.println("leeeeft");
 		} else if (inputSystem.isRightPressed() == true) {
 			setDirection(Direction.RIGHT);
-			if (wallsAndRocks.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.RIGHT))) return;
-
+			if (wallsBombs.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.RIGHT))) return;
+			move();
 //			if (wallsAndRocks.stream().anyMatch(actor -> !actor.equals(this)&& checkCollisionRight(actor))) return;
-			setPosX(getPosX() + getSpeed());
-			setRectangle();
+			//setPosX(getPosX() + getSpeed());
+			//setRectangle();
 			System.out.println("riiighttt");
 	} 
+		
 			//else if (inputSystem.isSpacePressed() == true) {
 //
 //			createBomb();
@@ -89,12 +90,16 @@ public class Hero extends DynamicActor {
 			setFrameCounter(0);
 
 	}
+	
+	
+	
+	
+	
 
 	private void createBomb() {
 		countdown -= System.currentTimeMillis() - lastTime;
 		lastTime = System.currentTimeMillis();
-		System.out.println(countdown);
-		System.out.println(bombsCreated);
+		
 		if (countdown < 0) {
 			if (bombsCreated < maxBombs) {
 				System.out.println("boooooooooooooooooooooom");
@@ -113,8 +118,6 @@ public class Hero extends DynamicActor {
 		if (getDirection() == Direction.RIGHT) {
 			//bombs.add(new Bomb(getPosX()+1+getRectDimension()/2, getPosY(), bombStrenght));
 			Model.getInstance().getActors().add(new Bomb(getPosX()+1+getRectDimension()/2, getPosY(), bombStrenght));
-			System.out.println(bombStrenght);
-			System.out.println("ddddddddddddddddddd");
 			setPosX(getPosX()-getRectDimension()/2);
 			setRectangle();
 			bombsCreated++;

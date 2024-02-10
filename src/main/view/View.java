@@ -62,6 +62,7 @@ public class View implements Observer{
 	public void update(Observable o, Object arg) {
 		frame.repaint();
 		
+		
 		if (o instanceof Model) {
 			Model x = (Model) o;
 			//System.out.println(x.num);
@@ -94,8 +95,10 @@ public class View implements Observer{
 
     private void setUpActionButton()
     {
+    	//spostale nel modello
     	CopyOnWriteArrayList<Actor> actors = WorldFactory.loadWorld("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/world1.txt", inputSystem);
     	Model.getInstance().setActors(actors);
+    	/////
     	setPanel(gamePanel);
     }
 

@@ -18,6 +18,8 @@ import main.model.actors.Actor;
 import main.model.actors.Blast;
 import main.model.actors.Bomb;
 import main.model.actors.Direction;
+import main.model.actors.Enemy;
+import main.model.actors.Enemy.EnemyType;
 import main.model.actors.Hero;
 import main.model.actors.Item;
 import main.model.actors.Wall;
@@ -210,6 +212,7 @@ public class GamePanel extends JPanel {
 			}
 
 			else if (a instanceof Wall) {
+
 				Wall x = (Wall) a;
 				if (!x.isDestructible()) {
 
@@ -231,6 +234,34 @@ public class GamePanel extends JPanel {
 						e.printStackTrace();
 					}
 				}
+			}
+			else if (a instanceof Enemy) {
+				Enemy x = (Enemy) a;
+				if (x.getEnemyType()== EnemyType.TIPO3) {
+
+					try {
+						img = ImageIO.read(new File(
+								"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/orc_down_1.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				}
+				
+				else if (x.getEnemyType()== EnemyType.TIPO1) {
+
+					try {
+						img = ImageIO.read(new File(
+								"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/oldman_down_2.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				}
+				
+				
 			}
 		}
 	}

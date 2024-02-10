@@ -27,7 +27,7 @@ public abstract class Actor implements Comparable<Actor>{
 	public abstract void update();
 
 	public void setRectangle() {
-		rect.setRect(posX + 2, posY + 2, rectDimension,rectDimension);
+		rect.setRect(posX+2, posY+2, rectDimension,rectDimension);
 	}
 	public int compareTo(Actor st){  
 		if(priority==st.priority)  

@@ -3,8 +3,8 @@ package main.model.actors;
 import main.model.Model;
 
 public class Item extends Actor {
-	private ItemType itemType;
-	public Item(int posX, int posY, ItemType type) {
+	private final ItemType itemType;
+	public Item(int posX, int posY, final ItemType type) {
 		super(posX, posY);
 		this.itemType = type;
 		setName("Item");
@@ -23,28 +23,22 @@ public class Item extends Actor {
 				) {
 			switch(itemType) {
 			case SPEED:
-				System.out.println(hero.getSpeed());
-				hero.setSpeed(hero.getSpeed()+2);
-				System.out.println("più veloce");
-				System.out.println(hero.getSpeed());
+								hero.setSpeed(hero.getSpeed()+2);
+				
 				setActive(false);
 				break;
 			case BOMBNUM:
-				System.out.println(hero.getMaxBombs());
+			
 				hero.setMaxBombs(hero.getMaxBombs()+1);
-				System.out.println("più bombe");
-				System.out.println(hero.getMaxBombs());
+			
 				setActive(false);
 				break;
 			case BOMBSTRENGHT:
-				System.out.println(hero.getBombStrenght());
+				
 				hero.setBombStrenght(hero.getBombStrenght()+2);
-				System.out.println("più forza");
-				System.out.println(hero.getBombStrenght());
 				setActive(false);
 				break;
 			case LIFE:
-				System.out.println("aumenta vite");
 				setActive(false);
 				break;
 			default:
@@ -64,10 +58,8 @@ public class Item extends Actor {
 		return itemType;
 	}
 
-	public void setItemType(ItemType itemType) {
-		this.itemType = itemType;
-	}
-	
+
 	
 	
 }
+
