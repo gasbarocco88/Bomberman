@@ -1,5 +1,6 @@
 package main.model.actors;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -8,23 +9,20 @@ import main.controller.InputSystem;
 import main.model.Model;
 
 public class Hero extends DynamicActor {
-	private InputSystem inputSystem;
 	private int maxBombs = 3;
 	private int bombsCreated = 0;
 	private int bombStrenght = 3;
-	// AttackTimer
+	//attack timer
 	private long lastTime;
-	private long countdown; // countdown
-	private final long attackCooldown = 400; // wait time
-//	private ArrayList<Bomb> bombs;
+	private long countdown;
+	private final long attackCooldown = 400;
 
 	public Hero(int posX, int posY) {
 		super(posX, posY);
 		setName("Hero");
-		setPriority(100);
+		setPriority(10);
 		setFrameCounter(0);
 		setActive(true);
-	//	bombs = new ArrayList<Bomb>();
 	}
 
 
@@ -33,16 +31,22 @@ public class Hero extends DynamicActor {
 		// check collisione con blast o nemici e se si muori
 		
 
-			
-		// check collisione con muri e se si non ti muovi
 		
+		InputSystem inputSystem = Model.getInstance().getInputSystem();
 		
 		if (inputSystem.isSpacePressed() == true) {
 
 			createBomb();}
 		
+		if (inputSystem.isPausePressed() == true) {
+			System.out.println("ciao");
+			Model.getInstance().getGame().setRunning(false);
+;}
+		// check collisione con muri e se si non ti muovi
+		
+		
 		ArrayList <Actor> wallsBombs= Model.getInstance().getActors().stream().
-				filter(actor -> actor.getName()=="Wall" ||actor.getName()=="Rock"||actor.getName()=="Bomb")
+				filter(actor -> actor.getName()=="Wall"||(actor.getName()=="Bomb"&& ((Bomb)actor).getCountdown()<1500))
 				.collect(Collectors .toCollection(ArrayList::new));
 		
 		
@@ -113,8 +117,12 @@ public class Hero extends DynamicActor {
 			System.out.println("aspetta");
 		}
 	}
-	
 	private void placeBomb(int bombStrenght) {
+		Point p = getTileCoordinates(getActorMidpoint());
+		Model.getInstance().getActors().add(new Bomb((int)p.getX(),(int)p.getY(), bombStrenght));
+		bombsCreated++;
+	}
+	private void placeBomb2(int bombStrenght) {
 		if (getDirection() == Direction.RIGHT) {
 			//bombs.add(new Bomb(getPosX()+1+getRectDimension()/2, getPosY(), bombStrenght));
 			Model.getInstance().getActors().add(new Bomb(getPosX()+1+getRectDimension()/2, getPosY(), bombStrenght));
@@ -216,12 +224,12 @@ public class Hero extends DynamicActor {
 		this.bombsCreated = bombsCreated;
 	}
 
-	public InputSystem getInputSystem() {
-		return inputSystem;
-	}
-
-	public void setInputSystem(InputSystem inputSystem) {
-		this.inputSystem = inputSystem;
-	}
+//	public InputSystem getInputSystem() {
+//		return inputSystem;
+//	}
+//
+//	public void setInputSystem(InputSystem inputSystem) {
+//		this.inputSystem = inputSystem;
+//	}
 
 }

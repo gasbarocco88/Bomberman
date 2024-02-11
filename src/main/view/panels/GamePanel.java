@@ -199,7 +199,15 @@ public class GamePanel extends JPanel {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else {
+				} else if (item.getItemType() == Item.ItemType.LIFE) {
+					try {
+						img = ImageIO.read(new File(
+								"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/key.png"));
+						g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}else {
 					try {
 						img = ImageIO.read(new File(
 								"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/key.png"));

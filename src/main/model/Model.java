@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.swing.text.html.HTMLDocument.Iterator;
 
 import main.controller.InputSystem;
+import main.controller.LevelFactoryText;
 import main.model.actors.Actor;
 import main.model.actors.Bomb;
 import main.model.actors.Direction;
@@ -20,9 +21,8 @@ public class Model extends Observable {
 
 	static private Model instance;
 	private InputSystem inputSystem;
-	//private ArrayList<Actor> actors = new ArrayList<>();
 	private CopyOnWriteArrayList<Actor> actors = new CopyOnWriteArrayList<>();
-	public int num = 0;
+	private Game game;
 
 	static public Model getInstance() {
 		if (instance == null) {
@@ -33,32 +33,12 @@ public class Model extends Observable {
 	}
 
 	private Model() {
+		this.game = new Game();
 	}
 
 
 	public void update() {
 
-		// prendo blasts dei blast e li appendo in actors e rimuovo dalla lista interna
-			
-		// prendo blasts dei bomb e li appendo in actors e rimuovo dalla lista interna
-//		ArrayList<Actor> bombs = actors.stream().filter(actor -> actor.getName().equals("Bomb")).collect(Collectors 
-//				.toCollection(ArrayList::new));
-//		if(!bombs.isEmpty()) {
-//			for(Actor bomb : bombs) {
-//				actors.addAll(((Bomb) bomb).getBlast());
-//				((Bomb) bomb).getBlast().clear();
-//			}
-//		}
-//		
-		// aggiungo a actors le bombe create da hero, prese dalla sua lista interna; quest'ultima viene svuotata.
-//		Hero h = (Hero) actors.stream().filter(actor -> actor.getName().equals("Hero")).findFirst().orElse(null);
-//		if (h != null) {
-//			ArrayList<Bomb> bombsCreated = h.getBombs();
-//			if (!bombsCreated.isEmpty()) {
-//				actors.addAll(bombsCreated);
-//				h.getBombs().clear();
-//			}
-//		}
 		//eliminiamo gli attori che non sono più attivi (ad esempio le bombe esplose o i muri distrutti
 		actors = actors.stream().filter(actor->actor.isActive()).collect(Collectors 
 				.toCollection(CopyOnWriteArrayList::new));
@@ -70,8 +50,7 @@ public class Model extends Observable {
 		}
 	
 		setChanged();
-		notifyObservers(actors);
-
+		notifyObservers();
 		clearChanged();
 	}
 
@@ -110,15 +89,51 @@ public class Model extends Observable {
 			return true;
 			else return false;
 		default:
-			return false;
+			return false;		
+		}		
+	}
+	
+	public void startGame(Player player, String avatar) {
+		this.game = new Game();
+		this.game.setPlayer(player);
+		this.game.setAvatar(avatar);
+		loadLevel(1);
+	}
+	
+	public void loadLevel(int level) {
+		LevelFactoryText lft = new LevelFactoryText();
+		CopyOnWriteArrayList<Actor> actors = lft.loadLevel(level);
+    	Model.getInstance().setActors(actors);
+	}
+	
+	public void changeLevel() {
+		//game.getPlayer().levelwon + 1
+		//if this level == 2 -> player partita vinta +1 e torna al menu
 		
+		// mette gioco in pausa ??
 		
-		}
+		// fa partire transizione hai vinto
 		
+		// resetta actor e passa al livello dopo loadLevel(this level + 1)
+		
+		// se è ultimo livello, aggiorna le stats di player e dumpa nuovo file?
 		
 	}
 	
-	
+	///serve?
+//	public void loadLevel() {
+//		LevelFactoryText lft = new LevelFactoryText();
+//		CopyOnWriteArrayList<Actor> actors = lft.loadLevel(this.game.getLevel());
+//    	Model.getInstance().setActors(actors);
+//	}
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
 	public InputSystem getInputSystem() {
 		return inputSystem;
 	}

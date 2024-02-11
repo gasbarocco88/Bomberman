@@ -18,15 +18,15 @@ public class Controller implements Runnable {
 		model = Model.getInstance();
 		model.setInputSystem(inputSystem);
 //		this.model = new Model(inputSystem);
-		//this.view = new View(model);
+		// this.view = new View(model);
 		view = View.getInstance();
 		view.getFrame().addKeyListener(inputSystem);
-		view.setInputSystem(inputSystem);
+		// view.setInputSystem(inputSystem);
 		model.addObserver(view);
 
 	}
 
-	public void startGame() {
+	public void startThread() {
 		gameThread = new Thread(this);
 		gameThread.start();
 	}
@@ -38,17 +38,18 @@ public class Controller implements Runnable {
 		long lastTime = System.nanoTime();
 		double delta = 0;
 		long now;
-		
-		
 
 		while (gameThread != null) {
-			now = System.nanoTime();
-			delta += (double) (now - lastTime) / timePerTick; // number between 0 and 1
-			lastTime = now;
-			if (delta >= 1) {
-				model.update();
-				//view.repaint();
-				delta=0;
+			if (Model.getInstance().getGame().isRunning()) {
+				System.out.println("run");
+				now = System.nanoTime();
+				delta += (double) (now - lastTime) / timePerTick; // number between 0 and 1
+				lastTime = now;
+				if (delta >= 1) {
+					model.update();
+					// view.repaint();
+					delta = 0;
+				}
 			}
 		}
 	}

@@ -10,19 +10,23 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.text.PlainDocument;
 
 import main.controller.InputSystem;
-import main.controller.WorldFactory;
+import main.controller.LevelFactoryText;
 import main.model.Model;
+import main.model.Player;
 import main.model.actors.Actor;
 import main.view.panels.GamePanel;
 import main.view.panels.MenuPanel;
+import main.view.panels.PlayerPanel;
 
 public class View implements Observer{
 	static private View instance;
 	private InputSystem inputSystem;
 	private JFrame frame;
 	private JPanel panel;
+	private static PlayerPanel playerPanel;
 	private static GamePanel gamePanel;
     private static MenuPanel menuPanel;
     
@@ -33,18 +37,6 @@ public class View implements Observer{
 		if (instance == null) instance = new View();
 		return instance;
 	}
-//	public View(Model model) {
-//		this.model = model;
-//		frame = new JFrame();
-//		frame.setPreferredSize(new Dimension(screenWidth, screenHeight));
-//		
-//		gamePanel = new GamePanel(model);
-//		menuPanel = new MenuPanel();
-//
-//		addActionListeners();
-//		setPanel(menuPanel);
-//		frameSetUp();
-//	};
 	
 	private View() {
 		frame = new JFrame();
@@ -52,7 +44,7 @@ public class View implements Observer{
 		
 		gamePanel = new GamePanel();
 		menuPanel = new MenuPanel();
-
+		playerPanel = new PlayerPanel();
 		addActionListeners();
 		setPanel(menuPanel);
 		frameSetUp();
@@ -65,10 +57,13 @@ public class View implements Observer{
 		
 		if (o instanceof Model) {
 			Model x = (Model) o;
-			//System.out.println(x.num);
-			//System.out.println("holaaaaaaaaaaaaaaaa");
-			//gamePanel.setH(x.getHero());
-			//gamePanel.paintComponent(null, x.getHero());
+			///gioco in pausa, cambia panel
+			if(!x.getGame().isRunning()) {
+				setPanel(menuPanel);
+			}
+			
+			//if lifes = 0, transizione hai perso, reset mondo, 
+			
 		}
 			
 		
@@ -90,19 +85,26 @@ public class View implements Observer{
     {
         menuPanel.getStartButton().addActionListener(e -> setUpActionButton());
         menuPanel.getQuitButton().addActionListener(e -> System.exit(0));
+
+        menuPanel.riprendi.addActionListener(e -> resumeActionButton());
     }
     
 
     private void setUpActionButton()
     {
-    	//spostale nel modello
-    	CopyOnWriteArrayList<Actor> actors = WorldFactory.loadWorld("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/world1.txt", inputSystem);
-    	Model.getInstance().setActors(actors);
-    	/////
+    	
+    	//view deve passare un player e un avatar a modello, per creare game
+    	Player p = new Player();
+    	Model.getInstance().startGame(p, "ciao");
+    	//Model.getInstance().loadLevel(1);
+    	//setPanel(playerPanel);
     	setPanel(gamePanel);
     }
 
- 
+    private void resumeActionButton() {
+    	Model.getInstance().getGame().setRunning(true);
+    	setPanel(gamePanel);
+    }
 	
 	public void repaint() {
 		frame.repaint();
@@ -123,13 +125,13 @@ public class View implements Observer{
 		this.frame = frame;
 	}
 
-	public InputSystem getInputSystem() {
-		return inputSystem;
-	}
-
-	public void setInputSystem(InputSystem inputSystem) {
-		this.inputSystem = inputSystem;
-	}
+//	public InputSystem getInputSystem() {
+//		return inputSystem;
+//	}
+//
+//	public void setInputSystem(InputSystem inputSystem) {
+//		this.inputSystem = inputSystem;
+//	}
 
 	public GamePanel getGamePanel() {
 		return gamePanel;

@@ -37,6 +37,12 @@ public class Enemy extends DynamicActor {
 		if (blastsCollision) {
 			System.out.println("presooooooooooooo");
 			setActive(false);
+			if(enemyType == EnemyType.TIPO3) {
+			Model.getInstance().getGame().setPoint(Model.getInstance().getGame().getPoint()+200);
+			}
+			else {Model.getInstance().getGame().setPoint(Model.getInstance().getGame().getPoint()+300);
+			}
+			
 			return;
 		}
 
@@ -51,7 +57,7 @@ public class Enemy extends DynamicActor {
 
 		} else {
 			
-			//se collide cambia di 90 gradi
+			//se collide cambia direzione all'indietro
 			ArrayList<Actor> walls = Model.getInstance().getActors().stream()
 					.filter(actor -> actor.getName() == "Wall" && !((Wall) actor).isDestructible())
 					.collect(Collectors.toCollection(ArrayList::new));
@@ -145,7 +151,12 @@ public class Enemy extends DynamicActor {
 //		setRectangle();
 //
 //	}
-	
+	private void setPriorityByEnemyType(EnemyType enemyType) {
+		if (enemyType ==EnemyType.TIPO3 ) {
+			setPriority(5);
+		}
+		else setPriority(4);
+	}
 	private void setDirectionAndSpeedByEnemyType(EnemyType enemyType){
 		if (enemyType==EnemyType.TIPO1) {
 			setDirection(Direction.RIGHT);

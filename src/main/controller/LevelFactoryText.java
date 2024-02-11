@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -13,31 +14,38 @@ import main.model.actors.Actor;
 import main.model.actors.Enemy;
 import main.model.actors.Enemy.EnemyType;
 import main.model.actors.Hero;
+import main.model.actors.Item;
+import main.model.actors.Item.ItemType;
 import main.model.actors.Wall;
 
-public class WorldFactory {
+public class LevelFactoryText implements LevelFactory {
 
-	static CopyOnWriteArrayList<Actor> actors = new CopyOnWriteArrayList<Actor>();
+	private CopyOnWriteArrayList<Actor> actors = new CopyOnWriteArrayList<Actor>();
 
-	public static CopyOnWriteArrayList<Actor> loadWorld(String path, InputSystem inputSystem) {
+	public CopyOnWriteArrayList<Actor> loadLevel(int level) {
 		BufferedReader r;
+		String path = MessageFormat
+				.format("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/level_{0}.txt", level);
 		try {
 			r = new BufferedReader(new FileReader(path));
 			int ch;
 			int x = 0;
 			int y = 0;
-			while ((ch = r.read()) !=-1) {
+			while ((ch = r.read()) != -1) {
 				char c = (char) ch;
 				if (c == '-') {
 					x += Actor.getWidth();
-				}
-				else if (c != '\n')
-				{
-					Actor actor = createActor(c, x, y, inputSystem);
-					System.out.println(actor.getPosX());
-					actors.add(actor);
+				} else if (c != '\n') {
+
+					Actor actor = createActor(c, x, y);
+					if (actor instanceof Item) {
+						actors.add(actor);
+						actors.add(new Wall(actor.getPosX(), actor.getPosY(), true));
+					} else {
+						actors.add(actor);
+					}
 					x += Actor.getWidth();
-				}else {
+				} else {
 					x = 0;
 					y += Actor.getHeight();
 				}
@@ -51,18 +59,16 @@ public class WorldFactory {
 		return actors;
 	}
 
-	private static Actor createActor(char c, int x, int y, InputSystem inputSystem) throws Exception {
+	private Actor createActor(char c, int x, int y) throws Exception {
 		switch (c) {
 		case 'H':
 			Hero h = new Hero(x, y);
-			h.setInputSystem(inputSystem);
-			System.out.println(h.getInputSystem());
 			return h;
 		case 'W':
-			Wall w = new Wall(x,y,false);
+			Wall w = new Wall(x, y, false);
 			return w;
 		case 'M':
-			Wall r = new Wall(x,y,true);
+			Wall r = new Wall(x, y, true);
 			return r;
 		case 'A':
 			Enemy ea = new Enemy(x, y, EnemyType.TIPO1);
@@ -70,9 +76,13 @@ public class WorldFactory {
 		case 'B':
 			Enemy eb = new Enemy(x, y, EnemyType.TIPO3);
 			return eb;
-		default: throw new Exception("opoooooooooooooooooooooooooooo");
+		case 'I':
+			Item i = new Item(x, y, ItemType.WIN);
+			return i;
+		default:
+			throw new Exception("opoooooooooooooooooooooooooooo");
 		}
-		
+
 	}
 
 }

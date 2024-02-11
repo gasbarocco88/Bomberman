@@ -22,15 +22,13 @@ public class Blast extends DynamicActor {
 		setDirection(d);
 		setBlastPropagated(false);
 		setName("Blast");
-		setPriority(9);
+		setPriority(6);
 		setFrameCounter(0);
 		setActive(true);
-		System.out.println(strength);
 	}
 
 	@Override
 	public void update() {
-		System.out.println("attivo");
 		// countdown per essere disattivato
 		countdown -= System.currentTimeMillis() - lastTime;
 		lastTime = System.currentTimeMillis();

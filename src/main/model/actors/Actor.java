@@ -1,5 +1,6 @@
 package main.model.actors;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Comparator;
 import java.util.Objects;
@@ -58,6 +59,26 @@ public abstract class Actor implements Comparable<Actor>{
 
 	public Rectangle getRect() {
 		return rect;
+	}
+	
+	public Point getActorMidpoint() {
+		int xCoord = getPosX()+(getWidth()/2);
+		int yCoord = getPosY()+(getHeight()/2);
+		return new Point(xCoord,yCoord);
+	}
+	
+	//esempio baricentro sta a (30,34) cioè cella (0,1) a coordinate (0,32)
+	// int 30/32 = 0  -> 0*32 = 0
+	// int 34/32 = 1  -> 1*32 = 32
+	public Point getTileCoordinates(Point center) {
+		int xCoord =((int) center.getX()/getWidth()) * getWidth();
+		int yCoord = ((int) center.getY()/getHeight()) * getHeight();
+		return new Point(xCoord,yCoord);	
+	}
+	
+	
+	public void setActorInTile(Actor a){
+		a.setPosX(posX);
 	}
 
 
