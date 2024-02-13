@@ -19,55 +19,53 @@ import main.model.Player;
 import main.model.actors.Actor;
 import main.view.panels.GamePanel;
 import main.view.panels.MenuPanel;
-import main.view.panels.PlayerPanel;
+import main.view.panels.PlaaaaaaaaayerPanel;
 
-public class View implements Observer{
+public class View implements Observer {
 	static private View instance;
 	private InputSystem inputSystem;
 	private JFrame frame;
 	private JPanel panel;
-	private static PlayerPanel playerPanel;
+	private static PlaaaaaaaaayerPanel plaaaaaaaaayerPanel;
 	private static GamePanel gamePanel;
-    private static MenuPanel menuPanel;
-    
-	final int screenWidth = 768;
-	final int screenHeight = 576;
+	private static MenuPanel menuPanel;
+
+	final int screenWidth = 800;
+	final int screenHeight = 600;
 
 	static public View getInstance() {
-		if (instance == null) instance = new View();
+		if (instance == null)
+			instance = new View();
 		return instance;
 	}
-	
+
 	private View() {
 		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(screenWidth, screenHeight));
-		
+
 		gamePanel = new GamePanel();
 		menuPanel = new MenuPanel();
-		playerPanel = new PlayerPanel();
+		plaaaaaaaaayerPanel = new PlaaaaaaaaayerPanel();
 		addActionListeners();
 		setPanel(menuPanel);
 		frameSetUp();
 	};
-	
+
 	@Override
 	public void update(Observable o, Object arg) {
-		frame.repaint();
-		
-		
-		if (o instanceof Model) {
-			Model x = (Model) o;
-			///gioco in pausa, cambia panel
-			if(!x.getGame().isRunning()) {
-				setPanel(menuPanel);
-			}
-			
-			//if lifes = 0, transizione hai perso, reset mondo, 
-			
+		if (Model.getInstance().getGame().isGameOver()) {
+			setPanel(menuPanel);
 		}
-			
-		
+
+		frame.repaint();
+
+		if (!Model.getInstance().getGame().isRunning()) {
+			setPanel(menuPanel);
+		}
+
+
 	}
+
 	private void frameSetUp() {
 		frame.setTitle("Bomberman");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,33 +77,29 @@ public class View implements Observer{
 		frame.requestFocus();
 	}
 
+	private void addActionListeners() {
+		menuPanel.getStartButton().addActionListener(e -> setUpActionButton());
+		menuPanel.getQuitButton().addActionListener(e -> System.exit(0));
 
+		menuPanel.riprendi.addActionListener(e -> resumeActionButton());//pausePanel
+	}
 
-    private void addActionListeners()
-    {
-        menuPanel.getStartButton().addActionListener(e -> setUpActionButton());
-        menuPanel.getQuitButton().addActionListener(e -> System.exit(0));
+	private void setUpActionButton() {
 
-        menuPanel.riprendi.addActionListener(e -> resumeActionButton());
-    }
-    
+		// view deve leggere player nome e avatar
+		// e passarlo a modello a modello, per creare game
+		Player p = new Player();
+		
+		Model.getInstance().startGame(p, "ciao");
+		// Model.getInstance().loadLevel(1);
+		setPanel(gamePanel);
+	}
 
-    private void setUpActionButton()
-    {
-    	
-    	//view deve passare un player e un avatar a modello, per creare game
-    	Player p = new Player();
-    	Model.getInstance().startGame(p, "ciao");
-    	//Model.getInstance().loadLevel(1);
-    	//setPanel(playerPanel);
-    	setPanel(gamePanel);
-    }
+	private void resumeActionButton() {
+		Model.getInstance().getGame().setRunning(true);
+		setPanel(gamePanel);
+	}
 
-    private void resumeActionButton() {
-    	Model.getInstance().getGame().setRunning(true);
-    	setPanel(gamePanel);
-    }
-	
 	public void repaint() {
 		frame.repaint();
 
@@ -157,6 +151,4 @@ public class View implements Observer{
 		return screenHeight;
 	}
 
-	
-	
 }

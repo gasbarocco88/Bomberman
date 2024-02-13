@@ -21,8 +21,8 @@ public class Enemy extends DynamicActor {
 		setFrameCounter(0);
 		setActive(true);
 		setDirectionAndSpeedByEnemyType(enemyType);
-		
-		//setDirection(chooseRandomDirection());
+
+		// setDirection(chooseRandomDirection());
 		lastTime = System.currentTimeMillis();
 		waitTime = 500f;
 		countdown = waitTime;
@@ -31,77 +31,80 @@ public class Enemy extends DynamicActor {
 
 	@Override
 	public void update() {
-		// collisioni con blast -> muori
-		boolean blastsCollision = Model.getInstance().getActors().stream().filter(actor -> actor.getName() == "Blast")
-				.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.ANY));
-		if (blastsCollision) {
-			System.out.println("presooooooooooooo");
-			setActive(false);
-			if(enemyType == EnemyType.TIPO3) {
-			Model.getInstance().getGame().setPoint(Model.getInstance().getGame().getPoint()+200);
+
+		if (!Model.getInstance().getGame().isHitted() && !Model.getInstance().getGame().isLastHitted() && !Model.getInstance().getGame().isGameOver()) {
+
+			// collisioni con blast -> muori
+			boolean blastsCollision = Model.getInstance().getActors().stream()
+					.filter(actor -> actor.getName() == "Blast")
+					.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.ANY));
+			if (blastsCollision) {
+				System.out.println("presooooooooooooo");
+				setActive(false);
+				if (enemyType == EnemyType.TIPO3) {
+					Model.getInstance().getGame().setPoint(Model.getInstance().getGame().getPoint() + 200);
+				} else {
+					Model.getInstance().getGame().setPoint(Model.getInstance().getGame().getPoint() + 300);
+				}
+
+				return;
 			}
-			else {Model.getInstance().getGame().setPoint(Model.getInstance().getGame().getPoint()+300);
-			}
-			
-			return;
-		}
 
-		if (enemyType == EnemyType.TIPO1 || enemyType == EnemyType.TIPO2) {
+			if (enemyType == EnemyType.TIPO1 || enemyType == EnemyType.TIPO2) {
 
-			ArrayList<Actor> wallsBombsEnemy = Model
-					.getInstance().getActors().stream().filter(actor -> actor.getName() == "Wall"
-							|| actor.getName() == "Rock" || actor.getName() == "Bomb" || actor.getName() == "Enemy")
-					.collect(Collectors.toCollection(ArrayList::new));
+				ArrayList<Actor> wallsBombsEnemy = Model.getInstance().getActors().stream()
+						.filter(actor -> actor.getName() == "Wall" || actor.getName() == "Rock"
+								|| actor.getName() == "Bomb" || actor.getName() == "Enemy")
+						.collect(Collectors.toCollection(ArrayList::new));
 
-			turnbackLogicMovement(wallsBombsEnemy);
+				turnbackLogicMovement(wallsBombsEnemy);
 
-		} else {
-			
-			//se collide cambia direzione all'indietro
-			ArrayList<Actor> walls = Model.getInstance().getActors().stream()
-					.filter(actor -> actor.getName() == "Wall" && !((Wall) actor).isDestructible())
-					.collect(Collectors.toCollection(ArrayList::new));
-			turnbackLogicMovement(walls);
-			// ogni mezzo secondo sceglie una direzione
-			countdown -= System.currentTimeMillis() - lastTime;
-			lastTime = System.currentTimeMillis();
-			if (countdown < 0 && getPosX()%getWidth()==0 && getPosY()%getHeight()==0) {
-				setDirection(chooseRandomDirection());
-				countdown = waitTime;
-			}
+			} else {
+
+				// se collide cambia direzione all'indietro
+				ArrayList<Actor> walls = Model.getInstance().getActors().stream()
+						.filter(actor -> actor.getName() == "Wall" && !((Wall) actor).isDestructible())
+						.collect(Collectors.toCollection(ArrayList::new));
+				turnbackLogicMovement(walls);
+				// ogni mezzo secondo sceglie una direzione
+				countdown -= System.currentTimeMillis() - lastTime;
+				lastTime = System.currentTimeMillis();
+				if (countdown < 0 && getPosX() % getWidth() == 0 && getPosY() % getHeight() == 0) {
+					setDirection(chooseRandomDirection());
+					countdown = waitTime;
+				}
 //			// se collide con muri torna indietro
 //			ArrayList<Actor> walls = Model.getInstance().getActors().stream()
 //					.filter(actor -> actor.getName() == "Wall" && !((Wall) actor).isDestructible())
 //					.collect(Collectors.toCollection(ArrayList::new));
 //			turnbackLogicMovement(walls);
-			
+
 //			
 //			if ( Model.getInstance().getActors().stream()
 //					.filter(actor -> actor.getName() == "Wall" && !((Wall) actor).isDestructible())
 //					.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.ANY))) {
 //				return;
 //			};
+			}
+			move();
+			setFrameCounter(getFrameCounter() + 1);
+			if (getFrameCounter() > 24)
+				setFrameCounter(0);
+
 		}
-		move();
-		setFrameCounter(getFrameCounter() + 1);
-		if (getFrameCounter() > 24)
-			setFrameCounter(0);
-
 	}
-
-
 
 	private void turnbackLogicMovement(ArrayList<Actor> actors) {
 		if (getDirection() == Direction.UP
 				&& actors.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.UP))) {
 			setDirection(Direction.DOWN);
-			
+
 		}
 
 		else if (getDirection() == Direction.DOWN
 				&& actors.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.DOWN))) {
 			setDirection(Direction.UP);
-			
+
 		} else if (getDirection() == Direction.LEFT
 				&& actors.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.LEFT))) {
 			setDirection(Direction.RIGHT);
@@ -111,7 +114,7 @@ public class Enemy extends DynamicActor {
 		}
 
 	}
-	
+
 //	
 //	private void turn90degrees(ArrayList<Actor> actors) {
 //		Random ran = new Random();
@@ -152,21 +155,21 @@ public class Enemy extends DynamicActor {
 //
 //	}
 	private void setPriorityByEnemyType(EnemyType enemyType) {
-		if (enemyType ==EnemyType.TIPO3 ) {
+		if (enemyType == EnemyType.TIPO3) {
 			setPriority(5);
-		}
-		else setPriority(4);
+		} else
+			setPriority(4);
 	}
-	private void setDirectionAndSpeedByEnemyType(EnemyType enemyType){
-		if (enemyType==EnemyType.TIPO1) {
+
+	private void setDirectionAndSpeedByEnemyType(EnemyType enemyType) {
+		if (enemyType == EnemyType.TIPO1) {
 			setDirection(Direction.RIGHT);
-			setSpeed(getSpeed()+1);
-		}
-		else {
+			setSpeed(getSpeed() + 1);
+		} else {
 			setDirection(Direction.DOWN);
 		}
 	}
-	
+
 	public enum EnemyType {
 		TIPO1, TIPO2, TIPO3
 	}

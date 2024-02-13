@@ -29,9 +29,26 @@ public class Hero extends DynamicActor {
 	public void update() {
 
 		// check collisione con blast o nemici e se si muori
+		boolean blastsEnemiesCollision= Model.getInstance().getActors().stream().
+				filter(actor -> actor.getName()=="Blast"||(actor.getName()=="Enemy") )
+				.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.ANY));
 		
-
 		
+		if (!Model.getInstance().getGame().isHitted() && !Model.getInstance().getGame().isLastHitted() && !Model.getInstance().getGame().isGameOver()) {
+		
+			
+			if(blastsEnemiesCollision) {
+				Model.getInstance().getGame().setHitted(true);
+				Model.getInstance().getGame().setLifes(Model.getInstance().getGame().getLifes()-1);
+				System.out.println(Model.getInstance().getGame().getLifes());
+				
+				if(Model.getInstance().getGame().getLifes()<=0) {
+					Model.getInstance().getGame().setLastHitted(true);
+				}
+			
+			}
+			
+			
 		InputSystem inputSystem = Model.getInstance().getInputSystem();
 		
 		if (inputSystem.isSpacePressed() == true) {
@@ -95,7 +112,7 @@ public class Hero extends DynamicActor {
 
 	}
 	
-	
+	}
 	
 	
 	

@@ -41,7 +41,7 @@ public class Controller implements Runnable {
 
 		while (gameThread != null) {
 			if (Model.getInstance().getGame().isRunning()) {
-				System.out.println("run");
+				
 				now = System.nanoTime();
 				delta += (double) (now - lastTime) / timePerTick; // number between 0 and 1
 				lastTime = now;

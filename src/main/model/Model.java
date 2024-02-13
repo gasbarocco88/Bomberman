@@ -96,7 +96,7 @@ public class Model extends Observable {
 	public void startGame(Player player, String avatar) {
 		this.game = new Game();
 		this.game.setPlayer(player);
-		this.game.setAvatar(avatar);
+		this.game.getPlayer().setAvatar(avatar);
 		loadLevel(1);
 	}
 	
