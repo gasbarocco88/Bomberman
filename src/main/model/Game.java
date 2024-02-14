@@ -5,7 +5,7 @@ public class Game {
 	
 	private Player player;
 	private int lifes;
-	private int point;
+	private int score;
 	private int levelPlaying;
 	private boolean isRunning; 
 	private boolean isHitted;
@@ -15,7 +15,7 @@ public class Game {
 	
 	public Game() {
 		setLifes(3);
-		setPoint(0);
+		setScore(0);
 		setLevelPlaying(1);
 		setRunning(true);
 		setHitted(false);
@@ -70,11 +70,11 @@ public class Game {
 	public void setLifes(int lifes) {
 		this.lifes = lifes;
 	}
-	public int getPoint() {
-		return point;
+	public int getScore() {
+		return score;
 	}
-	public void setPoint(int point) {
-		this.point = point;
+	public void setScore(int score) {
+		this.score = score;
 	}
 	public boolean isRunning() {
 		return isRunning;

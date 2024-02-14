@@ -15,15 +15,12 @@ public class Controller implements Runnable {
 	 */
 	public Controller() {
 		inputSystem = new InputSystem();
+		PlayerManager.getInstance();
 		model = Model.getInstance();
 		model.setInputSystem(inputSystem);
-//		this.model = new Model(inputSystem);
-		// this.view = new View(model);
 		view = View.getInstance();
 		view.getFrame().addKeyListener(inputSystem);
-		// view.setInputSystem(inputSystem);
 		model.addObserver(view);
-
 	}
 
 	public void startThread() {

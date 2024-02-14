@@ -20,18 +20,18 @@ import main.model.actors.Wall;
 
 public class LevelFactoryText implements LevelFactory {
 
-	private CopyOnWriteArrayList<Actor> actors = new CopyOnWriteArrayList<Actor>();
 
 	public CopyOnWriteArrayList<Actor> loadLevel(int level) {
-		BufferedReader r;
+		CopyOnWriteArrayList<Actor> actors = new CopyOnWriteArrayList<Actor>();
+		BufferedReader reader;
 		String path = MessageFormat
 				.format("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/level_{0}.txt", level);
 		try {
-			r = new BufferedReader(new FileReader(path));
+			reader = new BufferedReader(new FileReader(path));
 			int ch;
 			int x = 0;
 			int y = 0;
-			while ((ch = r.read()) != -1) {
+			while ((ch =reader.read()) != -1) {
 				char c = (char) ch;
 				if (c == '-') {
 					x += Actor.getWidth();
@@ -51,6 +51,7 @@ public class LevelFactoryText implements LevelFactory {
 				}
 
 			}
+			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

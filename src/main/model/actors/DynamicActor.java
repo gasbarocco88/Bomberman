@@ -19,71 +19,20 @@ public abstract class DynamicActor extends Actor {
 		Direction direct = Direction.values()[x];
 		return direct;
 	}
-	
-
 
 	public void move() {
-
 		if (getDirection() == Direction.UP) {
 			setPosY(getPosY() - getSpeed());
-
 		} else if (getDirection() == Direction.DOWN) {
 			setPosY(getPosY() + getSpeed());
-
 		} else if (getDirection() == Direction.LEFT) {
 			setPosX(getPosX() - getSpeed());
-
 		} else if (getDirection() == Direction.RIGHT) {
 			setPosX(getPosX() + getSpeed());
-
 		}
 		setRectangle();
 
 	}
-	
-	
-//	public void change90DegreesDirection(Direction lastDirection) {
-//		Random ran = new Random();
-//		int x = ran.nextInt(2);
-//		
-//		switch (lastDirection){
-//		case UP:
-//			//setPosY(getPosY()-2);
-//			if(x==0) {
-//				setDirection(Direction.LEFT);
-//			}
-//			else setDirection(Direction.RIGHT);
-//			//setRectangle();
-//			return;
-//		case DOWN:
-//			//setPosY(getPosY()+2);
-//			if(x==0) {
-//				setDirection(Direction.LEFT);
-//			}
-//			else setDirection(Direction.RIGHT);
-//			//setRectangle();
-//			return;
-//		case LEFT:
-//			//setPosX(getPosX()+2);
-//			if(x==0) {
-//				setDirection(Direction.UP);
-//			}
-//			else setDirection(Direction.DOWN);
-//			//setRectangle();
-//			return;
-//		case RIGHT:
-//			//setPosX(getPosX()-2);
-//			if(x==0) {
-//				setDirection(Direction.UP);
-//			}
-//			else setDirection(Direction.DOWN);
-//			//setRectangle();
-//			return;
-//		default:
-//			return;
-//		}
-//		
-//	}
 
 	public Direction getDirection() {
 		return direction;

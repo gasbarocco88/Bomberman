@@ -17,94 +17,75 @@ public class Enemy extends DynamicActor {
 		super(posX, posY);
 		this.enemyType = enemyType;
 		setName("Enemy");
-		setPriority(12);
 		setFrameCounter(0);
 		setActive(true);
+		setPriorityByEnemyType(enemyType);
 		setDirectionAndSpeedByEnemyType(enemyType);
-
-		// setDirection(chooseRandomDirection());
 		lastTime = System.currentTimeMillis();
 		waitTime = 500f;
 		countdown = waitTime;
-
 	}
 
 	@Override
 	public void update() {
 
-		if (!Model.getInstance().getGame().isHitted() && !Model.getInstance().getGame().isLastHitted() && !Model.getInstance().getGame().isGameOver()) {
+		// non fa nessun update se il game è in stato di hitted, lastHitted o game over
+		if (!Model.getInstance().getGame().isHitted() && !Model.getInstance().getGame().isLastHitted()
+				&& !Model.getInstance().getGame().isGameOver()) {
 
-			// collisioni con blast -> muori
+			// collisioni con blast -> enemy disattivato e aggiornamento punteggio
 			boolean blastsCollision = Model.getInstance().getActors().stream()
 					.filter(actor -> actor.getName() == "Blast")
 					.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.ANY));
 			if (blastsCollision) {
-				System.out.println("presooooooooooooo");
 				setActive(false);
 				if (enemyType == EnemyType.TIPO3) {
-					Model.getInstance().getGame().setPoint(Model.getInstance().getGame().getPoint() + 200);
+					Model.getInstance().getGame().setScore(Model.getInstance().getGame().getScore() + 200);
 				} else {
-					Model.getInstance().getGame().setPoint(Model.getInstance().getGame().getPoint() + 300);
+					Model.getInstance().getGame().setScore(Model.getInstance().getGame().getScore() + 300);
 				}
-
 				return;
 			}
 
+			// collisione con bombe, altri nemici e muri
 			if (enemyType == EnemyType.TIPO1 || enemyType == EnemyType.TIPO2) {
-
 				ArrayList<Actor> wallsBombsEnemy = Model.getInstance().getActors().stream()
 						.filter(actor -> actor.getName() == "Wall" || actor.getName() == "Rock"
 								|| actor.getName() == "Bomb" || actor.getName() == "Enemy")
 						.collect(Collectors.toCollection(ArrayList::new));
-
 				turnbackLogicMovement(wallsBombsEnemy);
 
 			} else {
-
-				// se collide cambia direzione all'indietro
+				// nemico tipo 3 ha logica collisioni e movimento diverse
+				// collide solo con i muri e
+				// ogni X secondi cambia di direzione randomicamente
 				ArrayList<Actor> walls = Model.getInstance().getActors().stream()
 						.filter(actor -> actor.getName() == "Wall" && !((Wall) actor).isDestructible())
 						.collect(Collectors.toCollection(ArrayList::new));
 				turnbackLogicMovement(walls);
-				// ogni mezzo secondo sceglie una direzione
 				countdown -= System.currentTimeMillis() - lastTime;
 				lastTime = System.currentTimeMillis();
 				if (countdown < 0 && getPosX() % getWidth() == 0 && getPosY() % getHeight() == 0) {
 					setDirection(chooseRandomDirection());
 					countdown = waitTime;
 				}
-//			// se collide con muri torna indietro
-//			ArrayList<Actor> walls = Model.getInstance().getActors().stream()
-//					.filter(actor -> actor.getName() == "Wall" && !((Wall) actor).isDestructible())
-//					.collect(Collectors.toCollection(ArrayList::new));
-//			turnbackLogicMovement(walls);
-
-//			
-//			if ( Model.getInstance().getActors().stream()
-//					.filter(actor -> actor.getName() == "Wall" && !((Wall) actor).isDestructible())
-//					.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.ANY))) {
-//				return;
-//			};
 			}
+			//si muove sempre perchè ormai ha cambiato direzione
 			move();
-			setFrameCounter(getFrameCounter() + 1);
-			if (getFrameCounter() > 24)
-				setFrameCounter(0);
+			updateFrameCounter();
 
 		}
 	}
-
+	
+	
 	private void turnbackLogicMovement(ArrayList<Actor> actors) {
 		if (getDirection() == Direction.UP
 				&& actors.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.UP))) {
 			setDirection(Direction.DOWN);
-
 		}
-
 		else if (getDirection() == Direction.DOWN
 				&& actors.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.DOWN))) {
 			setDirection(Direction.UP);
-
 		} else if (getDirection() == Direction.LEFT
 				&& actors.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.LEFT))) {
 			setDirection(Direction.RIGHT);
@@ -112,48 +93,8 @@ public class Enemy extends DynamicActor {
 				.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.RIGHT))) {
 			setDirection(Direction.LEFT);
 		}
-
 	}
-
-//	
-//	private void turn90degrees(ArrayList<Actor> actors) {
-//		Random ran = new Random();
-//		int x = ran.nextInt(2);
-//		if (getDirection() == Direction.UP
-//				&& actors.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.UP))) {
-//			if(x==0) {
-//				setDirection(Direction.LEFT);
-//			}
-//			else setDirection(Direction.RIGHT);
-//			setPosY(getPosY());
-//		}
-//
-//		else if (getDirection() == Direction.DOWN
-//				&& actors.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.DOWN))) {
-//			if(x==0) {
-//				setDirection(Direction.LEFT);
-//			}
-//			else setDirection(Direction.RIGHT);
-//			setPosY(getPosY());
-//			System.out.println("collide");
-//		} else if (getDirection() == Direction.LEFT
-//				&& actors.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.LEFT))) {
-//			if(x==0) {
-//				setDirection(Direction.UP);
-//			}
-//			else setDirection(Direction.DOWN);
-//			setPosX(getPosX());
-//		} else if (getDirection() == Direction.RIGHT && actors.stream()
-//				.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.RIGHT))) {
-//			if(x==0) {
-//				setDirection(Direction.UP);
-//			}
-//			else setDirection(Direction.DOWN);
-//			setPosX(getPosX());
-//		}
-//		setRectangle();
-//
-//	}
+	
 	private void setPriorityByEnemyType(EnemyType enemyType) {
 		if (enemyType == EnemyType.TIPO3) {
 			setPriority(5);

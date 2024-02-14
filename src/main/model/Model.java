@@ -93,10 +93,9 @@ public class Model extends Observable {
 		}		
 	}
 	
-	public void startGame(Player player, String avatar) {
+	public void startGame(Player player) {
 		this.game = new Game();
 		this.game.setPlayer(player);
-		this.game.getPlayer().setAvatar(avatar);
 		loadLevel(1);
 	}
 	
@@ -107,6 +106,9 @@ public class Model extends Observable {
 	}
 	
 	public void changeLevel() {
+		
+		///aggiorna stats di player
+		
 		//game.getPlayer().levelwon + 1
 		//if this level == 2 -> player partita vinta +1 e torna al menu
 		

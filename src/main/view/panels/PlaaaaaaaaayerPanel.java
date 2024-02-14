@@ -33,12 +33,16 @@ import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
 import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class PlaaaaaaaaayerPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtInserisciNome;
 	private BufferedImage backgroundImage;
+	private JTextField textField;
+	private JTable table_1;
+	private JTextField textField_1;
 
 	/**
 	 * Create the panel.
@@ -64,7 +68,7 @@ public class PlaaaaaaaaayerPanel extends JPanel {
 		ImageIcon i = new ImageIcon("/home/rocco/Immagini/goku.jpg");
 		
 		JToggleButton goku = new JToggleButton("Goku");
-		goku.setBounds(400, 0, 100, 100);
+		goku.setBounds(244, 30, 154, 120);
 		goku.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
 		goku.setBorderPainted(isEnabled());
 		goku.setActionCommand("Goku");
@@ -76,12 +80,12 @@ public class PlaaaaaaaaayerPanel extends JPanel {
 	
 
 		JToggleButton vegeta = new JToggleButton("Vegeta");
-		vegeta.setBounds(0, 0, 100, 100);
+		vegeta.setBounds(576, 30, 154, 120);
 		vegeta.setActionCommand("Vegeta");
 		vegeta.setBorder(border);
 
 		JToggleButton piccolo = new JToggleButton("Piccolo");
-		piccolo.setBounds(200, 0, 100, 100);
+		piccolo.setBounds(410, 30, 154, 120);
 		piccolo.setActionCommand("Piccolo");
 		piccolo.setBorder(border);
 
@@ -93,69 +97,60 @@ public class PlaaaaaaaaayerPanel extends JPanel {
 		add(goku);
 		add(vegeta);
 		add(piccolo);
-
-		txtInserisciNome = new JTextField();
-		txtInserisciNome.setBounds(400, 400, 100, 100);
-		add(txtInserisciNome);
-		txtInserisciNome.setColumns(10);
-
-		// txtInserisciNome.getText()));
-
-		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setBounds(200, 300, 100, 100);
-		btnNewButton_1.addActionListener(e -> System.out.println(group.getSelection().getActionCommand()));
+		
+		textField = new JTextField();
+		textField.setBounds(42, 110, 162, 25);
+		add(textField);
+		textField.setColumns(10);
+		
+		table_1 = new JTable();
+		table_1.setShowGrid(false);
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		table_1.setRowSelectionAllowed(false);
+		table_1.setBounds(276, 321, 475, 247);
+		add(table_1);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.setBounds(66, 58, 117, 40);
 		add(btnNewButton_1);
-
 		
+		JButton btnNewButton_1_1 = new JButton("New button");
+		btnNewButton_1_1.setBounds(66, 246, 117, 40);
+		add(btnNewButton_1_1);
 		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(42, 147, 162, 25);
+		add(textField_1);
 		
-		JList<?> list = new JList();
-		list.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 14));
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setBounds(12, 115, 106, 201);
-		AbstractListModel model = new AbstractListModel() {
-			String[] values = new String[] { "ddddd", "aaaa", "cccc", "eee" };
-
+		JList list = new JList();
+		list.setModel(new AbstractListModel() {
+			String[] values = new String[] {"eeee", "eeeee"};
 			public int getSize() {
 				return values.length;
 			}
-
 			public Object getElementAt(int index) {
 				return values[index];
 			}
-		};
-		list.setModel(model);
-		list.setBackground(new Color(98, 160, 234));
-		list.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
-		// add(list);
+		});
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setBounds(54, 428, 117, 59);
+		add(list);
 
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(265, 115, 149, 35);
-		btnNewButton.isSelected();
-		// add(btnNewButton);
-
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "wdwdd", "cwwd", "evcwxw" }));
-		comboBox.setBounds(199, 259, 149, 35);
-		// add(comboBox);
-
-		JButton addBtn = new JButton();
-		addBtn.setBounds(1, 1, 90, 90);
-		addBtn.setBorder(new RoundedBorder(10));
-		// add(addBtn);
-
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(425, 179, 1, 15);
-		// add(textArea);
-
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("New radio button");
-		rdbtnNewRadioButton.setBounds(130, 316, 149, 23);
-		// add(rdbtnNewRadioButton);
-
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("New radio button");
-		rdbtnNewRadioButton_1.setBounds(307, 316, 96, 23);
-		// add(rdbtnNewRadioButton_1);
-
+	
 	}
 
 	public void paintComponent(Graphics g) {
@@ -172,32 +167,4 @@ public class PlaaaaaaaaayerPanel extends JPanel {
 
 	}
 
-	private static class RoundedBorder implements Border {
-
-		private int radius;
-
-		private RoundedBorder(int radius) {
-			this.radius = radius;
-		}
-
-		public Insets getBorderInsets(Component c) {
-			return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
-		}
-
-		public boolean isBorderOpaque() {
-			return true;
-		}
-
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-			BufferedImage img = null;
-			try {
-				img = ImageIO.read(new File("/home/rocco/Immagini/giraffa.jpg"));
-				// g.drawImage(img,x, y, width, height, null);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 }

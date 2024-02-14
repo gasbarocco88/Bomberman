@@ -23,10 +23,9 @@ public class Wall extends Actor {
 
 	@Override
 	public void update() {
+
 		// check collision con esplosioni se il muro è distruttibile
-
 		if (isDestructible == true) {
-
 			boolean blastsCollision = Model.getInstance().getActors().stream()
 					.filter(actor -> actor.getName() == "Blast")
 					.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.ANY));
@@ -36,22 +35,22 @@ public class Wall extends Actor {
 					.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.ANY));
 
 			if (blastsCollision) {
-				Model.getInstance().getGame().setPoint(Model.getInstance().getGame().getPoint()+100);
-				setActive(false); // mette il muro disattivo per poterlo cancellare dall'array
+				Model.getInstance().getGame().setScore(Model.getInstance().getGame().getScore() + 100);
+				setActive(false);
+				// spawn di un item il 30% delle volte
+				// tranne se c'era già un item sotto (quello della vittoria del livello)
 				if (!itemCollision) {
-					// spawn di un Item il 30% delle volte,
 					Random ran = new Random();
 					int x = ran.nextInt(10) + 1;
-					if (x <= 10) {
-						// scelgo la tipologia di item da spawnare prendendolo per un indice generato
-						// casualmente
+					if (x <= 3) {
+						// scelgo la tipologia di item da spawnare
+						// selezionandola attraverso l'indice dell'enum
+						// con un valore generato randomicamente
 						ItemType itemType = Item.ItemType.values()[ran.nextInt(Item.ItemType.values().length)];
-						// la aggiungo agli actors
 						Model.getInstance().getActors().add((new Item(getPosX(), getPosY(), itemType)));
 					}
 				}
 			}
-
 		}
 	}
 

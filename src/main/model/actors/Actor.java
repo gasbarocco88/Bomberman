@@ -26,6 +26,11 @@ public abstract class Actor implements Comparable<Actor>{
 	}
 
 	public abstract void update();
+	
+	public void updateFrameCounter() {
+	setFrameCounter(getFrameCounter() + 1);
+	if (getFrameCounter() > 24)
+		setFrameCounter(0);}
 
 	public void setRectangle() {
 		rect.setRect(posX+2, posY+2, rectDimension,rectDimension);

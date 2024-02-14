@@ -45,14 +45,10 @@ public class Blast extends DynamicActor {
 		if (WallsAndEnemyCollision) {
 			setBlastPropagated(true);
 		}
-		//
 
-		// creazione blast a cascata
+		// creazione blast a cascata nelle 4 direzioni
 		if (strength > 0 && !isBlastPropagated()) {
-			System.out.println("forza");
-
 			if (getDirection() == Direction.RIGHT) {
-				System.out.println("destra bomba");
 				Model.getInstance().getActors()
 						.add((new Blast(getPosX() + Actor.getWidth(), getPosY(), strength - 1, Direction.RIGHT)));
 			} else if (getDirection() == Direction.LEFT) {
@@ -67,7 +63,7 @@ public class Blast extends DynamicActor {
 			}
 		}
 		setBlastPropagated(true);
-
+		updateFrameCounter();
 	}
 
 	public boolean isBlastPropagated() {

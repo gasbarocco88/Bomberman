@@ -23,12 +23,12 @@ public class Item extends Actor {
 			
 			//disattiva item e aumenta il punteggio
 			setActive(false);
-			Model.getInstance().getGame().setPoint(Model.getInstance().getGame().getPoint()+50);
+			Model.getInstance().getGame().setScore(Model.getInstance().getGame().getScore()+50);
 			
 			
 			switch (itemType) {
 			case SPEED:
-				hero.setSpeed(hero.getSpeed() + 2);
+				hero.setSpeed(hero.getSpeed() + 1);
 				break;
 			case BOMBNUM:
 				hero.setMaxBombs(hero.getMaxBombs() + 1);
@@ -39,10 +39,9 @@ public class Item extends Actor {
 			case LIFE:
 				int currentLifes = Model.getInstance().getGame().getLifes();
 				Model.getInstance().getGame().setLifes(currentLifes + 1);
-				System.out.println(Model.getInstance().getGame().getLifes());
 				break;
 			case WIN:
-				System.out.println("hai vinto");
+				Model.getInstance().getGame().setScore(Model.getInstance().getGame().getScore()+1000);
 				Model.getInstance().changeLevel();
 				break;
 
