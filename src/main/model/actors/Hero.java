@@ -23,6 +23,7 @@ public class Hero extends DynamicActor {
 		setPriority(10);
 		setFrameCounter(0);
 		setActive(true);
+		setRectDimension(26);
 	}
 
 	public void update() {

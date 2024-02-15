@@ -18,6 +18,7 @@ import main.controller.PlayerManager;
 import main.model.Model;
 import main.model.Player;
 import main.model.actors.Actor;
+import main.view.panels.Altropanel;
 import main.view.panels.GamePanel;
 import main.view.panels.MenuPanel;
 import main.view.panels.PausePanel;
@@ -29,6 +30,7 @@ public class View implements Observer {
 	private InputSystem inputSystem;
 	private JFrame frame;
 	private JPanel panel;
+	public Altropanel altro;
 	private static PlaaaaaaaaayerPanel plaaaaaaaaayerPanel;
 	private static GamePanel gamePanel;
 	private static MenuPanel menuPanel;
@@ -47,12 +49,11 @@ public class View implements Observer {
 	private View() {
 		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(screenWidth, screenHeight));
-
+		altro = new Altropanel();
 		gamePanel = new GamePanel();
 		menuPanel = new MenuPanel();
 		pausePanel = new PausePanel();
 		playerPanel = new PlayerPanel();
-		plaaaaaaaaayerPanel = new PlaaaaaaaaayerPanel();
 		addActionListeners();
 		setPanel(menuPanel);
 		frameSetUp();
@@ -60,11 +61,13 @@ public class View implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		frame.repaint();
+		
 		if (Model.getInstance().getGame().isGameOver()) {
 			setPanel(menuPanel);
+			Model.getInstance().getGame().setGameOver(false);
 		}
 
-		frame.repaint();
 
 		if (!Model.getInstance().getGame().isRunning()) {
 			setPanel(menuPanel);
@@ -83,15 +86,24 @@ public class View implements Observer {
 	}
 
 	private void addActionListeners() {
-		menuPanel.getStartButton().addActionListener(e -> setPanel(playerPanel));
+		menuPanel.getStartButton().addActionListener(e -> ciao());
 		menuPanel.getQuitButton().addActionListener(e -> System.exit(0));
-
+	
+		altro.getStaddddddrtButton().addActionListener(e->loadPlayer());
+		
+		
 		playerPanel.getNewPlayerButton().addActionListener(e -> createPlayer());
 		playerPanel.getLoadPlayerButton().addActionListener(e -> loadPlayer());
+		playerPanel.getDeletePlayerButton().addActionListener(e-> deletePlayer());
 
 		pausePanel.getResumeButton().addActionListener(e -> resumeAction());
 	}
+private void ciao() {
+	System.out.println("ivhrs fisvnsivnreisrvjn");
+	setPanel(altro);
+	System.out.println("ivhrs fisvnsivnreisrvjn2");
 
+}
 	private void setUpActionButton() {
 
 		// view deve leggere player nome e avatar
@@ -103,8 +115,30 @@ public class View implements Observer {
 	}
 
 	private void createPlayer() {
-		System.out.println(playerPanel.getGroup().getSelection().getActionCommand());
+	
+		if(playerPanel.getGroup().getSelection()==null) {
+			playerPanel.getErrorsText().setText("Seleziona un personaggio");
+			playerPanel.getErrorsText().setVisible(true);
+			System.out.println("ciao2");
+		};
+		
+		if(playerPanel.getPlayerName().getText().isEmpty()) {
+			playerPanel.getErrorsText().setText("Inserisci un nickname");
+			playerPanel.getErrorsText().setVisible(true);
+			System.out.println("ciao");}
+		
+		//check che la combo non esista già
 
+		
+
+	}
+	
+	private void deletePlayer() {
+		if(playerPanel.getTablePlayer().getSelectedValue()!=null) {
+			String x = (String) playerPanel.getTablePlayer().getSelectedValue();
+			PlayerManager.getInstance().deletePlayer(x);
+			playerPanel.importPlayers();
+		};
 	}
 
 	private void loadPlayer() {
@@ -125,10 +159,15 @@ public class View implements Observer {
 	}
 
 	private void setPanel(JPanel panel) {
+		System.out.println("helloooo");
 		this.panel = panel;
+		System.out.println("helloooo2");
+
 		frame.setContentPane(panel);
+		System.out.println("helloooo3");
+
 		frame.revalidate();
-	}
+		}
 
 	public JFrame getFrame() {
 		return frame;

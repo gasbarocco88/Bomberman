@@ -1,5 +1,6 @@
 package main.view.panels;
 
+import java.awt.Graphics;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.HashMap;
@@ -31,9 +32,10 @@ public class PlayerPanel extends JPanel {
 	private ImageIcon piccoloImage ;
 	private ButtonGroup group;
 	private JTextField playerName;
-	private JTextField playerExist;
+	private JTextField errorsText;
 	private JButton newPlayerButton;
 	private JButton loadPlayerButton;
+	private JButton deletePlayerButton;
 	private JList tablePlayer;
 	private JTable tableRanking;
 	
@@ -61,22 +63,43 @@ public class PlayerPanel extends JPanel {
 		piccoloButton.setActionCommand("Piccolo");
 		piccoloButton.setBounds(410, 30, 154, 120);
 		
-		group.add(gokuButton);
-		group.add(vegetaButton);
-		group.add(piccoloButton);
+		try {
+			group.add(gokuButton);
+			group.add(vegetaButton);
+			group.add(piccoloButton);
+		} catch (Exception e) {
+			System.out.println("gropu");
+			e.printStackTrace();
+		}
 		setLayout(null);
 		
-		add(gokuButton);
-		add(vegetaButton);
-		add(piccoloButton);
 		
-		newPlayerButton= new JButton("New Player");
-		newPlayerButton.setBounds(66, 58, 117, 40);
-		add(newPlayerButton);
 		
-		loadPlayerButton = new JButton("Load Player");
-		loadPlayerButton.setBounds(66, 215, 117, 40);
-		add(loadPlayerButton);
+		try {
+			add(gokuButton);
+			add(vegetaButton);
+			add(piccoloButton);
+		} catch (Exception e) {
+			System.out.println("personaggi");
+			e.printStackTrace();
+		}
+		
+		try {
+			newPlayerButton= new JButton("New Player");
+			newPlayerButton.setBounds(66, 58, 117, 40);
+			add(newPlayerButton);
+			
+			loadPlayerButton = new JButton("Load Player");
+			loadPlayerButton.setBounds(66, 215, 117, 40);
+			add(loadPlayerButton);
+			
+			deletePlayerButton = new JButton("Delete Player");
+			deletePlayerButton.setBounds(200, 215, 117, 40);
+			add(deletePlayerButton);
+		} catch (Exception e) {
+			System.out.println("bottoni");
+			e.printStackTrace();
+		}
 		
 		playerName= new JTextField();
 		playerName.setBounds(42, 110, 162, 25);
@@ -88,25 +111,33 @@ public class PlayerPanel extends JPanel {
 //		    public void focusLost(FocusEvent e) {
 //		    }
 //		});
-		add(playerName);
-		
-		playerExist = new JTextField("Player already exist!");
-		playerExist.setBounds(42, 147, 162, 25);
-		playerExist.setVisible(false);
-		add(playerExist);
+		try {
+			add(playerName);
+			
+			errorsText = new JTextField("Player already exist!");
+			errorsText.setBounds(42, 147, 162, 25);
+			errorsText.setVisible(false);
+			add(errorsText);
+		} catch (Exception e) {
+			System.out.println("jtext");
+			e.printStackTrace();
+		}
 		
 		tablePlayer = new JList();
 		tablePlayer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tablePlayer.setBounds(42, 275, 162, 265);
-		add(tablePlayer);
-		
-		tableRanking = new JTable();
-		tableRanking.setBounds(244, 275, 486, 265);
-		tableRanking.setRowSelectionAllowed(false);
-		tableRanking.setShowGrid(false);
-		
-		
-		add(tableRanking);
+		try {
+			tablePlayer.setBounds(42, 275, 162, 265);
+			add(tablePlayer);
+			
+			tableRanking = new JTable();
+			tableRanking.setBounds(244, 275, 486, 265);
+			tableRanking.setRowSelectionAllowed(false);
+			tableRanking.setShowGrid(false);
+			add(tableRanking);
+		} catch (Exception e) {
+			System.out.println("tables");
+			e.printStackTrace();
+		}
 	}
 	
 	public void importPlayers() {
@@ -124,19 +155,18 @@ public class PlayerPanel extends JPanel {
 		}
 		tableRanking.setModel(modelRanks);
 		tablePlayer.setModel(modelPlayer);
-		//Object columnNames[] = {"nickname","avatar"};
-		//Object columnNamesRanks[] = {"Nickname","Personaggio","Games Played","Games Won","Levels Won","Highest Score","Total Score"};
-		//DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-		//DefaultTableModel modelRanks = new DefaultTableModel(columnNamesRanks, 0);
-//		for (Entry<String, Player> entry : ps.entrySet()) {
-//			model.addRow(new Object[] { entry.getValue().getNickname(), entry.getValue().getAvatar()});
-//			modelRanks.addRow(new Object[] { entry.getValue().getNickname(), entry.getValue().getAvatar(), entry.getValue().getTotGamesPlayed(),
-//					entry.getValue().});
-//	    }
-		
-		
 		
 	}
+
+	public JButton getDeletePlayerButton() {
+		return deletePlayerButton;
+	}
+
+
+	public void setDeletePlayerButton(JButton deletePlayerButton) {
+		this.deletePlayerButton = deletePlayerButton;
+	}
+
 
 	public JButton getNewPlayerButton() {
 		return newPlayerButton;
@@ -227,13 +257,13 @@ public class PlayerPanel extends JPanel {
 	}
 
 
-	public JTextField getPlayerExist() {
-		return playerExist;
+	public JTextField getErrorsText() {
+		return errorsText;
 	}
 
 
-	public void setPlayerExist(JTextField playerExist) {
-		this.playerExist = playerExist;
+	public void setErrorsText(JTextField errorsText) {
+		this.errorsText = errorsText;
 	}
 
 
@@ -266,5 +296,9 @@ public class PlayerPanel extends JPanel {
 		this.loadPlayerButton = loadPlayerButton;
 	}
 	
-	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+	}
 }
