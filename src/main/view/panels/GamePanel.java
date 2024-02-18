@@ -1,18 +1,18 @@
 package main.view.panels;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import main.controller.PlayerManager;
 import main.model.Model;
 import main.model.actors.Actor;
 import main.model.actors.Blast;
@@ -20,21 +20,29 @@ import main.model.actors.Bomb;
 import main.model.actors.Direction;
 import main.model.actors.Enemy;
 import main.model.actors.Enemy.EnemyType;
+import main.view.ImageFactoryConcrete;
 import main.view.View;
 import main.model.actors.Hero;
 import main.model.actors.Item;
 import main.model.actors.Wall;
 
 public class GamePanel extends JPanel {
+	private ImageFactoryConcrete imgFactory;
 	private BufferedImage backgroundImage;
-	private int counterX;
+	private BufferedImage hittedImage;
+	private BufferedImage gameOverImage;
+	private BufferedImage levelWonImage;
+	private int counter;
 
 	public GamePanel() {
 		panelSetup();
+		imgFactory = new ImageFactoryConcrete();
 		try {
 			backgroundImage = ImageIO.read(new File("/home/rocco/Immagini/giraffa.jpg"));
+			hittedImage = ImageIO.read(new File("./src/main/resources/images/hitted.png"));
+			gameOverImage = ImageIO.read(new File("./src/main/resources/images/gameOver.png"));
+			levelWonImage = ImageIO.read(new File("./src/main/resources/images/gameOver.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		;
@@ -63,108 +71,8 @@ public class GamePanel extends JPanel {
 				Graphics2D g2 = (Graphics2D) g;
 
 				if (a instanceof Hero) {
-					Hero x = (Hero) a;
-					if (x.getDirection() == Direction.UP)
-
-					{
-						if (a.getFrameCounter() < 12) {
-							try {
-								img = ImageIO.read(new File(
-										"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_1.png"));
-								g2.drawImage(img, a.getPosX(), a.getPosY(), Actor.getWidth(), Actor.getHeight(), null);
-								g2.fillRect((int) a.getRect().getX(), (int) a.getRect().getY(), a.getRectDimension(),
-										a.getRectDimension());
-								g2.setColor(Color.pink);
-
-								// g2.drawImage(img,(int) a.getRect().getX(), (int)a.getRect().getY(),
-								// Actor.getWidth(), Actor.getHeight(), null);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-
-							}
-						} else {
-							try {
-								img = ImageIO.read(new File(
-										"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_up_2.png"));
-								g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-								g2.fillRect((int) a.getRect().getX(), (int) a.getRect().getY(), a.getRectDimension(),
-										a.getRectDimension());
-								g2.setColor(Color.pink);
-
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					}
-
-					else if (x.getDirection() == Direction.DOWN) {
-						if (a.getFrameCounter() < 12) {
-							try {
-								img = ImageIO.read(new File(
-										"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_1.png"));
-								g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						} else {
-							try {
-								img = ImageIO.read(new File(
-										"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_down_2.png"));
-								g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					}
-
-					else if (x.getDirection() == Direction.RIGHT) {
-						if (a.getFrameCounter() < 12) {
-							try {
-								img = ImageIO.read(new File(
-										"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_1.png"));
-								g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						} else {
-							try {
-								img = ImageIO.read(new File(
-										"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_right_2.png"));
-								g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					}
-
-					else {
-						if (a.getFrameCounter() < 12) {
-							try {
-								img = ImageIO.read(new File(
-										"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_1.png"));
-								g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						} else {
-							try {
-								img = ImageIO.read(new File(
-										"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/boy_left_2.png"));
-								g2.drawImage(img, a.getPosX(), a.getPosY(), a.getWidth(), a.getHeight(), null);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					}
-
+					img = imgFactory.returnImage(a);
+					g2.drawImage(img, a.getPosX(), a.getPosY(), Actor.getWidth(), Actor.getHeight(), null);
 				}
 
 				else if (a instanceof Bomb) {
@@ -285,58 +193,67 @@ public class GamePanel extends JPanel {
 				}
 
 			}
-			if (Model.getInstance().getGame().isHitted() || Model.getInstance().getGame().isLastHitted()) {
+			if (Model.getInstance().getGame().isHitted() || Model.getInstance().getGame().isLastHitted()
+					|| Model.getInstance().getGame().isLevelFinish()) {
+
 				g.setColor(Color.black);
+				if (counter <= View.getInstance().getScreenWidth()) {
+					g.drawRect(0, 0, counter, View.getInstance().getScreenHeight());
+					g.fillRect(0, 0, counter, View.getInstance().getScreenHeight());
+					counter += 50;
 
-				if (counterX <= View.getInstance().getScreenWidth()) {
-					g.drawRect(0, 0, counterX, View.getInstance().getScreenHeight());
-					g.fillRect(0, 0, counterX, View.getInstance().getScreenHeight());
-					counterX += 50;
+				} else if (counter < View.getInstance().getScreenWidth() + 51) {
 
-				} else if (counterX < View.getInstance().getScreenWidth() + 51) {
-
-					BufferedImage img2;
 					Graphics2D g2 = (Graphics2D) g;
+					if (Model.getInstance().getGame().isLastHitted()) {
+						g2.drawImage(gameOverImage, 0, -150, View.getInstance().getScreenWidth(),
+								View.getInstance().getScreenWidth(), null);
+					} else if (Model.getInstance().getGame().isLevelFinish()) {
+						g2.drawImage(levelWonImage, 0, -50, View.getInstance().getScreenWidth(),
+								View.getInstance().getScreenWidth(), null);
+					} else {
+						g2.drawImage(hittedImage, 0, -50, View.getInstance().getScreenWidth(),
+								View.getInstance().getScreenWidth(), null);
 
-					try {
-						if (!Model.getInstance().getGame().isLastHitted()) {
-							img2 = ImageIO.read(new File(
-									"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/hitted.png"));
-							g2.drawImage(img2, 0, -50, View.getInstance().getScreenWidth(),
-									View.getInstance().getScreenWidth(), null);
-						}
-
-						else {
-							img2 = ImageIO.read(new File(
-									"/home/rocco/Documenti/università/bombermanWindow/src/main/resources/images/gameOver.png"));
-							g2.drawImage(img2, 0, -150, View.getInstance().getScreenWidth(),
-									View.getInstance().getScreenWidth(), null);
-						}
-
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
-
-					counterX += 50;
-					System.out.println(counterX);
-					System.out.println("ciaooooooooooooooooooooooooooooo");
+					counter += 50;
 
 				} else {
+					System.out.println(counter);
+					counter = 0;
+					System.out.println(counter);
 					try {
 						Thread.sleep(3000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					if (!Model.getInstance().getGame().isLastHitted()) {
-						Model.getInstance().loadLevel(Model.getInstance().getGame().getLevelPlaying());
+					if (Model.getInstance().getGame().isHitted() && (!Model.getInstance().getGame().isLastHitted())) {
+						System.out.println("hittato");
+						//Model.getInstance().loadLevel(Model.getInstance().getGame().getLevelPlaying());
 						Model.getInstance().getGame().setHitted(false);
-						counterX = 0;
-					} else {
-						Model.getInstance().getGame().setGameOver(true);
-						counterX = 0;
+
+					} else if (Model.getInstance().getGame().isLevelFinish()) {
+						System.out.println("livellofinito");
+						Model.getInstance().getGame().setLevelFinish(false);
+						Model.getInstance().updatePlayerPoints(false);
+						if (Model.getInstance().getGame().getLevelPlaying() == 2) {
+							PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
+							Model.getInstance().getGame().setGameOver(true);
+						} 
+						else Model.getInstance().loadLevel(Model.getInstance().getGame().getLevelPlaying() + 1);
+						Model.getInstance().getGame().setLevelPlaying(Model.getInstance().getGame().getLevelPlaying() + 1);
 					}
+					else {
+						System.out.println("gameover");
+						//Model.getInstance().updatePlayerPoints(true);
+						//PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
+						Model.getInstance().getGame().setGameOver(true);
+						Model.getInstance().getGame().setLastHitted(false);
+						Model.getInstance().getGame().setHitted(false);
+
+					}
+					
 				}
 			}
 		}

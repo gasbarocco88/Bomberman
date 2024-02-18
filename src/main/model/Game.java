@@ -8,6 +8,7 @@ public class Game {
 	private int score;
 	private int levelPlaying;
 	private boolean isRunning; 
+	private boolean isLevelFinish;
 	private boolean isHitted;
 	private boolean lastHitted;
 	private boolean isGameOver;
@@ -18,6 +19,7 @@ public class Game {
 		setScore(0);
 		setLevelPlaying(1);
 		setRunning(true);
+		setLevelFinish(false);
 		setHitted(false);
 		setLastHitted(false);
 		setGameOver(false);
@@ -27,6 +29,18 @@ public class Game {
 	
 	public boolean isLastHitted() {
 		return lastHitted;
+	}
+
+
+
+	public boolean isLevelFinish() {
+		return isLevelFinish;
+	}
+
+
+
+	public void setLevelFinish(boolean isLevelFinish) {
+		this.isLevelFinish = isLevelFinish;
 	}
 
 

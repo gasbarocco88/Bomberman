@@ -1,5 +1,6 @@
 package main.model.actors;
 
+import main.controller.PlayerManager;
 import main.model.Model;
 
 public class Item extends Actor {
@@ -41,8 +42,16 @@ public class Item extends Actor {
 				Model.getInstance().getGame().setLifes(currentLifes + 1);
 				break;
 			case WIN:
+				Model.getInstance().getGame().setLevelFinish(true);
 				Model.getInstance().getGame().setScore(Model.getInstance().getGame().getScore()+1000);
-				Model.getInstance().changeLevel();
+				//Model.getInstance().updatePlayerPoints(false);
+				if (Model.getInstance().getGame().getLevelPlaying() == 2) {
+					//PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
+				} //else
+					//Model.getInstance().loadLevel(Model.getInstance().getGame().getLevelPlaying()+1);
+				//	Model.getInstance().getGame().setLevelPlaying(Model.getInstance().getGame().getLevelPlaying() + 1);
+					//System.out.println("livello giocato: ");
+				//	System.out.println(Model.getInstance().getGame().getLevelPlaying());
 				break;
 
 			default:

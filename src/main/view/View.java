@@ -61,17 +61,18 @@ public class View implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		frame.repaint();
 		
 		if (Model.getInstance().getGame().isGameOver()) {
-			setPanel(menuPanel);
 			Model.getInstance().getGame().setGameOver(false);
+			Model.getInstance().getGame().setLevelPlaying(1);
+			setPanel(menuPanel);
 		}
 
 
 		if (!Model.getInstance().getGame().isRunning()) {
-			setPanel(menuPanel);
+			setPanel(pausePanel);
 		}
+		frame.repaint();
 	}
 
 	private void frameSetUp() {
@@ -86,32 +87,23 @@ public class View implements Observer {
 	}
 
 	private void addActionListeners() {
-		menuPanel.getStartButton().addActionListener(e -> ciao());
+		menuPanel.getStartButton().addActionListener(e -> refreshPlayerPanel());
 		menuPanel.getQuitButton().addActionListener(e -> System.exit(0));
 	
-		altro.getStaddddddrtButton().addActionListener(e->loadPlayer());
-		
-		
 		playerPanel.getNewPlayerButton().addActionListener(e -> createPlayer());
 		playerPanel.getLoadPlayerButton().addActionListener(e -> loadPlayer());
 		playerPanel.getDeletePlayerButton().addActionListener(e-> deletePlayer());
+		playerPanel.getBackMenuButton().addActionListener(e->setPanel(menuPanel) );
+
 
 		pausePanel.getResumeButton().addActionListener(e -> resumeAction());
+		pausePanel.getExitButton().addActionListener(e -> exitGame());
 	}
-private void ciao() {
-	System.out.println("ivhrs fisvnsivnreisrvjn");
-	setPanel(altro);
-	System.out.println("ivhrs fisvnsivnreisrvjn2");
 
-}
-	private void setUpActionButton() {
 
-		// view deve leggere player nome e avatar
-		// e passarlo a modello a modello, per creare game
-		Player p = new Player("ciao", "ciao", 0, 0, 0, 0, 0);
-
-		Model.getInstance().startGame(p);
-		setPanel(gamePanel);
+	private void refreshPlayerPanel() {
+		playerPanel.importPlayers();
+		setPanel(playerPanel);
 	}
 
 	private void createPlayer() {
@@ -120,15 +112,27 @@ private void ciao() {
 			playerPanel.getErrorsText().setText("Seleziona un personaggio");
 			playerPanel.getErrorsText().setVisible(true);
 			System.out.println("ciao2");
-		};
+		}
 		
-		if(playerPanel.getPlayerName().getText().isEmpty()) {
+		else if(playerPanel.getPlayerName().getText().isEmpty()) {
 			playerPanel.getErrorsText().setText("Inserisci un nickname");
 			playerPanel.getErrorsText().setVisible(true);
 			System.out.println("ciao");}
 		
-		//check che la combo non esista già
+		else {
+			String nickname = playerPanel.getPlayerName().getText();
+			String avatar = playerPanel.getGroup().getSelection().getActionCommand();
+			System.out.println(nickname);
+			System.out.println(avatar);
 
+			Player p = PlayerManager.getInstance().createPlayer(nickname, avatar);
+			if(p== null) {
+				playerPanel.getErrorsText().setText("Player già esistente");
+				playerPanel.getErrorsText().setVisible(true);
+			}
+			else Model.getInstance().startGame(p);
+			setPanel(gamePanel);
+		}
 		
 
 	}
@@ -152,6 +156,13 @@ private void ciao() {
 		Model.getInstance().getGame().setRunning(true);
 		setPanel(gamePanel);
 	}
+	
+	private void exitGame() {
+		Model.getInstance().updatePlayerPoints(true);
+		PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
+
+		setPanel(menuPanel);
+		}
 
 	public void repaint() {
 		frame.repaint();
@@ -159,13 +170,8 @@ private void ciao() {
 	}
 
 	private void setPanel(JPanel panel) {
-		System.out.println("helloooo");
 		this.panel = panel;
-		System.out.println("helloooo2");
-
 		frame.setContentPane(panel);
-		System.out.println("helloooo3");
-
 		frame.revalidate();
 		}
 

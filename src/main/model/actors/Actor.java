@@ -14,7 +14,7 @@ public abstract class Actor implements Comparable<Actor>{
 	private int frameCounter;
 	private boolean active;
 	private Rectangle rect = new Rectangle();
-	private int rectDimension = 30;
+	private int rectDimension = 28;
 	
 
 

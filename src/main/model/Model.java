@@ -97,6 +97,11 @@ public class Model extends Observable {
 		this.game = new Game();
 		this.game.setPlayer(player);
 		loadLevel(1);
+		System.out.println("");
+		System.out.println(game.getLevelPlaying());
+		System.out.println(game.getLifes());
+		System.out.println(game.getScore());
+		System.out.println(game.getPlayer().getNickname());
 	}
 	
 	public void loadLevel(int level) {
@@ -104,30 +109,33 @@ public class Model extends Observable {
 		CopyOnWriteArrayList<Actor> actors = lft.loadLevel(level);
     	Model.getInstance().setActors(actors);
 	}
+
 	
-	public void changeLevel() {
-		
-		///aggiorna stats di player
-		
-		//game.getPlayer().levelwon + 1
-		//if this level == 2 -> player partita vinta +1 e torna al menu
-		
-		// mette gioco in pausa ??
-		
-		// fa partire transizione hai vinto
-		
-		// resetta actor e passa al livello dopo loadLevel(this level + 1)
-		
-		// se è ultimo livello, aggiorna le stats di player e dumpa nuovo file?
-		
+	public void updatePlayerPoints(boolean loose) {
+		Player p = game.getPlayer();
+		if(loose) {
+			p.setAccumulatedScore(p.getAccumulatedScore()+game.getScore());
+			p.setTotGamesPlayed(p.getTotGamesPlayed()+ 1);		
+			if(game.getScore()>p.getHighestScore()) {
+				p.setHighestScore(game.getScore());
+			}
+		}
+		else {
+			if(game.getLevelPlaying()==2) {
+				p.setAccumulatedScore(p.getAccumulatedScore()+game.getScore());
+				p.setTotGamesPlayed(p.getTotGamesPlayed()+ 1);
+				p.setTotGamesWon(p.getTotGamesWon()+1);
+				p.setTotLevelWon(p.getTotLevelWon()+1);
+				if(game.getScore()>p.getHighestScore()) {
+					p.setHighestScore(game.getScore());
+				}				
+			}
+			else {
+				p.setTotLevelWon(p.getTotLevelWon()+1);
+			}
+		}		
 	}
 	
-	///serve?
-//	public void loadLevel() {
-//		LevelFactoryText lft = new LevelFactoryText();
-//		CopyOnWriteArrayList<Actor> actors = lft.loadLevel(this.game.getLevel());
-//    	Model.getInstance().setActors(actors);
-//	}
 	public Game getGame() {
 		return game;
 	}

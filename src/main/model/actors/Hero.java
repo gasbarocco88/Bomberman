@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import main.controller.InputSystem;
+import main.controller.PlayerManager;
 import main.model.Model;
 
 public class Hero extends DynamicActor {
@@ -23,7 +24,7 @@ public class Hero extends DynamicActor {
 		setPriority(10);
 		setFrameCounter(0);
 		setActive(true);
-		setRectDimension(26);
+		setRectDimension(20);
 	}
 
 	public void update() {
@@ -43,6 +44,11 @@ public class Hero extends DynamicActor {
 				// se è l'ultima vita, setta last hitted a true
 				if (Model.getInstance().getGame().getLifes() <= 0) {
 					Model.getInstance().getGame().setLastHitted(true);
+					Model.getInstance().updatePlayerPoints(true);
+					PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
+				}
+				else {
+					Model.getInstance().loadLevel(Model.getInstance().getGame().getLevelPlaying());
 				}
 
 			}

@@ -27,9 +27,93 @@ public class PlayerManager {
 		return instance;
 	}
 
+
+	public Player createPlayer(String nickname, String avatar) {
+		Player p = null;
+		if (!checkPlayerExist(nickname, avatar)) {
+			p = new Player(nickname, avatar, 0, 0, 0, 0, 0);
+			playerstats.put(nickname + "-" + avatar, p);
+			saveStatsTxt();
+		}
+		return p;
+	}
+	
+	
+	
+	public void updatePlayerStats(Player p) {
+		String pKey = p.getNickname() + "-" + p.getAvatar();
+		playerstats.put(pKey, p);
+		saveStatsTxt();
+	}
+
+	public String[][] loadRanks() {
+		String[][] players = new String[playerstats.size()][7];
+		int index = 0;
+		for (Entry<String, Player> entry : playerstats.entrySet()) {
+			Player value = entry.getValue();
+			String[] pl = new String[7];
+			pl[0] = value.getNickname();
+			pl[1] = value.getAvatar();
+			pl[2] = String.valueOf(value.getTotGamesPlayed());
+			pl[3] = String.valueOf(value.getTotGamesWon());
+			pl[4] = String.valueOf(value.getTotLevelWon());
+			pl[5] = String.valueOf(value.getHighestScore());
+			pl[6] = String.valueOf(value.getAccumulatedScore());
+			players[index] = pl;
+			index++;
+		}
+		Arrays.sort(players, (a, b) -> Integer.compare(Integer.parseInt(b[6]), Integer.parseInt(a[6])));
+		return players;
+	}
+
+	public Player loadPlayer(String id) {
+		return playerstats.get(id);
+	}
+
+	public void deletePlayer(String id) {
+		playerstats.remove(id);
+		saveStatsTxt();
+	}
+
+
+	public void saveStatsTxt() {
+		try {
+			PrintWriter writer = new PrintWriter("./src/main/resources/playerStats.txt", "UTF-8");
+			StringBuilder headers = new StringBuilder();
+			headers.append("Nickname,");
+			headers.append("Avatar,");
+			headers.append("TotGamesPlayed,");
+			headers.append("TotGamesWon,");
+			headers.append("TotLevelWon,");
+			headers.append("HighestScore,");
+			headers.append("AccumulatedScore");
+			writer.println(headers);
+
+			for (Entry<String, Player> entry : playerstats.entrySet()) {
+				StringBuilder line = new StringBuilder();
+				line.append(entry.getValue().getNickname() + ",");
+				line.append(entry.getValue().getAvatar() + ",");
+				line.append(entry.getValue().getTotGamesPlayed() + ",");
+				line.append(entry.getValue().getTotGamesWon() + ",");
+				line.append(entry.getValue().getTotLevelWon() + ",");
+				line.append(entry.getValue().getHighestScore() + ",");
+				line.append(entry.getValue().getAccumulatedScore());
+				writer.println(line);
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	private void readStatsTxt() {
 		BufferedReader reader;
-		String path = "/home/rocco/Documenti/università/bombermanWindow/src/main/resources/playerStats.txt";
+		String path = "./src/main/resources/playerStats.txt";
 		try {
 			reader = new BufferedReader(new FileReader(path));
 			reader.readLine();
@@ -62,84 +146,9 @@ public class PlayerManager {
 		}
 		return false;
 	}
-
-	public Optional<Player> createPlayer(String nickname, String avatar) {
-		Player p = null;
-		if (!checkPlayerExist(nickname, avatar)) {
-			p = new Player(nickname, avatar, 0, 0, 0, 0, 0);
-			// lo aggiungo alla mappa in modo da poter dumpare la mappa daccapo dopo
-			playerstats.put(nickname + "-" + avatar, p);
-			saveStatsTxt();
-		}
-		return Optional.of(p);
-	}
-
-	public String[][] loadRanks() {
-		String[][] players = new String[playerstats.size()][7];
-		int index = 0;
-		for (Entry<String, Player> entry : playerstats.entrySet()) {
-			Player value = entry.getValue();
-			String[] pl = new String[7];
-			pl[0] = value.getNickname();
-			pl[1] = value.getAvatar();
-			pl[2] = String.valueOf(value.getTotGamesPlayed());
-			pl[3] = String.valueOf(value.getTotGamesWon());
-			pl[4] = String.valueOf(value.getTotLevelWon());
-			pl[5] = String.valueOf(value.getHighestScore());
-			pl[6] = String.valueOf(value.getAccumulatedScore());
-			players[index] = pl;
-			index++;
-		}
-		Arrays.sort(players, (a, b) -> Integer.compare(Integer.parseInt(b[6]), Integer.parseInt(a[6])));
-		return players;
-	}
-
-	public Player loadPlayer(String id) {
-		return playerstats.get(id);
-	}
-
-	public void deletePlayer(String id) {
-		playerstats.remove(id);
-		saveStatsTxt();
-	}
-
+	
 	public HashMap<String, Player> getPlayerstats() {
 		return playerstats;
-	}
-
-	public void saveStatsTxt() {
-		try {
-			PrintWriter writer = new PrintWriter("./src/main/resources/playerStats2.txt", "UTF-8");
-			StringBuilder headers = new StringBuilder();
-			headers.append("Nickname,");
-			headers.append("Avatar,");
-			headers.append("TotGamesPlayed,");
-			headers.append("TotGamesWon,");
-			headers.append("TotLevelWon,");
-			headers.append("HighestScore,");
-			headers.append("AccumulatedScore");
-			writer.println(headers);
-
-			for (Entry<String, Player> entry : playerstats.entrySet()) {
-				StringBuilder line = new StringBuilder();
-				line.append(entry.getValue().getNickname() + ",");
-				line.append(entry.getValue().getAvatar() + ",");
-				line.append(entry.getValue().getTotGamesPlayed() + ",");
-				line.append(entry.getValue().getTotGamesWon() + ",");
-				line.append(entry.getValue().getTotLevelWon() + ",");
-				line.append(entry.getValue().getHighestScore() + ",");
-				line.append(entry.getValue().getAccumulatedScore());
-				writer.println(line);
-			}
-			writer.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 }

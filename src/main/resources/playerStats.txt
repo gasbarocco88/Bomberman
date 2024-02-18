@@ -1,5 +1,8 @@
-nickname,avatar,totGamesPlayed,totGamesWon,totLevelWon,highestScore,accumulatedScore
-Rocco,Goku,1,0,1,1400,2000
-Mirko dalle Marche,Goku,1,0,0,0,0
-Rocco,Piccolo,5,3,8,2400,11050
+Nickname,Avatar,TotGamesPlayed,TotGamesWon,TotLevelWon,HighestScore,AccumulatedScore
 Jack,Piccolo,2,1,1,1500,4050
+Rocco,Piccolo,7,4,11,3100,15400
+Rocco,Goku,5,4,9,3100,14100
+cccccc,Goku,23,5,11,3500,27700
+wwwwwwwwwwwwwwwwwww,Goku,1,1,2,3100,3100
+Mirko dalle Marche,Goku,2,1,2,2300,2300
+rrrrrrrrrrrrrrrr,Goku,3,3,6,3150,9350
