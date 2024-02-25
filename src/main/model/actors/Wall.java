@@ -19,6 +19,9 @@ public class Wall extends Actor {
 		setPriorityByDesctructible(isDestructible);
 		setFrameCounter(0);
 		setActive(true);
+		setRectHeightDimension(28);
+		setRectWidthDimension(28);
+		setRectangle();
 	}
 
 	@Override

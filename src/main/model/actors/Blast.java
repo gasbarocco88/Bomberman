@@ -17,7 +17,7 @@ public class Blast extends DynamicActor {
 		super(posX, posY);
 		this.strength = strenght;
 		lastTime = System.currentTimeMillis();
-		waitTime = 2000f;
+		waitTime = 1000f;
 		countdown = waitTime;
 		setDirection(d);
 		setBlastPropagated(false);
@@ -25,6 +25,9 @@ public class Blast extends DynamicActor {
 		setPriority(6);
 		setFrameCounter(0);
 		setActive(true);
+		setRectHeightDimension(28);
+		setRectWidthDimension(28);
+		setRectangle();
 	}
 
 	@Override
@@ -33,10 +36,10 @@ public class Blast extends DynamicActor {
 		countdown -= System.currentTimeMillis() - lastTime;
 		lastTime = System.currentTimeMillis();
 		if (countdown < 0) {
-			System.out.println("disattivo");
 			setActive(false);
 			countdown = waitTime;
 		}
+		System.out.println(countdown);
 
 		// check collisioni con muro e nemici per fermare la propagazione
 		boolean WallsAndEnemyCollision = Model.getInstance().getActors().stream()
@@ -72,6 +75,14 @@ public class Blast extends DynamicActor {
 
 	public void setBlastPropagated(boolean blastPropagated) {
 		this.blastPropagated = blastPropagated;
+	}
+
+	public float getCountdown() {
+		return countdown;
+	}
+
+	public void setCountdown(float countdown) {
+		this.countdown = countdown;
 	}
 
 }

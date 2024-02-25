@@ -27,6 +27,15 @@ public class Game {
 	
 	
 	
+	@Override
+	public String toString() {
+		return "Game [player=" + player + ", lifes=" + lifes + ", score=" + score + ", levelPlaying=" + levelPlaying
+				+ ", isRunning=" + isRunning + ", isLevelFinish=" + isLevelFinish + ", isHitted=" + isHitted
+				+ ", lastHitted=" + lastHitted + ", isGameOver=" + isGameOver + "]";
+	}
+
+
+
 	public boolean isLastHitted() {
 		return lastHitted;
 	}

@@ -14,7 +14,8 @@ public abstract class Actor implements Comparable<Actor>{
 	private int frameCounter;
 	private boolean active;
 	private Rectangle rect = new Rectangle();
-	private int rectDimension = 28;
+	private int rectWidthDimension = 28;
+	private int rectHeightDimension = 28;
 	
 
 
@@ -33,9 +34,9 @@ public abstract class Actor implements Comparable<Actor>{
 		setFrameCounter(0);}
 
 	public void setRectangle() {
-		int offsetX = (WIDTH-rectDimension)/2 ;
-		int offsetY = (HEIGHT-rectDimension)/2 ;
-		rect.setRect(posX+offsetX, posY+offsetY, rectDimension,rectDimension);
+		int offsetX = (WIDTH-rectWidthDimension)/2 ;
+		int offsetY = (HEIGHT-rectHeightDimension)/2 ;
+		rect.setRect(posX+offsetX, posY+offsetY, rectWidthDimension,rectHeightDimension);
 	}
 	
 	
@@ -91,12 +92,21 @@ public abstract class Actor implements Comparable<Actor>{
 	}
 
 
-	public void setRectDimension(int rectDimension) {
-		this.rectDimension = rectDimension;
+
+	public int getRectWidthDimension() {
+		return rectWidthDimension;
 	}
 
-	public int getRectDimension() {
-		return rectDimension;
+	public void setRectWidthDimension(int rectWidthDimension) {
+		this.rectWidthDimension = rectWidthDimension;
+	}
+
+	public int getRectHeightDimension() {
+		return rectHeightDimension;
+	}
+
+	public void setRectHeightDimension(int rectHeightDimension) {
+		this.rectHeightDimension = rectHeightDimension;
 	}
 
 	public static int getWidth() {

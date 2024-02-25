@@ -18,7 +18,6 @@ import main.controller.PlayerManager;
 import main.model.Model;
 import main.model.Player;
 import main.model.actors.Actor;
-import main.view.panels.Altropanel;
 import main.view.panels.GamePanel;
 import main.view.panels.MenuPanel;
 import main.view.panels.PausePanel;
@@ -29,8 +28,7 @@ public class View implements Observer {
 	static private View instance;
 	private InputSystem inputSystem;
 	private JFrame frame;
-	private JPanel panel;
-	public Altropanel altro;
+	//private JPanel panel;
 	private static PlaaaaaaaaayerPanel plaaaaaaaaayerPanel;
 	private static GamePanel gamePanel;
 	private static MenuPanel menuPanel;
@@ -49,7 +47,6 @@ public class View implements Observer {
 	private View() {
 		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(screenWidth, screenHeight));
-		altro = new Altropanel();
 		gamePanel = new GamePanel();
 		menuPanel = new MenuPanel();
 		pausePanel = new PausePanel();
@@ -111,20 +108,14 @@ public class View implements Observer {
 		if(playerPanel.getGroup().getSelection()==null) {
 			playerPanel.getErrorsText().setText("Seleziona un personaggio");
 			playerPanel.getErrorsText().setVisible(true);
-			System.out.println("ciao2");
 		}
-		
 		else if(playerPanel.getPlayerName().getText().isEmpty()) {
 			playerPanel.getErrorsText().setText("Inserisci un nickname");
 			playerPanel.getErrorsText().setVisible(true);
-			System.out.println("ciao");}
-		
+			}
 		else {
 			String nickname = playerPanel.getPlayerName().getText();
 			String avatar = playerPanel.getGroup().getSelection().getActionCommand();
-			System.out.println(nickname);
-			System.out.println(avatar);
-
 			Player p = PlayerManager.getInstance().createPlayer(nickname, avatar);
 			if(p== null) {
 				playerPanel.getErrorsText().setText("Player già esistente");
@@ -147,6 +138,11 @@ public class View implements Observer {
 
 	private void loadPlayer() {
 		String id = (String) playerPanel.getTablePlayer().getSelectedValue();
+		if(id==null) {
+			playerPanel.getErrorsText().setText("Seleziona un nickname");
+			playerPanel.getErrorsText().setVisible(true);
+			return;
+		}
 		Player p = PlayerManager.getInstance().loadPlayer(id);
 		Model.getInstance().startGame(p);
 		setPanel(gamePanel);
@@ -160,7 +156,6 @@ public class View implements Observer {
 	private void exitGame() {
 		Model.getInstance().updatePlayerPoints(true);
 		PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
-
 		setPanel(menuPanel);
 		}
 
@@ -170,7 +165,7 @@ public class View implements Observer {
 	}
 
 	private void setPanel(JPanel panel) {
-		this.panel = panel;
+	//	this.panel = panel;
 		frame.setContentPane(panel);
 		frame.revalidate();
 		}
@@ -183,28 +178,12 @@ public class View implements Observer {
 		this.frame = frame;
 	}
 
-//	public InputSystem getInputSystem() {
-//		return inputSystem;
-//	}
-//
-//	public void setInputSystem(InputSystem inputSystem) {
-//		this.inputSystem = inputSystem;
-//	}
-
 	public GamePanel getGamePanel() {
 		return gamePanel;
 	}
 
-	public void setGamePanel(GamePanel gamePanel) {
-		this.gamePanel = gamePanel;
-	}
-
-	public JPanel getPanel() {
-		return panel;
-	}
-
-//	public Model getModel() {
-//		return model;
+//	public JPanel getPanel() {
+//		return panel;
 //	}
 
 	public int getScreenWidth() {

@@ -16,16 +16,12 @@ public class Bomb extends Actor {
 		super(posX, posY);
 		this.strength = strenght;
 		lastTime = System.currentTimeMillis();
-		waitTime = 3000f;
+		waitTime = 3500f;
 		countdown = waitTime;
 		setName("Bomb");
 		setPriority(2);
 		setFrameCounter(0);
 		setActive(true);
-
-		System.out.println(posX);
-		System.out.println(posY);
-		// blast = new ArrayList<Blast>();
 	}
 
 	@Override

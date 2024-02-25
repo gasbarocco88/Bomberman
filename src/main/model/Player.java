@@ -22,6 +22,13 @@ public class Player {
 		this.accumulatedScore = accumulatedScore;
 	}
 
+	@Override
+	public String toString() {
+		return "Player [nickname=" + nickname + ", avatar=" + avatar + ", totGamesPlayed=" + totGamesPlayed
+				+ ", totGamesWon=" + totGamesWon + ", totLevelWon=" + totLevelWon + ", highestScore=" + highestScore
+				+ ", accumulatedScore=" + accumulatedScore + "]";
+	}
+
 	public String getNickname() {
 		return nickname;
 	}

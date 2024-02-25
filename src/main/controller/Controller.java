@@ -44,7 +44,6 @@ public class Controller implements Runnable {
 				lastTime = now;
 				if (delta >= 1) {
 					model.update();
-					// view.repaint();
 					delta = 0;
 				}
 			}

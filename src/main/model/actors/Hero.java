@@ -24,14 +24,16 @@ public class Hero extends DynamicActor {
 		setPriority(10);
 		setFrameCounter(0);
 		setActive(true);
-		setRectDimension(20);
+		setRectHeightDimension(22);
+		setRectWidthDimension(16);
+		setRectangle();
 	}
 
 	public void update() {
 
 		// non fa nessun update se il game è in stato di hitted, lastHitted o game over
 		if (!Model.getInstance().getGame().isHitted() && !Model.getInstance().getGame().isLastHitted()
-				&& !Model.getInstance().getGame().isGameOver()) {
+				&& !Model.getInstance().getGame().isGameOver() &&!Model.getInstance().getGame().isLevelFinish()) {
 
 			// check collisione blast e nemici
 			boolean blastsEnemiesCollision = Model.getInstance().getActors().stream()
@@ -44,11 +46,12 @@ public class Hero extends DynamicActor {
 				// se è l'ultima vita, setta last hitted a true
 				if (Model.getInstance().getGame().getLifes() <= 0) {
 					Model.getInstance().getGame().setLastHitted(true);
+					Model.getInstance().getGame().setHitted(false);
 					Model.getInstance().updatePlayerPoints(true);
 					PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
 				}
 				else {
-					Model.getInstance().loadLevel(Model.getInstance().getGame().getLevelPlaying());
+					//Model.getInstance().loadLevel(Model.getInstance().getGame().getLevelPlaying());
 				}
 
 			}

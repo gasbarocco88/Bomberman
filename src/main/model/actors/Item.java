@@ -13,6 +13,9 @@ public class Item extends Actor {
 		setPriority(1);
 		setFrameCounter(0);
 		setActive(true);
+		setRectHeightDimension(16);
+		setRectWidthDimension(16);
+		setRectangle();
 	}
 
 	@Override
@@ -44,14 +47,10 @@ public class Item extends Actor {
 			case WIN:
 				Model.getInstance().getGame().setLevelFinish(true);
 				Model.getInstance().getGame().setScore(Model.getInstance().getGame().getScore()+1000);
-				//Model.getInstance().updatePlayerPoints(false);
+				Model.getInstance().updatePlayerPoints(false);
 				if (Model.getInstance().getGame().getLevelPlaying() == 2) {
-					//PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
-				} //else
-					//Model.getInstance().loadLevel(Model.getInstance().getGame().getLevelPlaying()+1);
-				//	Model.getInstance().getGame().setLevelPlaying(Model.getInstance().getGame().getLevelPlaying() + 1);
-					//System.out.println("livello giocato: ");
-				//	System.out.println(Model.getInstance().getGame().getLevelPlaying());
+					PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
+				}
 				break;
 
 			default:

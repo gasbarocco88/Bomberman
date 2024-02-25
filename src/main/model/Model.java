@@ -29,7 +29,6 @@ public class Model extends Observable {
 			instance = new Model();
 		}
 		return instance;
-
 	}
 
 	private Model() {
@@ -61,10 +60,10 @@ public class Model extends Observable {
 		// 4 angoli di actor a
 		Point upperLeft = new Point((int)a.getRect().getX(),
 									(int) a.getRect().getY());
-		Point upperRight = new Point((int)a.getRect().getX()+a.getRectDimension(),
+		Point upperRight = new Point((int)a.getRect().getX()+a.getRectWidthDimension(),
 									(int) a.getRect().getY());
-		Point bottomLeft = new Point((int)a.getRect().getX(),(int) a.getRect().getY()+a.getRectDimension());
-		Point bottomRight = new Point((int)a.getRect().getX()+a.getRectDimension(),(int) a.getRect().getY()+a.getRectDimension());
+		Point bottomLeft = new Point((int)a.getRect().getX(),(int) a.getRect().getY()+a.getRectHeightDimension());
+		Point bottomRight = new Point((int)a.getRect().getX()+a.getRectWidthDimension(),(int) a.getRect().getY()+a.getRectHeightDimension());
 		
 		switch(d) {
 		case UP:
@@ -97,11 +96,9 @@ public class Model extends Observable {
 		this.game = new Game();
 		this.game.setPlayer(player);
 		loadLevel(1);
-		System.out.println("");
-		System.out.println(game.getLevelPlaying());
-		System.out.println(game.getLifes());
-		System.out.println(game.getScore());
-		System.out.println(game.getPlayer().getNickname());
+		System.out.println("Nuova Partita");
+		System.out.println(game);
+		System.out.println(game.getPlayer());
 	}
 	
 	public void loadLevel(int level) {

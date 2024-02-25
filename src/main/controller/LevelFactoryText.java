@@ -72,10 +72,10 @@ public class LevelFactoryText implements LevelFactory {
 			Wall r = new Wall(x, y, true);
 			return r;
 		case 'A':
-			Enemy ea = new Enemy(x, y, EnemyType.TIPO1);
+			Enemy ea = new Enemy(x, y, EnemyType.GINEW);
 			return ea;
 		case 'B':
-			Enemy eb = new Enemy(x, y, EnemyType.TIPO3);
+			Enemy eb = new Enemy(x, y, EnemyType.FREEZER);
 			return eb;
 		case 'I':
 			Item i = new Item(x, y, ItemType.WIN);

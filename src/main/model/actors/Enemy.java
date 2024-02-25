@@ -24,6 +24,9 @@ public class Enemy extends DynamicActor {
 		lastTime = System.currentTimeMillis();
 		waitTime = 500f;
 		countdown = waitTime;
+		setRectHeightDimension(28);
+		setRectWidthDimension(26);
+		setRectangle();
 	}
 
 	@Override
@@ -39,7 +42,7 @@ public class Enemy extends DynamicActor {
 					.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.ANY));
 			if (blastsCollision) {
 				setActive(false);
-				if (enemyType == EnemyType.TIPO3) {
+				if (enemyType == EnemyType.FREEZER) {
 					Model.getInstance().getGame().setScore(Model.getInstance().getGame().getScore() + 200);
 				} else {
 					Model.getInstance().getGame().setScore(Model.getInstance().getGame().getScore() + 300);
@@ -48,7 +51,7 @@ public class Enemy extends DynamicActor {
 			}
 
 			// collisione con bombe, altri nemici e muri
-			if (enemyType == EnemyType.TIPO1 || enemyType == EnemyType.TIPO2) {
+			if (enemyType == EnemyType.GINEW || enemyType == EnemyType.JEETH) {
 				ArrayList<Actor> wallsBombsEnemy = Model.getInstance().getActors().stream()
 						.filter(actor -> actor.getName() == "Wall" || actor.getName() == "Rock"
 								|| actor.getName() == "Bomb" || actor.getName() == "Enemy")
@@ -96,14 +99,14 @@ public class Enemy extends DynamicActor {
 	}
 	
 	private void setPriorityByEnemyType(EnemyType enemyType) {
-		if (enemyType == EnemyType.TIPO3) {
+		if (enemyType == EnemyType.FREEZER) {
 			setPriority(5);
 		} else
 			setPriority(4);
 	}
 
 	private void setDirectionAndSpeedByEnemyType(EnemyType enemyType) {
-		if (enemyType == EnemyType.TIPO1) {
+		if (enemyType == EnemyType.GINEW) {
 			setDirection(Direction.RIGHT);
 			setSpeed(getSpeed() + 1);
 		} else {
@@ -112,7 +115,7 @@ public class Enemy extends DynamicActor {
 	}
 
 	public enum EnemyType {
-		TIPO1, TIPO2, TIPO3
+		GINEW, JEETH, FREEZER
 	}
 
 	public EnemyType getEnemyType() {

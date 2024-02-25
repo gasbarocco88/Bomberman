@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -39,6 +40,8 @@ public class PlayerPanel extends JPanel {
 	private JButton backMenuButton;
 	private JList tablePlayer;
 	private JTable tableRanking;
+	private JScrollPane scrollPaneRanking;
+	private JScrollPane scrollPanePlayer;
 
 	public PlayerPanel() {
 
@@ -52,15 +55,15 @@ public class PlayerPanel extends JPanel {
 	private void setButtons() {
 		group = new ButtonGroup();
 		gokuButton = new JToggleButton("Goku");
-		gokuButton.setActionCommand("Goku");
+		gokuButton.setActionCommand("goku");
 		gokuButton.setBounds(244, 30, 154, 120);
 
 		vegetaButton = new JToggleButton("Vegeta");
-		vegetaButton.setActionCommand("Vegeta");
+		vegetaButton.setActionCommand("vegeta");
 		vegetaButton.setBounds(576, 30, 154, 120);
 
 		piccoloButton = new JToggleButton("Piccolo");
-		piccoloButton.setActionCommand("Piccolo");
+		piccoloButton.setActionCommand("piccolo");
 		piccoloButton.setBounds(410, 30, 154, 120);
 
 		group.add(gokuButton);
@@ -90,14 +93,6 @@ public class PlayerPanel extends JPanel {
 
 		playerName = new JTextField();
 		playerName.setBounds(42, 110, 162, 25);
-		playerName.setColumns(2);
-//		playerName.addFocusListener(new FocusListener() {
-//		    public void focusGained(FocusEvent e) {
-//		    	playerName.setText("");
-//		    }
-//		    public void focusLost(FocusEvent e) {
-//		    }
-//		});
 		add(playerName);
 
 		errorsText = new JTextField("Player already exist!");
@@ -107,14 +102,26 @@ public class PlayerPanel extends JPanel {
 
 		tablePlayer = new JList();
 		tablePlayer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tablePlayer.setBounds(42, 275, 162, 265);
-		add(tablePlayer);
+		//tablePlayer.setBounds(42, 275, 162, 265);
+		//add(tablePlayer);
 
 		tableRanking = new JTable();
-		tableRanking.setBounds(244, 275, 486, 265);
+		tableRanking.setDefaultEditor(Object.class, null);
+		//tableRanking.setBounds(244, 275, 486, 265);
 		tableRanking.setRowSelectionAllowed(false);
 		tableRanking.setShowGrid(false);
-		add(tableRanking);
+		tableRanking.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+//		add(tableRanking);
+		
+		scrollPaneRanking= new JScrollPane(tableRanking);
+		scrollPaneRanking.setVisible(true);
+		scrollPaneRanking.setBounds(244, 275, 486, 265);
+        add(scrollPaneRanking);
+        
+        scrollPanePlayer= new JScrollPane(tablePlayer);
+        scrollPanePlayer.setVisible(true);
+        scrollPanePlayer.setBounds(42, 275, 162, 265);
+        add(scrollPanePlayer);
 	}
 
 	public JButton getBackMenuButton() {
