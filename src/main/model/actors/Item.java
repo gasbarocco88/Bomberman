@@ -32,13 +32,16 @@ public class Item extends Actor {
 			
 			switch (itemType) {
 			case SPEED:
+				if(hero.getSpeed()<3)
 				hero.setSpeed(hero.getSpeed() + 1);
 				break;
 			case BOMBNUM:
+				if(hero.getMaxBombs()<3)
 				hero.setMaxBombs(hero.getMaxBombs() + 1);
 				break;
 			case BOMBSTRENGHT:
-				hero.setBombStrenght(hero.getBombStrenght() + 2);
+				if (hero.getBombStrenght()<5)
+				hero.setBombStrenght(hero.getBombStrenght() + 1);
 				break;
 			case LIFE:
 				int currentLifes = Model.getInstance().getGame().getLifes();

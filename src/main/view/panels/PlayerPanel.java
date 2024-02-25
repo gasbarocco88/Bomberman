@@ -1,15 +1,20 @@
 package main.view.panels;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,12 +33,10 @@ public class PlayerPanel extends JPanel {
 	private JToggleButton gokuButton;
 	private JToggleButton vegetaButton;
 	private JToggleButton piccoloButton;
-	private ImageIcon gokuImage;
-	private ImageIcon vegetaImage;
-	private ImageIcon piccoloImage;
 	private ButtonGroup group;
 	private JTextField playerName;
-	private JTextField errorsText;
+	private JLabel errorsText;
+	private JLabel rankingText;
 	private JButton newPlayerButton;
 	private JButton loadPlayerButton;
 	private JButton deletePlayerButton;
@@ -42,9 +45,15 @@ public class PlayerPanel extends JPanel {
 	private JTable tableRanking;
 	private JScrollPane scrollPaneRanking;
 	private JScrollPane scrollPanePlayer;
+	private BufferedImage backgroundImage;
 
 	public PlayerPanel() {
-
+		try {
+			backgroundImage = ImageIO.read(new File("/home/rocco/Immagini/giraffa.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
 		setButtons();
 		setDoubleBuffered(true);
 		setFocusable(true);
@@ -56,16 +65,19 @@ public class PlayerPanel extends JPanel {
 		group = new ButtonGroup();
 		gokuButton = new JToggleButton("Goku");
 		gokuButton.setActionCommand("goku");
-		gokuButton.setBounds(244, 30, 154, 120);
+		gokuButton.setBounds(244, 30, 120, 100);
+		gokuButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
 
 		vegetaButton = new JToggleButton("Vegeta");
 		vegetaButton.setActionCommand("vegeta");
-		vegetaButton.setBounds(576, 30, 154, 120);
-
+		vegetaButton.setBounds(586, 30, 120, 100);
+		vegetaButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		
 		piccoloButton = new JToggleButton("Piccolo");
 		piccoloButton.setActionCommand("piccolo");
-		piccoloButton.setBounds(410, 30, 154, 120);
-
+		piccoloButton.setBounds(420, 30, 120, 100);
+		//piccoloButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		
 		group.add(gokuButton);
 		group.add(vegetaButton);
 		group.add(piccoloButton);
@@ -76,32 +88,51 @@ public class PlayerPanel extends JPanel {
 		setLayout(null);
 		
 		newPlayerButton = new JButton("New Player");
-		newPlayerButton.setBounds(66, 58, 117, 40);
+		newPlayerButton.setBounds(66, 30, 120, 40);
+		//startButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
 		add(newPlayerButton);
 
 		loadPlayerButton = new JButton("Load Player");
-		loadPlayerButton.setBounds(66, 215, 117, 40);
+		loadPlayerButton.setBounds(66, 170, 120, 40);
+		//startButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
 		add(loadPlayerButton);
 
 		deletePlayerButton = new JButton("Delete Player");
-		deletePlayerButton.setBounds(200, 215, 117, 40);
+		deletePlayerButton.setBounds(66, 220, 120, 40);
+		//startButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
 		add(deletePlayerButton);
 		
 		backMenuButton  = new JButton("Go Back");
-		backMenuButton.setBounds(0, 215, 117, 40);
+		backMenuButton.setBounds(340, 510, 120, 40);
+		//startButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
 		add(backMenuButton);
 
 		playerName = new JTextField();
-		playerName.setBounds(42, 110, 162, 25);
+		playerName.setBounds(42, 80, 162, 25);
+		playerName.setBackground(new Color(245, 127, 10));
+		playerName.setForeground(Color.black);
+		playerName.setFont(new Font("Ink Free", Font.BOLD, 12));
 		add(playerName);
 
-		errorsText = new JTextField("Player already exist!");
-		errorsText.setBounds(42, 147, 162, 25);
+		rankingText = new JLabel("Ranking");
+		rankingText.setBounds(350, 105, 350, 250);
+		rankingText.setFont(new Font("Ink Free", Font.BOLD, 60));
+		rankingText.setForeground(new Color(245, 127, 10));
+		rankingText.setVisible(true);
+		add(rankingText);
+
+		
+		errorsText = new JLabel();
+		errorsText.setBounds(42, 110, 200, 25);
+		errorsText.setFont(new Font("Ink Free", Font.BOLD, 12));
+		errorsText.setForeground(new Color(245, 127, 10));
 		errorsText.setVisible(false);
 		add(errorsText);
 
 		tablePlayer = new JList();
 		tablePlayer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablePlayer.setBackground(new Color(245, 127, 10));
+		tablePlayer.setFont(new Font("Ink Free", Font.BOLD, 12));
 		//tablePlayer.setBounds(42, 275, 162, 265);
 		//add(tablePlayer);
 
@@ -111,17 +142,22 @@ public class PlayerPanel extends JPanel {
 		tableRanking.setRowSelectionAllowed(false);
 		tableRanking.setShowGrid(false);
 		tableRanking.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-//		add(tableRanking);
+		tableRanking.setBackground(new Color(245, 127, 10));
+		tableRanking.setFont(new Font("Ink Free", Font.BOLD, 12));
+		//		add(tableRanking);
 		
 		scrollPaneRanking= new JScrollPane(tableRanking);
 		scrollPaneRanking.setVisible(true);
-		scrollPaneRanking.setBounds(244, 275, 486, 265);
+		scrollPaneRanking.setBounds(244, 275, 500, 220);
+		
         add(scrollPaneRanking);
         
         scrollPanePlayer= new JScrollPane(tablePlayer);
         scrollPanePlayer.setVisible(true);
-        scrollPanePlayer.setBounds(42, 275, 162, 265);
+        scrollPanePlayer.setBounds(42, 275, 180, 220);
         add(scrollPanePlayer);
+        
+        
 	}
 
 	public JButton getBackMenuButton() {
@@ -190,29 +226,6 @@ public class PlayerPanel extends JPanel {
 		this.piccoloButton = piccoloButton;
 	}
 
-	public ImageIcon getGokuImage() {
-		return gokuImage;
-	}
-
-	public void setGokuImage(ImageIcon gokuImage) {
-		this.gokuImage = gokuImage;
-	}
-
-	public ImageIcon getVegetaImage() {
-		return vegetaImage;
-	}
-
-	public void setVegetaImage(ImageIcon vegetaImage) {
-		this.vegetaImage = vegetaImage;
-	}
-
-	public ImageIcon getPiccoloImage() {
-		return piccoloImage;
-	}
-
-	public void setPiccoloImage(ImageIcon piccoloImage) {
-		this.piccoloImage = piccoloImage;
-	}
 
 	public ButtonGroup getGroup() {
 		return group;
@@ -230,11 +243,11 @@ public class PlayerPanel extends JPanel {
 		this.playerName = playerName;
 	}
 
-	public JTextField getErrorsText() {
+	public JLabel getErrorsText() {
 		return errorsText;
 	}
 
-	public void setErrorsText(JTextField errorsText) {
+	public void setErrorsText(JLabel errorsText) {
 		this.errorsText = errorsText;
 	}
 
@@ -265,6 +278,6 @@ public class PlayerPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
+		g.drawImage(backgroundImage, 0, 0, this);
 	}
 }

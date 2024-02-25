@@ -21,15 +21,12 @@ import main.model.actors.Actor;
 import main.view.panels.GamePanel;
 import main.view.panels.MenuPanel;
 import main.view.panels.PausePanel;
-import main.view.panels.PlaaaaaaaaayerPanel;
 import main.view.panels.PlayerPanel;
 
 public class View implements Observer {
 	static private View instance;
 	private InputSystem inputSystem;
 	private JFrame frame;
-	//private JPanel panel;
-	private static PlaaaaaaaaayerPanel plaaaaaaaaayerPanel;
 	private static GamePanel gamePanel;
 	private static MenuPanel menuPanel;
 	private static PausePanel pausePanel;
@@ -106,11 +103,11 @@ public class View implements Observer {
 	private void createPlayer() {
 	
 		if(playerPanel.getGroup().getSelection()==null) {
-			playerPanel.getErrorsText().setText("Seleziona un personaggio");
+			playerPanel.getErrorsText().setText("Seleziona un personaggio!!");
 			playerPanel.getErrorsText().setVisible(true);
 		}
 		else if(playerPanel.getPlayerName().getText().isEmpty()) {
-			playerPanel.getErrorsText().setText("Inserisci un nickname");
+			playerPanel.getErrorsText().setText("Inserisci un nickname!!");
 			playerPanel.getErrorsText().setVisible(true);
 			}
 		else {
@@ -118,11 +115,12 @@ public class View implements Observer {
 			String avatar = playerPanel.getGroup().getSelection().getActionCommand();
 			Player p = PlayerManager.getInstance().createPlayer(nickname, avatar);
 			if(p== null) {
-				playerPanel.getErrorsText().setText("Player già esistente");
+				playerPanel.getErrorsText().setText("Player già esistente!!!");
 				playerPanel.getErrorsText().setVisible(true);
+				System.out.println("siamo qui");
 			}
-			else Model.getInstance().startGame(p);
-			setPanel(gamePanel);
+			else {Model.getInstance().startGame(p);
+			setPanel(gamePanel);}
 		}
 		
 
@@ -181,10 +179,6 @@ public class View implements Observer {
 	public GamePanel getGamePanel() {
 		return gamePanel;
 	}
-
-//	public JPanel getPanel() {
-//		return panel;
-//	}
 
 	public int getScreenWidth() {
 		return screenWidth;
