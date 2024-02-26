@@ -5,7 +5,8 @@ Jack,piccolo,11,1,4,4100,12900
 ww,piccolo,2,0,0,0,0
 cc,goku,0,0,0,0,0
 wdwddw,goku,1,0,0,0,0
-Mirko dalle Marche,goku,12,5,12,3500,19000
+Mirko dalle Marche,goku,13,5,12,3500,19000
 wdwddwefef,goku,1,0,0,0,0
-Rocco,piccolo,11,4,11,3100,16200
+fbsb,goku,2,0,0,0,0
+Rocco,piccolo,12,4,12,3100,17900
 wwww,piccolo,11,1,3,6800,11050

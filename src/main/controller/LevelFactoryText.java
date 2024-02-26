@@ -35,7 +35,16 @@ public class LevelFactoryText implements LevelFactory {
 				char c = (char) ch;
 				if (c == '-') {
 					x += Actor.getWidth();
-				} else if (c != '\n') {
+				} 
+				else if(c=='\r') {
+					continue;
+				}
+				else if(c=='\n') {
+					x = 0;
+					y += Actor.getHeight();
+				}
+				
+				else {
 
 					Actor actor = createActor(c, x, y);
 					if (actor instanceof Item) {
@@ -45,10 +54,7 @@ public class LevelFactoryText implements LevelFactory {
 						actors.add(actor);
 					}
 					x += Actor.getWidth();
-				} else {
-					x = 0;
-					y += Actor.getHeight();
-				}
+				} 
 
 			}
 			reader.close();

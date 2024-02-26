@@ -20,11 +20,11 @@ public class PausePanel extends JPanel {
 
 		resumeButton = new JButton("Continue");
 		resumeButton.setBounds(300, 270, 100, 70);
-		// resumeButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		resumeButton.setIcon(new ImageIcon("./src/main/resources/images/button/yes.png"));
 		this.add(resumeButton);
 		exitButton = new JButton("Exit");
 		exitButton.setBounds(420, 270, 100, 70);
-		// exitButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		exitButton.setIcon(new ImageIcon("./src/main/resources/images/button/no.png"));
 		this.add(exitButton);
 		this.setDoubleBuffered(true);
 		setFocusable(true);

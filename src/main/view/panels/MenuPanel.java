@@ -21,17 +21,17 @@ public class MenuPanel extends JPanel {
 	
 	public MenuPanel() {
 		try {
-			backgroundImage = ImageIO.read(new File("/home/rocco/Immagini/giraffa.jpg"));
+			backgroundImage = ImageIO.read(new File("./src/main/resources/images/background/menu.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		};
 		startButton = new JButton("New Game");
 		startButton.setBounds(150, 400, 200, 70);
-		//startButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		startButton.setIcon(new ImageIcon("./src/main/resources/images/button/newgame.png"));
 		quitButton = new JButton("Quit");
 		quitButton.setBounds(450, 400, 200, 70);
-		// quitButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		 quitButton.setIcon(new ImageIcon("./src/main/resources/images/button/quit.png"));
 		this.add(startButton);
 		this.add(quitButton);
 		this.setDoubleBuffered(true);

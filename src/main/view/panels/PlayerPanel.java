@@ -49,7 +49,7 @@ public class PlayerPanel extends JPanel {
 
 	public PlayerPanel() {
 		try {
-			backgroundImage = ImageIO.read(new File("/home/rocco/Immagini/giraffa.jpg"));
+			backgroundImage = ImageIO.read(new File("./src/main/resources/images/background/player.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,17 +66,17 @@ public class PlayerPanel extends JPanel {
 		gokuButton = new JToggleButton("Goku");
 		gokuButton.setActionCommand("goku");
 		gokuButton.setBounds(244, 30, 120, 100);
-		gokuButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		gokuButton.setIcon(new ImageIcon("./src/main/resources/images/button/goku.png"));
 
 		vegetaButton = new JToggleButton("Vegeta");
 		vegetaButton.setActionCommand("vegeta");
 		vegetaButton.setBounds(586, 30, 120, 100);
-		vegetaButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		vegetaButton.setIcon(new ImageIcon("./src/main/resources/images/button/vegeta.png"));
 		
 		piccoloButton = new JToggleButton("Piccolo");
 		piccoloButton.setActionCommand("piccolo");
 		piccoloButton.setBounds(420, 30, 120, 100);
-		//piccoloButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		piccoloButton.setIcon(new ImageIcon("./src/main/resources/images/button/piccolo.png"));
 		
 		group.add(gokuButton);
 		group.add(vegetaButton);
@@ -89,22 +89,22 @@ public class PlayerPanel extends JPanel {
 		
 		newPlayerButton = new JButton("New Player");
 		newPlayerButton.setBounds(66, 30, 120, 40);
-		//startButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		newPlayerButton.setIcon(new ImageIcon("./src/main/resources/images/button/create.png"));
 		add(newPlayerButton);
 
 		loadPlayerButton = new JButton("Load Player");
 		loadPlayerButton.setBounds(66, 170, 120, 40);
-		//startButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		loadPlayerButton.setIcon(new ImageIcon("./src/main/resources/images/button/load.png"));
 		add(loadPlayerButton);
 
 		deletePlayerButton = new JButton("Delete Player");
 		deletePlayerButton.setBounds(66, 220, 120, 40);
-		//startButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		deletePlayerButton.setIcon(new ImageIcon("./src/main/resources/images/button/delete.png"));
 		add(deletePlayerButton);
 		
 		backMenuButton  = new JButton("Go Back");
 		backMenuButton.setBounds(340, 510, 120, 40);
-		//startButton.setIcon(new ImageIcon("/home/rocco/Immagini/goku.jpg"));
+		backMenuButton.setIcon(new ImageIcon("./src/main/resources/images/button/back.png"));
 		add(backMenuButton);
 
 		playerName = new JTextField();
