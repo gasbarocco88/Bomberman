@@ -7,14 +7,14 @@ public class Controller implements Runnable {
 	private final Model model;
 	private final View view;
 	private final InputSystem inputSystem;
+	//private final AudioManager audioManager;
 	long oldTime = System.currentTimeMillis();
 	Thread gameThread;
 
-	/**
-	 * Constructor of Controller Class
-	 */
+
 	public Controller() {
 		inputSystem = new InputSystem();
+		AudioManager.getInstance();
 		PlayerManager.getInstance();
 		model = Model.getInstance();
 		model.setInputSystem(inputSystem);
@@ -22,7 +22,7 @@ public class Controller implements Runnable {
 		view.getFrame().addKeyListener(inputSystem);
 		model.addObserver(view);
 	}
-
+	
 	public void startThread() {
 		gameThread = new Thread(this);
 		gameThread.start();

@@ -2,6 +2,7 @@ package main.model.actors;
 
 import java.util.ArrayList;
 
+import main.controller.AudioManager;
 import main.model.Model;
 
 public class Bomb extends Actor {
@@ -36,6 +37,7 @@ public class Bomb extends Actor {
 					.findFirst().orElseThrow();
 			h.setBombsCreated(h.getBombsCreated() - 1);
 			createBlasts();
+			AudioManager.getInstance().play("blast.wav",false);
 		}
 
 		updateFrameCounter();

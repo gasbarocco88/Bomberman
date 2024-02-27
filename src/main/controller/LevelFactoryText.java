@@ -20,12 +20,11 @@ import main.model.actors.Wall;
 
 public class LevelFactoryText implements LevelFactory {
 
-
 	public CopyOnWriteArrayList<Actor> loadLevel(int level) {
 		CopyOnWriteArrayList<Actor> actors = new CopyOnWriteArrayList<Actor>();
 		BufferedReader reader;
 		String path = MessageFormat
-				.format("/home/rocco/Documenti/università/bombermanWindow/src/main/resources/level_{0}.txt", level);
+				.format("./src/main/resources/level_{0}.txt", level);
 		try {
 			reader = new BufferedReader(new FileReader(path));
 			int ch;

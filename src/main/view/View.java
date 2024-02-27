@@ -1,23 +1,15 @@
 package main.view;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.text.PlainDocument;
 
-import main.controller.InputSystem;
-import main.controller.LevelFactoryText;
+import main.controller.AudioManager;
 import main.controller.PlayerManager;
 import main.model.Model;
 import main.model.Player;
-import main.model.actors.Actor;
 import main.view.panels.GamePanel;
 import main.view.panels.MenuPanel;
 import main.view.panels.PausePanel;
@@ -25,13 +17,11 @@ import main.view.panels.PlayerPanel;
 
 public class View implements Observer {
 	static private View instance;
-	private InputSystem inputSystem;
 	private JFrame frame;
 	private static GamePanel gamePanel;
 	private static MenuPanel menuPanel;
 	private static PausePanel pausePanel;
 	private static PlayerPanel playerPanel;
-
 	final int screenWidth = 800;
 	final int screenHeight = 600;
 
@@ -42,6 +32,7 @@ public class View implements Observer {
 	}
 
 	private View() {
+		AudioManager.getInstance().play("musicMenu.wav", true);
 		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		gamePanel = new GamePanel();
@@ -55,14 +46,12 @@ public class View implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		
 		if (Model.getInstance().getGame().isGameOver()) {
 			Model.getInstance().getGame().setGameOver(false);
 			Model.getInstance().getGame().setLevelPlaying(1);
+			AudioManager.getInstance().switchMusic("musicMenu.wav",true);
 			setPanel(menuPanel);
 		}
-
-
 		if (!Model.getInstance().getGame().isRunning()) {
 			setPanel(pausePanel);
 		}
@@ -83,17 +72,15 @@ public class View implements Observer {
 	private void addActionListeners() {
 		menuPanel.getStartButton().addActionListener(e -> refreshPlayerPanel());
 		menuPanel.getQuitButton().addActionListener(e -> System.exit(0));
-	
+
 		playerPanel.getNewPlayerButton().addActionListener(e -> createPlayer());
 		playerPanel.getLoadPlayerButton().addActionListener(e -> loadPlayer());
-		playerPanel.getDeletePlayerButton().addActionListener(e-> deletePlayer());
-		playerPanel.getBackMenuButton().addActionListener(e->setPanel(menuPanel) );
-
+		playerPanel.getDeletePlayerButton().addActionListener(e -> deletePlayer());
+		playerPanel.getBackMenuButton().addActionListener(e -> setPanel(menuPanel));
 
 		pausePanel.getResumeButton().addActionListener(e -> resumeAction());
 		pausePanel.getExitButton().addActionListener(e -> exitGame());
 	}
-
 
 	private void refreshPlayerPanel() {
 		playerPanel.importPlayers();
@@ -101,42 +88,37 @@ public class View implements Observer {
 	}
 
 	private void createPlayer() {
-	
-		if(playerPanel.getGroup().getSelection()==null) {
+		if (playerPanel.getGroup().getSelection() == null) {
 			playerPanel.getErrorsText().setText("Seleziona un personaggio!!");
 			playerPanel.getErrorsText().setVisible(true);
-		}
-		else if(playerPanel.getPlayerName().getText().isEmpty()) {
+		} else if (playerPanel.getPlayerName().getText().isEmpty()) {
 			playerPanel.getErrorsText().setText("Inserisci un nickname!!");
 			playerPanel.getErrorsText().setVisible(true);
-			}
-		else {
+		} else {
 			String nickname = playerPanel.getPlayerName().getText();
 			String avatar = playerPanel.getGroup().getSelection().getActionCommand();
 			Player p = PlayerManager.getInstance().createPlayer(nickname, avatar);
-			if(p== null) {
+			if (p == null) {
 				playerPanel.getErrorsText().setText("Player già esistente!!!");
 				playerPanel.getErrorsText().setVisible(true);
-				System.out.println("siamo qui");
+			} else {
+				Model.getInstance().startGame(p);
+				setPanel(gamePanel);
 			}
-			else {Model.getInstance().startGame(p);
-			setPanel(gamePanel);}
 		}
-		
-
 	}
-	
+
 	private void deletePlayer() {
-		if(playerPanel.getTablePlayer().getSelectedValue()!=null) {
+		if (playerPanel.getTablePlayer().getSelectedValue() != null) {
 			String x = (String) playerPanel.getTablePlayer().getSelectedValue();
 			PlayerManager.getInstance().deletePlayer(x);
 			playerPanel.importPlayers();
-		};
+		}
 	}
 
 	private void loadPlayer() {
 		String id = (String) playerPanel.getTablePlayer().getSelectedValue();
-		if(id==null) {
+		if (id == null) {
 			playerPanel.getErrorsText().setText("Seleziona un nickname");
 			playerPanel.getErrorsText().setVisible(true);
 			return;
@@ -150,23 +132,22 @@ public class View implements Observer {
 		Model.getInstance().getGame().setRunning(true);
 		setPanel(gamePanel);
 	}
-	
+
 	private void exitGame() {
 		Model.getInstance().updatePlayerPoints(true);
 		PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
+		AudioManager.getInstance().switchMusic("musicMenu.wav",true);
 		setPanel(menuPanel);
-		}
+	}
 
 	public void repaint() {
 		frame.repaint();
-
 	}
 
 	private void setPanel(JPanel panel) {
-	//	this.panel = panel;
 		frame.setContentPane(panel);
 		frame.revalidate();
-		}
+	}
 
 	public JFrame getFrame() {
 		return frame;

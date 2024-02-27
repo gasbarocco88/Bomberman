@@ -103,9 +103,11 @@ public class GamePanel extends JPanel {
 		if (!Model.getInstance().getGame().isGameOver()) {
 			//draw background and stats
 			if(Model.getInstance().getGame().getLevelPlaying()==1) {
-			g.drawImage(levelOneBackgroundImage, 0, 0, this); }
+			g.drawImage(levelOneBackgroundImage, 0, 0,View.getInstance().getScreenWidth(),
+					View.getInstance().getScreenHeight(), null); }
 			else {
-				g.drawImage(levelTwoBackgroundImage, 0, 0, this);
+				g.drawImage(levelTwoBackgroundImage, 0, 0,View.getInstance().getScreenWidth(),
+						View.getInstance().getScreenHeight(),null);
 			}
 			drawStats(g);
 
@@ -144,14 +146,14 @@ public class GamePanel extends JPanel {
 
 					Graphics2D g2 = (Graphics2D) g;
 					if (Model.getInstance().getGame().isLastHitted()) {
-						g2.drawImage(gameOverImage, 0, -150, View.getInstance().getScreenWidth(),
-								View.getInstance().getScreenWidth(), null);
+						g2.drawImage(gameOverImage, 0, 0, View.getInstance().getScreenWidth(),
+								View.getInstance().getScreenHeight(), null);
 					} else if (Model.getInstance().getGame().isLevelFinish()) {
-						g2.drawImage(levelWonImage, 0, -50, View.getInstance().getScreenWidth(),
-								View.getInstance().getScreenWidth(), null);
+						g2.drawImage(levelWonImage, 0, 0, View.getInstance().getScreenWidth(),
+								View.getInstance().getScreenHeight(), null);
 					} else {
-						g2.drawImage(hittedImage, 0, -50, View.getInstance().getScreenWidth(),
-								View.getInstance().getScreenWidth(), null);
+						g2.drawImage(hittedImage, 0, 0, View.getInstance().getScreenWidth(),
+								View.getInstance().getScreenHeight(), null);
 
 					}
 					counter += 1;

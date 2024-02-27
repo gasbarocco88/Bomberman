@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import main.controller.AudioManager;
 import main.controller.InputSystem;
 import main.controller.PlayerManager;
 import main.model.Model;
 
 public class Hero extends DynamicActor {
-	private int maxBombs = 3;
+	private int maxBombs = 1;
 	private int bombsCreated = 0;
-	private int bombStrenght = 3;
+	private int bombStrenght = 2;
 	// attack timer
 	private long lastTime;
 	private long countdown;
@@ -45,12 +46,15 @@ public class Hero extends DynamicActor {
 				Model.getInstance().getGame().setLifes(Model.getInstance().getGame().getLifes() - 1);
 				// se è l'ultima vita, setta last hitted a true
 				if (Model.getInstance().getGame().getLifes() <= 0) {
+					AudioManager.getInstance().play("gameOver.wav",false);
+					
 					Model.getInstance().getGame().setLastHitted(true);
 					Model.getInstance().getGame().setHitted(false);
 					Model.getInstance().updatePlayerPoints(true);
 					PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
 				}
 				else {
+					AudioManager.getInstance().play("hitted.wav",false);
 					//Model.getInstance().loadLevel(Model.getInstance().getGame().getLevelPlaying());
 				}
 
@@ -61,6 +65,7 @@ public class Hero extends DynamicActor {
 			// creazione bombe
 			if (inputSystem.isSpacePressed() == true) {
 				createBomb();
+				AudioManager.getInstance().play("bomb.wav", false);
 			}
 
 			// tasto pausa

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
+import main.controller.AudioManager;
 import main.controller.InputSystem;
 import main.controller.LevelFactoryText;
 import main.model.actors.Actor;
@@ -96,9 +97,7 @@ public class Model extends Observable {
 		this.game = new Game();
 		this.game.setPlayer(player);
 		loadLevel(1);
-		System.out.println("Nuova Partita");
-		System.out.println(game);
-		System.out.println(game.getPlayer());
+		AudioManager.getInstance().switchMusic("musicGame.wav",true);
 	}
 	
 	public void loadLevel(int level) {

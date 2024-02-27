@@ -1,5 +1,6 @@
 package main.model.actors;
 
+import main.controller.AudioManager;
 import main.controller.PlayerManager;
 import main.model.Model;
 
@@ -28,26 +29,30 @@ public class Item extends Actor {
 			//disattiva item e aumenta il punteggio
 			setActive(false);
 			Model.getInstance().getGame().setScore(Model.getInstance().getGame().getScore()+50);
-			
-			
+						
 			switch (itemType) {
 			case SPEED:
+				AudioManager.getInstance().play("item.wav",false);
 				if(hero.getSpeed()<3)
 				hero.setSpeed(hero.getSpeed() + 1);
 				break;
 			case BOMBNUM:
+				AudioManager.getInstance().play("item.wav",false);
 				if(hero.getMaxBombs()<3)
 				hero.setMaxBombs(hero.getMaxBombs() + 1);
 				break;
 			case BOMBSTRENGHT:
+				AudioManager.getInstance().play("item.wav",false);
 				if (hero.getBombStrenght()<5)
 				hero.setBombStrenght(hero.getBombStrenght() + 1);
 				break;
 			case LIFE:
+				AudioManager.getInstance().play("item.wav",false);
 				int currentLifes = Model.getInstance().getGame().getLifes();
 				Model.getInstance().getGame().setLifes(currentLifes + 1);
 				break;
 			case WIN:
+				AudioManager.getInstance().play("win.wav",false);
 				Model.getInstance().getGame().setLevelFinish(true);
 				Model.getInstance().getGame().setScore(Model.getInstance().getGame().getScore()+1000);
 				Model.getInstance().updatePlayerPoints(false);
