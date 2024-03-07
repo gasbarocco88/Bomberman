@@ -15,6 +15,13 @@ import main.view.panels.MenuPanel;
 import main.view.panels.PausePanel;
 import main.view.panels.PlayerPanel;
 
+/**
+ * Classe singleton che rappresenta la View del pattern MVC; si occupa della
+ * gestione della parte grafica e dei vari menu di gioco. Istanzia un unico
+ * JFrame e tutti i diversi pannelli (menu, game, pause e player) che vengono
+ * switchati ogni volta che ne viene richiesto l'utilizzo. Si occupa di settare
+ * inoltre le funzioni dei vari pulsanti presenti in ciascun pannello.
+ */
 public class View implements Observer {
 	static private View instance;
 	private JFrame frame;
@@ -25,6 +32,11 @@ public class View implements Observer {
 	final int screenWidth = 800;
 	final int screenHeight = 600;
 
+	/**
+	 * Metodo per istanziare la classe View o ricevere l'istanza già creata
+	 * 
+	 * @return l'istanza della classe View
+	 */
 	static public View getInstance() {
 		if (instance == null)
 			instance = new View();
@@ -44,12 +56,18 @@ public class View implements Observer {
 		frameSetUp();
 	};
 
+	/**
+	 * Metodo che viene chiamato ogni volta che il Model notifica il suo cambiamento
+	 * di stato ai propri observer. Viene chiamato il metodo repaint per ridisegnare
+	 * a schermo la nuova situazione di gioco. Nel caso in cui il gioco sia messo in
+	 * pausa o sia game over, viene switchato al rispettivo pannello.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		if (Model.getInstance().getGame().isGameOver()) {
 			Model.getInstance().getGame().setGameOver(false);
 			Model.getInstance().getGame().setLevelPlaying(1);
-			AudioManager.getInstance().switchMusic("musicMenu.wav",true);
+			AudioManager.getInstance().switchMusic("musicMenu.wav", true);
 			setPanel(menuPanel);
 		}
 		if (!Model.getInstance().getGame().isRunning()) {
@@ -136,12 +154,8 @@ public class View implements Observer {
 	private void exitGame() {
 		Model.getInstance().updatePlayerPoints(true);
 		PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
-		AudioManager.getInstance().switchMusic("musicMenu.wav",true);
+		AudioManager.getInstance().switchMusic("musicMenu.wav", true);
 		setPanel(menuPanel);
-	}
-
-	public void repaint() {
-		frame.repaint();
 	}
 
 	private void setPanel(JPanel panel) {
@@ -149,6 +163,7 @@ public class View implements Observer {
 		frame.revalidate();
 	}
 
+	// setters and getters
 	public JFrame getFrame() {
 		return frame;
 	}

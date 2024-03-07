@@ -2,7 +2,6 @@ package main.model.actors;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import main.controller.AudioManager;
@@ -10,6 +9,9 @@ import main.controller.InputSystem;
 import main.controller.PlayerManager;
 import main.model.Model;
 
+/**
+ * Classe che gestisce Hero
+ */
 public class Hero extends DynamicActor {
 	private int maxBombs = 1;
 	private int bombsCreated = 0;
@@ -19,6 +21,13 @@ public class Hero extends DynamicActor {
 	private long countdown;
 	private final long attackCooldown = 400;
 
+	/**
+	 * Costruttore della classe Hero, setta alcune parametri interni quali la
+	 * dimensione del rettangolo delle collisioni, il frame counter etc
+	 * 
+	 * @param posX: coordinata x della posizione dell'attore
+	 * @param posY: coordinata y della posizione dell'attore
+	 */
 	public Hero(int posX, int posY) {
 		super(posX, posY);
 		setName("Hero");
@@ -30,11 +39,18 @@ public class Hero extends DynamicActor {
 		setRectangle();
 	}
 
+	/**
+	 * Metodo chiamato dall'update del model. Esegue il check delle collisioni con
+	 * nemici e esplosioni in modo da gestire la perdita di una vita o della
+	 * partita. Esegue il check delle collisioni con i muri in modo da impedirne il
+	 * movimento. Gestisce gli input in modo da poter spostare il personaggio e
+	 * fargli piazzare la bomba. Aggiorna il frame counter per le animazioni.
+	 */
 	public void update() {
 
 		// non fa nessun update se il game è in stato di hitted, lastHitted o game over
 		if (!Model.getInstance().getGame().isHitted() && !Model.getInstance().getGame().isLastHitted()
-				&& !Model.getInstance().getGame().isGameOver() &&!Model.getInstance().getGame().isLevelFinish()) {
+				&& !Model.getInstance().getGame().isGameOver() && !Model.getInstance().getGame().isLevelFinish()) {
 
 			// check collisione blast e nemici
 			boolean blastsEnemiesCollision = Model.getInstance().getActors().stream()
@@ -46,16 +62,15 @@ public class Hero extends DynamicActor {
 				Model.getInstance().getGame().setLifes(Model.getInstance().getGame().getLifes() - 1);
 				// se è l'ultima vita, setta last hitted a true
 				if (Model.getInstance().getGame().getLifes() <= 0) {
-					AudioManager.getInstance().play("gameOver.wav",false);
-					
+					AudioManager.getInstance().play("gameOver.wav", false);
+
 					Model.getInstance().getGame().setLastHitted(true);
 					Model.getInstance().getGame().setHitted(false);
 					Model.getInstance().updatePlayerPoints(true);
 					PlayerManager.getInstance().updatePlayerStats(Model.getInstance().getGame().getPlayer());
-				}
-				else {
-					AudioManager.getInstance().play("hitted.wav",false);
-					//Model.getInstance().loadLevel(Model.getInstance().getGame().getLevelPlaying());
+				} else {
+					AudioManager.getInstance().play("hitted.wav", false);
+					// Model.getInstance().loadLevel(Model.getInstance().getGame().getLevelPlaying());
 				}
 
 			}

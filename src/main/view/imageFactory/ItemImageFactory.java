@@ -11,6 +11,9 @@ import main.model.actors.Actor;
 import main.model.actors.Item;
 import main.model.actors.Item.ItemType;
 
+/**
+ * Classe che gestisce le immagini di un Item
+ */
 public class ItemImageFactory implements ImageFactory {
 
 	private BufferedImage speed;
@@ -19,6 +22,9 @@ public class ItemImageFactory implements ImageFactory {
 	private BufferedImage life;
 	private BufferedImage win;
 
+	/**
+	 * Costruttore della classe ItemImageFactory, carica le immagini da disco.
+	 */
 	public ItemImageFactory() {
 		try {
 			speed = ImageIO.read(new File("./src/main/resources/images/item/speed.png"));
@@ -32,6 +38,9 @@ public class ItemImageFactory implements ImageFactory {
 		}
 	}
 
+	/**
+	 * Metodo che ritorna l'immagine dell'item a seconda della tipologia
+	 */
 	@Override
 	public BufferedImage returnImage(Actor a) {
 
@@ -40,12 +49,17 @@ public class ItemImageFactory implements ImageFactory {
 		if (a instanceof Item) {
 			Item x = (Item) a;
 
-			if (x.getItemType() == ItemType.SPEED) return speed;
-			else if (x.getItemType() == ItemType.BOMBNUM) return bombnum;
-			else if (x.getItemType() == ItemType.BOMBSTRENGHT) return bombstrenght;
-			else if (x.getItemType() == ItemType.LIFE) return life;
-			else if (x.getItemType() == ItemType.WIN) return win;
-			}
+			if (x.getItemType() == ItemType.SPEED)
+				return speed;
+			else if (x.getItemType() == ItemType.BOMBNUM)
+				return bombnum;
+			else if (x.getItemType() == ItemType.BOMBSTRENGHT)
+				return bombstrenght;
+			else if (x.getItemType() == ItemType.LIFE)
+				return life;
+			else if (x.getItemType() == ItemType.WIN)
+				return win;
+		}
 
 		return null;
 	}

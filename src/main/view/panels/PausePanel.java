@@ -1,6 +1,7 @@
 package main.view.panels;
 
 import java.awt.Color;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,11 +12,18 @@ import javax.swing.JPanel;
 
 import main.view.View;
 
+/**
+ * Classe che gestisce il pannello di Pausa durante una partita
+ */
 public class PausePanel extends JPanel {
 
 	private final JButton resumeButton;
 	private final JButton exitButton;
 
+	/**
+	 * Costruttore della classe PausePanel, istanzia e setta graficamente i bottoni
+	 * del pannello stesso
+	 */
 	public PausePanel() {
 
 		resumeButton = new JButton("Continue");
@@ -40,7 +48,10 @@ public class PausePanel extends JPanel {
 	public JButton getExitButton() {
 		return exitButton;
 	}
-
+	
+	/**
+	 * Metodo di paint del Jpanel, disegna l'immagine di background del pannello
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;

@@ -13,6 +13,16 @@ import java.util.Optional;
 
 import main.model.Player;
 
+/**
+ * Classe singleton che si occupa della gestione dei player e delle loro
+ * statistiche di gioco. Tali informazioni vengono lette, all'istanziamento
+ * della classe, da un file txt, che viene poi sovrascritto con le nuove
+ * statistiche alla fine di ogni partita. Fino a quando la partita non è
+ * conclusa, le statistiche dei giocatori vengono mantenute in una Hashmap
+ * interna, la cui chiave è composta dal nickname+avatar del player; non è
+ * perciò possibile creare un nuovo player che abbia lo stesso nickname e lo
+ * stesso avatar se questa combinazione è stata già utilizzata in precedenza.
+ */
 public class PlayerManager {
 	static private PlayerManager instance;
 	private HashMap<String, Player> playerstats = new HashMap<String, Player>();
@@ -27,7 +37,14 @@ public class PlayerManager {
 		return instance;
 	}
 
-
+	/**
+	 * Metodo per la creazione di un nuovo player, con statistiche azzerate, che
+	 * viene salvato sul file txt.
+	 * 
+	 * @param nickname: il nome del player da creare
+	 * @param avatar:   il personaggio utilizzato dal player
+	 * @return il player appena creato
+	 */
 	public Player createPlayer(String nickname, String avatar) {
 		Player p = null;
 		if (!checkPlayerExist(nickname, avatar)) {
@@ -37,15 +54,28 @@ public class PlayerManager {
 		}
 		return p;
 	}
-	
-	
-	
+
+	/**
+	 * Metodo per l'aggiornamento delle statistiche di un player che vengono salvate
+	 * sul file txt.
+	 * 
+	 * @param p: il player di cui salvare le statistiche
+	 */
 	public void updatePlayerStats(Player p) {
 		String pKey = p.getNickname() + "-" + p.getAvatar();
 		playerstats.put(pKey, p);
 		saveStatsTxt();
 	}
 
+	/**
+	 * Metodo per il caricamento delle statistiche di ciascun player. Viene
+	 * utilizzato nella visualizzazione del ranking dei vari player nel Player
+	 * Panel.
+	 * 
+	 * @return un array di arrays: ciascun array interno contiene tutte le
+	 *         informazioni di un player, questi sono ordinati per punteggio
+	 *         cumulativo
+	 */
 	public String[][] loadRanks() {
 		String[][] players = new String[playerstats.size()][7];
 		int index = 0;
@@ -66,16 +96,28 @@ public class PlayerManager {
 		return players;
 	}
 
+	/**
+	 * Metodo che restituisce il player presente nell'hashmap interna, cercato per id 
+	 * @param id: chiave dell'hashmap costituita da "nome" + "-" + "avatar" 
+	 * @return il player con tutte le sue statistiche
+	 */
 	public Player loadPlayer(String id) {
 		return playerstats.get(id);
 	}
 
+	/**
+	 * Metodo per eliminare un player sia dall'hashmap interna che dal file txt.
+	 * @param id: chiave dell'hashmap costituita da "nome" + "-" + "avatar" 
+	 */
 	public void deletePlayer(String id) {
 		playerstats.remove(id);
 		saveStatsTxt();
 	}
 
-
+	/**
+	 * Metodo per il salvataggio delle statistiche aggiornate; legge le informazioni presenti
+	 * nell'hashmap interna e le converte in un file txt che sovrascrive quello originale.  
+	 */
 	public void saveStatsTxt() {
 		try {
 			PrintWriter writer = new PrintWriter("./src/main/resources/playerStats.txt", "UTF-8");
@@ -110,7 +152,7 @@ public class PlayerManager {
 		}
 
 	}
-	
+
 	private void readStatsTxt() {
 		BufferedReader reader;
 		String path = "./src/main/resources/playerStats.txt";
@@ -146,7 +188,7 @@ public class PlayerManager {
 		}
 		return false;
 	}
-	
+
 	public HashMap<String, Player> getPlayerstats() {
 		return playerstats;
 	}

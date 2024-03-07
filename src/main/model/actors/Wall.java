@@ -1,14 +1,13 @@
 package main.model.actors;
 
-import java.util.ArrayList;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import main.model.Model;
-import main.model.actors.Item;
-import main.model.actors.Enemy.EnemyType;
 import main.model.actors.Item.ItemType;
 
+/**
+ * Classe che gestisce i muri
+ */
 public class Wall extends Actor {
 	private final boolean isDestructible;
 
@@ -24,6 +23,12 @@ public class Wall extends Actor {
 		setRectangle();
 	}
 
+	/**
+	 * Metodo chiamato dall'update del model. Esegue il check delle collisioni con
+	 * un Blast in modo da essere disattivato in cui sia un Wall distruttibile.
+	 * Quando un wall distruttibile viene disattivato, fa spawnare un Item
+	 * randomicamente con una probabilità del 30%.
+	 */
 	@Override
 	public void update() {
 

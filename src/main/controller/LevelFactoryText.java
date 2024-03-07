@@ -18,33 +18,41 @@ import main.model.actors.Item;
 import main.model.actors.Item.ItemType;
 import main.model.actors.Wall;
 
+/**
+ * Classe factory che si occupa della creazione e caricamento di una mappa di
+ * gioco, letta da un file txt.
+ */
 public class LevelFactoryText implements LevelFactory {
 
+	/**
+	 * Metodo per la creazione di un livello di gioco. La tipologia e la posizione
+	 * degli attori da creare viene letta da un file txt e tali informazioni vengono
+	 * passate a un metodo di appoggio che crea effettivamente l'attore. Lo shift
+	 * delle posizioni dei vari attori viene calcolato sulla base della dimensione
+	 * degli attori stessi.
+	 * 
+	 * 
+	 * @param level il numero del livello da caricare
+	 */
 	public CopyOnWriteArrayList<Actor> loadLevel(int level) {
 		CopyOnWriteArrayList<Actor> actors = new CopyOnWriteArrayList<Actor>();
 		BufferedReader reader;
-		String path = MessageFormat
-				.format("./src/main/resources/level_{0}.txt", level);
+		String path = MessageFormat.format("./src/main/resources/level_{0}.txt", level);
 		try {
 			reader = new BufferedReader(new FileReader(path));
 			int ch;
 			int x = 0;
 			int y = 0;
-			while ((ch =reader.read()) != -1) {
+			while ((ch = reader.read()) != -1) {
 				char c = (char) ch;
 				if (c == '-') {
 					x += Actor.getWidth();
-				} 
-				else if(c=='\r') {
+				} else if (c == '\r') {
 					continue;
-				}
-				else if(c=='\n') {
+				} else if (c == '\n') {
 					x = 0;
 					y += Actor.getHeight();
-				}
-				
-				else {
-
+				} else {
 					Actor actor = createActor(c, x, y);
 					if (actor instanceof Item) {
 						actors.add(actor);
@@ -53,18 +61,35 @@ public class LevelFactoryText implements LevelFactory {
 						actors.add(actor);
 					}
 					x += Actor.getWidth();
-				} 
-
+				}
 			}
 			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(actors);
-
 		return actors;
 	}
 
+	/**
+	 * Metodo di appoggio per la creazione degli attori del gioco, rispetta la
+	 * seguente legenda
+	 * 
+	 * H: hero
+	 * W: un muro non distruttibile
+	 * M: un muro distruttibile
+	 * G: nemico Ginew
+	 * F: nemico Freezer
+	 * J: nemico Jeeth
+	 * I: l'item che permette di superare il livello
+	 * -: niente
+	 * 
+	 * @param c il carattere letto dal file txt che rappresenta la tipologia di
+	 *          attore da creare
+	 * @param x la coordinata x della posizione dell'attore
+	 * @param y la coordinata y della posizione dell'attore
+	 * @return l'attore creato
+	 * @throws Exception
+	 */
 	private Actor createActor(char c, int x, int y) throws Exception {
 		switch (c) {
 		case 'H':

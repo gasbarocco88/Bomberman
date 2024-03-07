@@ -1,6 +1,7 @@
 package main.view.panels;
 
 import java.awt.Color;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,15 +14,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import main.controller.PlayerManager;
 import main.model.Model;
 import main.model.actors.Actor;
 import main.model.actors.Blast;
 import main.model.actors.Bomb;
-import main.model.actors.Direction;
-import main.model.actors.Enemy;
-import main.model.actors.Enemy.EnemyType;
 import main.view.View;
 import main.view.imageFactory.BlastImageFactory;
 import main.view.imageFactory.BombImageFactory;
@@ -33,6 +29,9 @@ import main.model.actors.Hero;
 import main.model.actors.Item;
 import main.model.actors.Wall;
 
+/**
+ * Classe che gestisce il pannello di Game durante una partita
+ */
 public class GamePanel extends JPanel {
 	private HeroImageFactory heroImgFactory;
 	private ItemImageFactory itemImgFactory;
@@ -48,6 +47,11 @@ public class GamePanel extends JPanel {
 	private JTextField playerName;
 	private int counter;
 
+	/**
+	 * Costruttore della classe GamePanel, istanzia tutte le classi factory per il
+	 * caricamento delle immagini dei vari attori. Carica inoltre le immagini di
+	 * sfondo per le transizioni tra i livelli o quando si perde una vita
+	 */
 	public GamePanel() {
 		panelSetup();
 		heroImgFactory = new HeroImageFactory();
@@ -56,11 +60,6 @@ public class GamePanel extends JPanel {
 		enemyImgFactory = new EnemyImageFactory();
 		bombImgFactory = new BombImageFactory();
 		blastImgFactory = new BlastImageFactory();
-		playerName = new JTextField("Player already exist!");
-		playerName.setBounds(42, 147, 162, 25);
-		playerName.setVisible(false);
-		add(playerName);
-
 		try {
 			levelOneBackgroundImage = ImageIO.read(new File("./src/main/resources/images/background/level_1.jpg"));
 			levelTwoBackgroundImage = ImageIO.read(new File("./src/main/resources/images/background/level_2.jpg"));
@@ -73,14 +72,14 @@ public class GamePanel extends JPanel {
 		;
 	}
 
-	public void panelSetup() {
+	private void panelSetup() {
 		setOpaque(true);
 		setFocusable(true);
 		setDoubleBuffered(true);
 		requestFocus();
 	}
 
-	public void drawStats(Graphics g) {
+	private void drawStats(Graphics g) {
 		g.setColor(Color.black);
 		g.fillRect(600, 0, 200, View.getInstance().getScreenHeight());
 		g.setColor(Color.white);
@@ -97,20 +96,27 @@ public class GamePanel extends JPanel {
 		g.drawString(String.valueOf(Model.getInstance().getGame().getScore()), 620, 420);
 	}
 
+	/**
+	 * Metodo di paint del Jpanel; disegna l'immagine di ciascun actor ottenuta
+	 * dalla rispettiva factory, disegna inoltre le immagini di sfondo dei livelli e
+	 * quelle di transizione tra un livello e l'altro o dopo la perdita di una vita
+	 * o della partita, e disegna infine alcune statistiche della partita in corso.
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
 		if (!Model.getInstance().getGame().isGameOver()) {
-			//draw background and stats
-			if(Model.getInstance().getGame().getLevelPlaying()==1) {
-			g.drawImage(levelOneBackgroundImage, 0, 0,View.getInstance().getScreenWidth(),
-					View.getInstance().getScreenHeight(), null); }
-			else {
-				g.drawImage(levelTwoBackgroundImage, 0, 0,View.getInstance().getScreenWidth(),
-						View.getInstance().getScreenHeight(),null);
+			// draw background and stats
+			if (Model.getInstance().getGame().getLevelPlaying() == 1) {
+				g.drawImage(levelOneBackgroundImage, 0, 0, View.getInstance().getScreenWidth(),
+						View.getInstance().getScreenHeight(), null);
+			} else {
+				g.drawImage(levelTwoBackgroundImage, 0, 0, View.getInstance().getScreenWidth(),
+						View.getInstance().getScreenHeight(), null);
 			}
 			drawStats(g);
 
+			//draw actors
 			CopyOnWriteArrayList<Actor> actors = Model.getInstance().getActors();
 			Collections.sort(actors);
 
@@ -133,7 +139,7 @@ public class GamePanel extends JPanel {
 				g2.drawImage(img, a.getPosX(), a.getPosY(), Actor.getWidth(), Actor.getHeight(), null);
 			}
 
-			// schermate di transizione
+			// draw schermate di transizione
 			if (Model.getInstance().getGame().isHitted() || Model.getInstance().getGame().isLastHitted()
 					|| Model.getInstance().getGame().isLevelFinish()) {
 
@@ -176,13 +182,9 @@ public class GamePanel extends JPanel {
 						Model.getInstance().getGame().setGameOver(true);
 						Model.getInstance().getGame().setLastHitted(false);
 						Model.getInstance().getGame().setHitted(false);
-
 					}
-
 				}
 			}
 		}
-
 	}
-
 }

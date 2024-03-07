@@ -26,10 +26,14 @@ import javax.swing.table.DefaultTableModel;
 
 import main.controller.PlayerManager;
 import main.model.Player;
+import main.view.View;
 
+/**
+ * Classe che gestisce il pannello di creazione, caricamento, selezione ed
+ * eliminazione del player e di una nuova partita
+ */
 public class PlayerPanel extends JPanel {
 
-	// stringa testo invisibile per errore
 	private JToggleButton gokuButton;
 	private JToggleButton vegetaButton;
 	private JToggleButton piccoloButton;
@@ -47,13 +51,18 @@ public class PlayerPanel extends JPanel {
 	private JScrollPane scrollPanePlayer;
 	private BufferedImage backgroundImage;
 
+	/**
+	 * Costruttore della classe PlayerPanel. Al suo interno vengono anche chiamate
+	 * delle funzioni interne che istanziano e settano graficamente i vari buttons del pannello e
+	 * che caricano le statistiche dei vari player da visualizzare nel ranking
+	 */
 	public PlayerPanel() {
 		try {
-			backgroundImage = ImageIO.read(new File("./src/main/resources/images/background/player.jpg"));
+			backgroundImage = ImageIO.read(new File("./src/main/resources/images/background/title.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		};
+		}
 		setButtons();
 		setDoubleBuffered(true);
 		setFocusable(true);
@@ -72,12 +81,12 @@ public class PlayerPanel extends JPanel {
 		vegetaButton.setActionCommand("vegeta");
 		vegetaButton.setBounds(586, 30, 120, 100);
 		vegetaButton.setIcon(new ImageIcon("./src/main/resources/images/button/vegeta.png"));
-		
+
 		piccoloButton = new JToggleButton("Piccolo");
 		piccoloButton.setActionCommand("piccolo");
 		piccoloButton.setBounds(420, 30, 120, 100);
 		piccoloButton.setIcon(new ImageIcon("./src/main/resources/images/button/piccolo.png"));
-		
+
 		group.add(gokuButton);
 		group.add(vegetaButton);
 		group.add(piccoloButton);
@@ -86,7 +95,7 @@ public class PlayerPanel extends JPanel {
 		add(vegetaButton);
 		add(piccoloButton);
 		setLayout(null);
-		
+
 		newPlayerButton = new JButton("New Player");
 		newPlayerButton.setBounds(66, 30, 120, 40);
 		newPlayerButton.setIcon(new ImageIcon("./src/main/resources/images/button/create.png"));
@@ -101,8 +110,8 @@ public class PlayerPanel extends JPanel {
 		deletePlayerButton.setBounds(66, 220, 120, 40);
 		deletePlayerButton.setIcon(new ImageIcon("./src/main/resources/images/button/delete.png"));
 		add(deletePlayerButton);
-		
-		backMenuButton  = new JButton("Go Back");
+
+		backMenuButton = new JButton("Go Back");
 		backMenuButton.setBounds(340, 510, 120, 40);
 		backMenuButton.setIcon(new ImageIcon("./src/main/resources/images/button/back.png"));
 		add(backMenuButton);
@@ -121,7 +130,6 @@ public class PlayerPanel extends JPanel {
 		rankingText.setVisible(true);
 		add(rankingText);
 
-		
 		errorsText = new JLabel();
 		errorsText.setBounds(42, 110, 200, 25);
 		errorsText.setFont(new Font("Ink Free", Font.BOLD, 12));
@@ -133,41 +141,31 @@ public class PlayerPanel extends JPanel {
 		tablePlayer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablePlayer.setBackground(new Color(245, 127, 10));
 		tablePlayer.setFont(new Font("Ink Free", Font.BOLD, 12));
-		//tablePlayer.setBounds(42, 275, 162, 265);
-		//add(tablePlayer);
 
 		tableRanking = new JTable();
 		tableRanking.setDefaultEditor(Object.class, null);
-		//tableRanking.setBounds(244, 275, 486, 265);
 		tableRanking.setRowSelectionAllowed(false);
 		tableRanking.setShowGrid(false);
 		tableRanking.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		tableRanking.setBackground(new Color(245, 127, 10));
 		tableRanking.setFont(new Font("Ink Free", Font.BOLD, 12));
-		//		add(tableRanking);
-		
-		scrollPaneRanking= new JScrollPane(tableRanking);
+
+		scrollPaneRanking = new JScrollPane(tableRanking);
 		scrollPaneRanking.setVisible(true);
 		scrollPaneRanking.setBounds(244, 275, 500, 220);
-		
-        add(scrollPaneRanking);
-        
-        scrollPanePlayer= new JScrollPane(tablePlayer);
-        scrollPanePlayer.setVisible(true);
-        scrollPanePlayer.setBounds(42, 275, 180, 220);
-        add(scrollPanePlayer);
-        
-        
+
+		add(scrollPaneRanking);
+
+		scrollPanePlayer = new JScrollPane(tablePlayer);
+		scrollPanePlayer.setVisible(true);
+		scrollPanePlayer.setBounds(42, 275, 180, 220);
+		add(scrollPanePlayer);
+
 	}
 
-	public JButton getBackMenuButton() {
-		return backMenuButton;
-	}
-
-	public void setBackMenuButton(JButton backMenuButton) {
-		this.backMenuButton = backMenuButton;
-	}
-
+	/**
+	 * Metodo per il caricamento delle tabelle del ranking e della scelta del player
+	 */
 	public void importPlayers() {
 		HashMap<String, Player> ps = PlayerManager.getInstance().getPlayerstats();
 		String[][] players = PlayerManager.getInstance().loadRanks();
@@ -176,22 +174,30 @@ public class PlayerPanel extends JPanel {
 		Object columnNamesPlayer[] = { "Nickname", "Personaggio" };
 		DefaultTableModel modelRanks = new DefaultTableModel(columnNamesRanks, 0);
 		DefaultListModel<String> modelPlayer = new DefaultListModel<String>();
-
 		for (int i = 0; i < players.length; i++) {
 			modelRanks.addRow(players[i]);
 			modelPlayer.addElement(players[i][0] + "-" + players[i][1]);
 		}
 		tableRanking.setModel(modelRanks);
 		tablePlayer.setModel(modelPlayer);
+	}
 
+	/**
+	 * Metodo di paint del Jpanel, disegna l'immagine di background del pannello
+	 */
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(backgroundImage, 0, 0, View.getInstance().getScreenWidth(), View.getInstance().getScreenHeight(),
+				null);
+	}
+
+	public JButton getBackMenuButton() {
+		return backMenuButton;
 	}
 
 	public JButton getDeletePlayerButton() {
 		return deletePlayerButton;
-	}
-
-	public void setDeletePlayerButton(JButton deletePlayerButton) {
-		this.deletePlayerButton = deletePlayerButton;
 	}
 
 	public JButton getNewPlayerButton() {
@@ -206,78 +212,31 @@ public class PlayerPanel extends JPanel {
 		return gokuButton;
 	}
 
-	public void setGokuButton(JToggleButton gokuButton) {
-		this.gokuButton = gokuButton;
-	}
-
 	public JToggleButton getVegetaButton() {
 		return vegetaButton;
-	}
-
-	public void setVegetaButton(JToggleButton vegetaButton) {
-		this.vegetaButton = vegetaButton;
 	}
 
 	public JToggleButton getPiccoloButton() {
 		return piccoloButton;
 	}
 
-	public void setPiccoloButton(JToggleButton piccoloButton) {
-		this.piccoloButton = piccoloButton;
-	}
-
-
 	public ButtonGroup getGroup() {
 		return group;
-	}
-
-	public void setGroup(ButtonGroup group) {
-		this.group = group;
 	}
 
 	public JTextField getPlayerName() {
 		return playerName;
 	}
 
-	public void setPlayerName(JTextField playerName) {
-		this.playerName = playerName;
-	}
-
 	public JLabel getErrorsText() {
 		return errorsText;
-	}
-
-	public void setErrorsText(JLabel errorsText) {
-		this.errorsText = errorsText;
 	}
 
 	public JList getTablePlayer() {
 		return tablePlayer;
 	}
 
-	public void setTablePlayer(JList tablePlayer) {
-		this.tablePlayer = tablePlayer;
-	}
-
 	public JTable getTableRanking() {
 		return tableRanking;
-	}
-
-	public void setTableRanking(JTable tableRanking) {
-		this.tableRanking = tableRanking;
-	}
-
-	public void setNewPlayerButton(JButton newPlayerButton) {
-		this.newPlayerButton = newPlayerButton;
-	}
-
-	public void setLoadPlayerButton(JButton loadPlayerButton) {
-		this.loadPlayerButton = loadPlayerButton;
-	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawImage(backgroundImage, 0, 0, this);
 	}
 }

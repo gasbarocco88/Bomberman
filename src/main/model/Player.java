@@ -1,6 +1,9 @@
 package main.model;
 
-//implementa observer sul game per aggiornare i risultati una volta finito?
+
+/**
+ * Classe per la gestione di un player e delle sue statistiche.
+ */
 public class Player {
 	private final String nickname;
 	private final String avatar;
@@ -10,6 +13,16 @@ public class Player {
 	private int highestScore;
 	private int accumulatedScore;
 
+	/**
+	 * Costruttore del player
+	 * @param nickname: nome del player
+	 * @param avatar: personaggio scelto
+	 * @param totGamesPlayed: totale delle partite fatte
+	 * @param totGamesWon: totale delle partite vinte
+	 * @param totLevelWon: totale dei livelli di gioco superati
+	 * @param highestScore: massimo punteggio ottenuto in una partita
+	 * @param accumulatedScore: punteggio cumulativo di tutte le partite giocate
+	 */
 	public Player(String nickname, String avatar, int totGamesPlayed, int totGamesWon, int totLevelWon,
 			int highestScore, int accumulatedScore) {
 		super();
@@ -29,6 +42,7 @@ public class Player {
 				+ ", accumulatedScore=" + accumulatedScore + "]";
 	}
 
+	//getters and setters
 	public String getNickname() {
 		return nickname;
 	}

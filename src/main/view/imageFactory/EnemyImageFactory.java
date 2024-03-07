@@ -13,6 +13,9 @@ import main.model.actors.Enemy;
 import main.model.actors.Enemy.EnemyType;
 import main.model.actors.Hero;
 
+/**
+ * Classe che gestisce le immagini dei nemici
+ */
 public class EnemyImageFactory implements ImageFactory {
 
 	private BufferedImage freezerUpOne;
@@ -23,17 +26,20 @@ public class EnemyImageFactory implements ImageFactory {
 	private BufferedImage freezerLeftTwo;
 	private BufferedImage freezerRightOne;
 	private BufferedImage freezerRightTwo;
-	
+
 	private BufferedImage jeethUpOne;
 	private BufferedImage jeethUpTwo;
 	private BufferedImage jeethDownOne;
 	private BufferedImage jeethDownTwo;
-	
+
 	private BufferedImage ginewLeftOne;
 	private BufferedImage ginewLeftTwo;
 	private BufferedImage ginewRightOne;
 	private BufferedImage ginewRightTwo;
-	
+
+	/**
+	 * Costruttore della classe EnemyImageFactory, carica le immagini da disco.
+	 */
 	public EnemyImageFactory() {
 		try {
 			freezerUpOne = ImageIO.read(new File("./src/main/resources/images/enemy/freezer_up_1.png"));
@@ -49,7 +55,7 @@ public class EnemyImageFactory implements ImageFactory {
 			jeethUpTwo = ImageIO.read(new File("./src/main/resources/images/enemy/jeeth_up_2.png"));
 			jeethDownOne = ImageIO.read(new File("./src/main/resources/images/enemy/jeeth_down_1.png"));
 			jeethDownTwo = ImageIO.read(new File("./src/main/resources/images/enemy/jeeth_down_2.png"));
-			
+
 			ginewLeftOne = ImageIO.read(new File("./src/main/resources/images/enemy/ginew_left_1.png"));
 			ginewLeftTwo = ImageIO.read(new File("./src/main/resources/images/enemy/ginew_left_2.png"));
 			ginewRightOne = ImageIO.read(new File("./src/main/resources/images/enemy/ginew_right_1.png"));
@@ -60,6 +66,10 @@ public class EnemyImageFactory implements ImageFactory {
 		}
 	}
 
+	/**
+	 * Metodo che ritorna l'immagine dei nemici a seconda della tipologia del nemico
+	 * istanziato e del suo frame counter.
+	 */
 	@Override
 	public BufferedImage returnImage(Actor a) {
 
@@ -68,7 +78,7 @@ public class EnemyImageFactory implements ImageFactory {
 		if (a instanceof Enemy) {
 			Enemy x = (Enemy) a;
 
-			if (x.getEnemyType()== EnemyType.FREEZER) {
+			if (x.getEnemyType() == EnemyType.FREEZER) {
 
 				if (x.getDirection() == Direction.UP)
 					return a.getFrameCounter() < 12 ? freezerUpOne : freezerUpTwo;
@@ -80,9 +90,7 @@ public class EnemyImageFactory implements ImageFactory {
 					return a.getFrameCounter() < 12 ? freezerRightOne : freezerRightTwo;
 				else
 					return freezerDownOne;
-			}
-			
-			else if (x.getEnemyType()== EnemyType.JEETH) {
+			} else if (x.getEnemyType() == EnemyType.JEETH) {
 
 				if (x.getDirection() == Direction.UP)
 					return a.getFrameCounter() < 12 ? jeethUpOne : jeethUpTwo;
@@ -90,9 +98,7 @@ public class EnemyImageFactory implements ImageFactory {
 					return a.getFrameCounter() < 12 ? jeethDownOne : jeethDownTwo;
 				else
 					return jeethDownOne;
-			}
-			
-			else if (x.getEnemyType()== EnemyType.GINEW) {
+			} else if (x.getEnemyType() == EnemyType.GINEW) {
 
 				if (x.getDirection() == Direction.RIGHT)
 					return a.getFrameCounter() < 12 ? ginewRightOne : ginewRightTwo;
@@ -101,10 +107,7 @@ public class EnemyImageFactory implements ImageFactory {
 				else
 					return ginewRightOne;
 			}
-			
 		}
-
 		return null;
 	}
-
 }

@@ -1,16 +1,15 @@
 package main;
 
-
 import main.controller.Controller;
-import main.model.Model;
-import main.view.View;
 
+/**
+ * Questa classe funge da punto di accesso del programma, contenendone il metodo
+ * main. Istanzia il controller e fa partire il thread.
+ */
 public class GameLauncher {
 
 	public static void main(String[] args) {
-		Controller controller = new Controller();
+		Controller controller = Controller.getInstance();
 		controller.startThread();
-
 	}
-
 }

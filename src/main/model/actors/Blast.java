@@ -1,10 +1,10 @@
 package main.model.actors;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 import main.model.Model;
 
+/**
+ * Classe che gestisce un Blast
+ */
 public class Blast extends DynamicActor {
 
 	private long lastTime;
@@ -13,6 +13,17 @@ public class Blast extends DynamicActor {
 	private int strength;
 	private boolean blastPropagated;
 
+	/**
+	 * Costruttore della classe Blast, setta alcune parametri interni quali la
+	 * dimensione del rettangolo, il countdown dell'esplosione, la direzione e la
+	 * forza dell'esplosione etc
+	 * 
+	 * @param posX:     coordinata x della posizione dell'attore
+	 * @param posY:     coordinata y della posizione dell'attore
+	 * @param strenght: la forza dell'esplosione e.g. quante esplosioni "figlie"
+	 *                  deve generare nella stessa direzione
+	 * @param d:        la direzione dell'esplosione
+	 */
 	public Blast(int posX, int posY, int strenght, Direction d) {
 		super(posX, posY);
 		this.strength = strenght;
@@ -30,6 +41,13 @@ public class Blast extends DynamicActor {
 		setRectangle();
 	}
 
+	/**
+	 * Metodo chiamato dall'update del model. Calcola quanto tempo è passato
+	 * dall'inizio dell'esplosione per disattivarla allo scadere del waitTime.
+	 * Esegue il check delle collisioni con i muri e i nemici, e in caso positivo
+	 * non viene propagata oltre. Crea a cascata altre esplosioni nelle 4 direzioni,
+	 * se lo strenght rimanente è ancora > 0.
+	 */
 	@Override
 	public void update() {
 		// countdown per essere disattivato
@@ -39,11 +57,9 @@ public class Blast extends DynamicActor {
 			setActive(false);
 			countdown = waitTime;
 		}
-		System.out.println(countdown);
-
 		// check collisioni con muro e nemici per fermare la propagazione
 		boolean WallsAndEnemyCollision = Model.getInstance().getActors().stream()
-				.filter(actor -> actor.getName() == "Wall")
+				.filter(actor -> actor.getName() == "Wall" || (actor.getName() == "Enemy"))
 				.anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.ANY));
 		if (WallsAndEnemyCollision) {
 			setBlastPropagated(true);
@@ -73,16 +89,12 @@ public class Blast extends DynamicActor {
 		return blastPropagated;
 	}
 
-	public void setBlastPropagated(boolean blastPropagated) {
+	private void setBlastPropagated(boolean blastPropagated) {
 		this.blastPropagated = blastPropagated;
 	}
 
 	public float getCountdown() {
 		return countdown;
-	}
-
-	public void setCountdown(float countdown) {
-		this.countdown = countdown;
 	}
 
 }

@@ -11,6 +11,9 @@ import main.model.actors.Actor;
 import main.model.actors.Direction;
 import main.model.actors.Hero;
 
+/**
+ * Classe che gestisce le immagini del personaggio utilizzato dal giocatore.
+ */
 public class HeroImageFactory implements ImageFactory {
 
 	private BufferedImage gokuUpOne;
@@ -40,6 +43,9 @@ public class HeroImageFactory implements ImageFactory {
 	private BufferedImage vegetaRightOne;
 	private BufferedImage vegetaRightTwo;
 
+	/**
+	 * Costruttore della classe HeroImageFactory, carica le immagini da disco.
+	 */
 	public HeroImageFactory() {
 		try {
 			gokuUpOne = ImageIO.read(new File("./src/main/resources/images/hero/goku_up_1.png"));
@@ -74,6 +80,10 @@ public class HeroImageFactory implements ImageFactory {
 		}
 	}
 
+	/**
+	 * Metodo che ritorna l'immagine del personaggio utilizzato dal giocatore, a
+	 * seconda dell'avatar scelto e del suo frame counter.
+	 */
 	@Override
 	public BufferedImage returnImage(Actor a) {
 
@@ -95,9 +105,8 @@ public class HeroImageFactory implements ImageFactory {
 				else
 					return gokuDownOne;
 			}
-			
+
 			else if (avatar.equals("piccolo")) {
-				System.out.println("qui");
 
 				if (x.getDirection() == Direction.UP)
 					return a.getFrameCounter() < 12 ? piccoloUpOne : piccoloUpTwo;
@@ -110,7 +119,7 @@ public class HeroImageFactory implements ImageFactory {
 				else
 					return piccoloDownOne;
 			}
-			
+
 			else {
 
 				if (x.getDirection() == Direction.UP)
@@ -124,7 +133,7 @@ public class HeroImageFactory implements ImageFactory {
 				else
 					return vegetaDownOne;
 			}
-			
+
 		}
 
 		return null;

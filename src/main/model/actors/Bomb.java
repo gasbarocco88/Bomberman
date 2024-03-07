@@ -1,10 +1,11 @@
 package main.model.actors;
 
-import java.util.ArrayList;
-
 import main.controller.AudioManager;
 import main.model.Model;
 
+/**
+ * Classe che gestisce una bomba
+ */
 public class Bomb extends Actor {
 
 	private long lastTime;
@@ -13,6 +14,15 @@ public class Bomb extends Actor {
 	private int strength;
 	// private ArrayList<Blast> blast;
 
+	/**
+	 * Costruttore della classe Bomb, setta alcune parametri interni quali la il
+	 * countdown dell'esplosione, la forza dell'esplosione etc
+	 * 
+	 * @param posX:     coordinata x della posizione dell'attore
+	 * @param posY:     coordinata y della posizione dell'attore
+	 * @param strenght: la forza dell'esplosione e.g. quante esplosioni deve
+	 *                  generare nelle 4 direzioni
+	 */
 	public Bomb(int posX, int posY, int strenght) {
 		super(posX, posY);
 		this.strength = strenght;
@@ -25,6 +35,11 @@ public class Bomb extends Actor {
 		setActive(true);
 	}
 
+	/**
+	 * Metodo chiamato dall'update del model.   Calcola quanto tempo è passato
+	 * dall'inizio dell'esplosione per disattivarla allo scadere del waitTime.
+	 * Allo scadere del countdown, crea anche le esplosioni nelle 4 direzioni.
+	 */
 	@Override
 	public void update() {
 		countdown -= System.currentTimeMillis() - lastTime;
@@ -37,13 +52,16 @@ public class Bomb extends Actor {
 					.findFirst().orElseThrow();
 			h.setBombsCreated(h.getBombsCreated() - 1);
 			createBlasts();
-			AudioManager.getInstance().play("blast.wav",false);
+			AudioManager.getInstance().play("blast.wav", false);
 		}
 
 		updateFrameCounter();
 	}
 
-	public void createBlasts() {
+	/**
+	 *  Metodo che istanzia 4 Blast, una in ciascuna direzione
+	 */
+	private void createBlasts() {
 		Model.getInstance().getActors()
 				.add((new Blast(getPosX(), getPosY() - getHeight(), strength - 1, Direction.UP)));
 		Model.getInstance().getActors()

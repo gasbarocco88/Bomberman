@@ -7,12 +7,24 @@ import java.util.stream.Collectors;
 import main.model.Model;
 import main.model.actors.Item.ItemType;
 
+/**
+ * Classe che gestisce un nemico
+ */
 public class Enemy extends DynamicActor {
 	private long lastTime;
 	private float countdown;
 	private float waitTime;
 	private final EnemyType enemyType;
 
+	/**
+	 * Costruttore della classe Enemy, setta alcune parametri interni quali la il
+	 * countdown per il cambio di direzione movimento, la dimensione del rettangolo
+	 * delle collisioni, la direzione etc
+	 * 
+	 * @param posX:      coordinata x della posizione dell'attore
+	 * @param posY:      coordinata y della posizione dell'attore
+	 * @param enemyType: la tipologia del nemico istanziato
+	 */
 	public Enemy(int posX, int posY, final EnemyType enemyType) {
 		super(posX, posY);
 		this.enemyType = enemyType;
@@ -22,13 +34,18 @@ public class Enemy extends DynamicActor {
 		setPriorityByEnemyType(enemyType);
 		setDirectionAndSpeedByEnemyType(enemyType);
 		lastTime = System.currentTimeMillis();
-		waitTime = 500f;
+		waitTime = 1500f;
 		countdown = waitTime;
 		setRectHeightDimension(28);
 		setRectWidthDimension(26);
 		setRectangle();
 	}
 
+	/**
+	 * Metodo chiamato dall'update del model. Esegue il check delle collisioni con
+	 * un'esplosione e in caso positivo disattiva l'Enemy; con i muri, bombe o altri
+	 * nemici per cambiare direzione. Aggiorna il frame counter per le animazioni.
+	 */
 	@Override
 	public void update() {
 
@@ -73,20 +90,18 @@ public class Enemy extends DynamicActor {
 					countdown = waitTime;
 				}
 			}
-			//si muove sempre perchè ormai ha cambiato direzione
+			// si muove sempre perchè ormai ha cambiato direzione
 			move();
 			updateFrameCounter();
 
 		}
 	}
-	
-	
+
 	private void turnbackLogicMovement(ArrayList<Actor> actors) {
 		if (getDirection() == Direction.UP
 				&& actors.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.UP))) {
 			setDirection(Direction.DOWN);
-		}
-		else if (getDirection() == Direction.DOWN
+		} else if (getDirection() == Direction.DOWN
 				&& actors.stream().anyMatch(actor -> Model.getInstance().checkCollision(this, actor, Direction.DOWN))) {
 			setDirection(Direction.UP);
 		} else if (getDirection() == Direction.LEFT
@@ -97,7 +112,7 @@ public class Enemy extends DynamicActor {
 			setDirection(Direction.LEFT);
 		}
 	}
-	
+
 	private void setPriorityByEnemyType(EnemyType enemyType) {
 		if (enemyType == EnemyType.FREEZER) {
 			setPriority(5);
