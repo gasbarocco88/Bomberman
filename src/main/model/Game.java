@@ -1,7 +1,9 @@
 package main.model;
 
 /**
- * Classe per la gestione di una partita
+ * Classe per la gestione di una partita, dei vari stati che può assumere e di
+ * alcune informazioni quali vite rimaste al giocatore, punteggio e livello che
+ * si sta attualmente giocando.
  */
 public class Game {
 

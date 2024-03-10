@@ -6,7 +6,9 @@ import main.model.Model;
 import main.model.actors.Item.ItemType;
 
 /**
- * Classe che gestisce i muri
+ * Classe che gestisce i muri presenti in un livello di gioco e che Hero non può
+ * attraversare. I muri possono essere sia distruttibili, se collidono con
+ * l'esplosione di una bomba, che non distruttibili.
  */
 public class Wall extends Actor {
 	private final boolean isDestructible;

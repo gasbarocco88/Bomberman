@@ -13,7 +13,9 @@ import javax.swing.JPanel;
 import main.view.View;
 
 /**
- * Classe che gestisce il pannello di Pausa durante una partita
+ * Classe che gestisce il pannello di Pausa, durante il quale la partita è
+ * sospesa. L'utente può decidere di riprenderla oppure di abbandonarla tornando
+ * al menu iniziale.
  */
 public class PausePanel extends JPanel {
 
@@ -48,7 +50,7 @@ public class PausePanel extends JPanel {
 	public JButton getExitButton() {
 		return exitButton;
 	}
-	
+
 	/**
 	 * Metodo di paint del Jpanel, disegna l'immagine di background del pannello
 	 */

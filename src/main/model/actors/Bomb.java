@@ -4,7 +4,8 @@ import main.controller.AudioManager;
 import main.model.Model;
 
 /**
- * Classe che gestisce una bomba
+ * Classe che gestisce una bomba generata dal personaggio comandato dall'utente.
+ * La bomba a sua volta genera un'esplosione (classe Blast).
  */
 public class Bomb extends Actor {
 
@@ -36,9 +37,9 @@ public class Bomb extends Actor {
 	}
 
 	/**
-	 * Metodo chiamato dall'update del model.   Calcola quanto tempo è passato
-	 * dall'inizio dell'esplosione per disattivarla allo scadere del waitTime.
-	 * Allo scadere del countdown, crea anche le esplosioni nelle 4 direzioni.
+	 * Metodo chiamato dall'update del model. Calcola quanto tempo è passato
+	 * dall'inizio dell'esplosione per disattivarla allo scadere del waitTime. Allo
+	 * scadere del countdown, crea anche le esplosioni nelle 4 direzioni.
 	 */
 	@Override
 	public void update() {
@@ -59,7 +60,7 @@ public class Bomb extends Actor {
 	}
 
 	/**
-	 *  Metodo che istanzia 4 Blast, una in ciascuna direzione
+	 * Metodo che istanzia 4 Blast, una in ciascuna direzione
 	 */
 	private void createBlasts() {
 		Model.getInstance().getActors()

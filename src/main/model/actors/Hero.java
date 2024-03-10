@@ -10,7 +10,9 @@ import main.controller.PlayerManager;
 import main.model.Model;
 
 /**
- * Classe che gestisce Hero
+ * Classe che gestisce Hero, ovvero il personaggio comandato dall'utente. Hero
+ * può muoversi nelle 4 direzioni previste, può creare bombe e raccogliere
+ * potenziamenti (classe Item)
  */
 public class Hero extends DynamicActor {
 	private int maxBombs = 1;

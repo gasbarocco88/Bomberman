@@ -8,7 +8,9 @@ import main.model.Model;
 import main.model.actors.Item.ItemType;
 
 /**
- * Classe che gestisce un nemico
+ * Classe che gestisce un nemico all'interno di un livello di gioco. Esistono 3
+ * tipologie di nemici (Freezer, Ginew, Jeeth), ciascuno con una propria logica
+ * di movimento
  */
 public class Enemy extends DynamicActor {
 	private long lastTime;

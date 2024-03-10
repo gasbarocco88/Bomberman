@@ -3,7 +3,8 @@ package main.model.actors;
 import main.model.Model;
 
 /**
- * Classe che gestisce un Blast
+ * Classe che gestisce un Blast del gioco, ovvero un'esplosione generata
+ * all'esaurirsi del countdown di una Bomb.
  */
 public class Blast extends DynamicActor {
 

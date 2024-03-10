@@ -30,7 +30,7 @@ import main.model.actors.Item;
 import main.model.actors.Wall;
 
 /**
- * Classe che gestisce il pannello di Game durante una partita
+ * Classe che gestisce il pannello di Game, ovvero della vera e propria partita giocata dall'utente.
  */
 public class GamePanel extends JPanel {
 	private HeroImageFactory heroImgFactory;

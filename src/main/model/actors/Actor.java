@@ -6,7 +6,10 @@ import java.util.Comparator;
 import java.util.Objects;
 
 /**
- * Classe astratta che gestisce un generico actor
+ * Classe astratta che gestisce un generico actor. Un actor è un qualsiasi
+ * elemento presente nel gioco, come il personaggio comandato dall'utente, i
+ * nemici, ma anche i muri, le bombe o le esplosioni. Le caratteristiche comuni
+ * a tutti questi elementi sono gestiti in tale classe.
  */
 public abstract class Actor implements Comparable<Actor> {
 	private String name;

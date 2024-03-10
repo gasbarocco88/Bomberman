@@ -6,7 +6,10 @@ import main.controller.PlayerManager;
 import main.model.Model;
 
 /**
- * Classe che gestisce gli Item
+ * Classe che gestisce gli Item, ovvero i potenziamenti che un Hero può
+ * raccogliere. Esistono 4 diversi tipi di potenziamento che vengono generati
+ * randomicamente, oltre all'item che serve a superare un livello e che è sempre
+ * presente, nascosto sotto un Wall distruttibile.
  */
 public class Item extends Actor {
 	private final ItemType itemType;

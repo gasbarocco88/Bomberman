@@ -12,7 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
- * Classe che gestisce il pannello di Menu all'avvio del programma.
+ * Classe che gestisce il pannello di Menu all'avvio del programma, nel quale
+ * l'utente può scegliere di iniziare una partita o uscire dal programma
  */
 public class MenuPanel extends JPanel {
 

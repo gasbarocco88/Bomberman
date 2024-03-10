@@ -1,8 +1,10 @@
 package main.model;
 
-
 /**
- * Classe per la gestione di un player e delle sue statistiche.
+ * Classe per la gestione di un player, ovvero dell'utente che sta giocando la
+ * partita, e delle sue statistiche. La combinazione del nickname + l'avatar di
+ * gioco (ovvero del personaggio che si vuole comandare) non è ripetibile per
+ * più player.
  */
 public class Player {
 	private final String nickname;
@@ -15,12 +17,13 @@ public class Player {
 
 	/**
 	 * Costruttore del player
-	 * @param nickname: nome del player
-	 * @param avatar: personaggio scelto
-	 * @param totGamesPlayed: totale delle partite fatte
-	 * @param totGamesWon: totale delle partite vinte
-	 * @param totLevelWon: totale dei livelli di gioco superati
-	 * @param highestScore: massimo punteggio ottenuto in una partita
+	 * 
+	 * @param nickname:         nome del player
+	 * @param avatar:           personaggio scelto
+	 * @param totGamesPlayed:   totale delle partite fatte
+	 * @param totGamesWon:      totale delle partite vinte
+	 * @param totLevelWon:      totale dei livelli di gioco superati
+	 * @param highestScore:     massimo punteggio ottenuto in una partita
 	 * @param accumulatedScore: punteggio cumulativo di tutte le partite giocate
 	 */
 	public Player(String nickname, String avatar, int totGamesPlayed, int totGamesWon, int totLevelWon,
@@ -42,7 +45,7 @@ public class Player {
 				+ ", accumulatedScore=" + accumulatedScore + "]";
 	}
 
-	//getters and setters
+	// getters and setters
 	public String getNickname() {
 		return nickname;
 	}

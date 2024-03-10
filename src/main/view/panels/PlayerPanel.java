@@ -30,7 +30,8 @@ import main.view.View;
 
 /**
  * Classe che gestisce il pannello di creazione, caricamento, selezione ed
- * eliminazione del player e di una nuova partita
+ * eliminazione del player e di una nuova partita. Viene anche visualizzato il
+ * ranking dei vari utenti.
  */
 public class PlayerPanel extends JPanel {
 
@@ -53,8 +54,9 @@ public class PlayerPanel extends JPanel {
 
 	/**
 	 * Costruttore della classe PlayerPanel. Al suo interno vengono anche chiamate
-	 * delle funzioni interne che istanziano e settano graficamente i vari buttons del pannello e
-	 * che caricano le statistiche dei vari player da visualizzare nel ranking
+	 * delle funzioni interne che istanziano e settano graficamente i vari buttons
+	 * del pannello e che caricano le statistiche dei vari player da visualizzare
+	 * nel ranking
 	 */
 	public PlayerPanel() {
 		try {
